@@ -1,0 +1,62 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Accessing SAP Datasphere via the Command Line</title><meta charset="utf-8"><meta name="abstract" content="Many of the features available to SAP Datasphere users can also be accessed via the command line."><meta name="description" content="Many of the features available to SAP Datasphere users can also be accessed via the command line."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loio1874de554ccd4ce4bb56c26e280bdaaf"><h1 class="title topictitle1">Accessing <span class="ph pname" translate="no">SAP Datasphere</span> via the
+Command Line</h1><div class="body conbody"><p class="shortdesc"><span class="ph">Many of the features available to <span class="ph pname" translate="no">SAP Datasphere</span> users
+can also be accessed via the command line.</span></p>
+<p class="p">To use <samp class="ph codeph">datasphere</samp>, you must install it (see <a class="xref" href="f7d5eddf20a34a1aa48d8e2c68a44e28.html" title="The SAP Datasphere command line interface (datasphere) is a Node.js package that you download using the Node Package Manager (npm).">Install or Update the SAP Datasphere Command Line Interface</a>).</p>
+<p class="p">We recommend that you log in via an OAuth client (see <a class="xref" href="eb7228a171a842fa84e48c899d48c970.html" title="If an administrator has created an OAuth client (with Purpose set to Interactive Usage or Technical User) for datasphere command line interface users to log into, there are several methods for accessing it.">Log into the Command Line Interface via an OAuth Client</a>).</p>
+<div class="p">The primary commands available are:<div class="table-wrapper tablenoborder"><table summary="" id="loio1874de554ccd4ce4bb56c26e280bdaaf__d29e1915" class="table" data-table-id="d29e1915" frame="border" border="1" rules="all"><colgroup><col width="25%"><col width="75%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d13591e47"><p>Command</p></th>
+<th class="entry" style="vertical-align:top;" id="d13591e50"><p>Description</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere configuration</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, upload, and delete TLS server certificates (see <a class="xref" href="6306da2bbeb04e4fbd944c2dce08629f.html" title="You can use the datasphere command line interface to list, upload, and delete TLS server certificates.">Managing TLS Server Certificates via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere dbusers</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, create, modify, and delete database users (see <a class="xref" href="cd3b314dd33f407f9ba507dd870ba1f1.html" title="You can use the datasphere command line interface to create, update and delete space database users, and to manage passwords and certificates.">Managing Database Users via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere global-roles</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, create, modify, and delete global roles (see <a class="xref" href="7db69de1d27f422fb153e80680b28335.html" title="You can use the datasphere command line interface to list and read global roles and add users to and remove users from them.">Managing Global Roles via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere marketplace</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, create, modify, and delete marketplace objects (see
+<a class="xref" href="5a815f6c21e9468eb96d0be95b9d2def.html" title="Users with a modeler role can use the datasphere command line interface to manage the Data Marketplace.">Managing the Data Marketplace via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere objects</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, read, and delete modeling objects (see <a class="xref" href="6f5c65f209004751aa48f9682ee2ec45.html" title="Users with a modeler role can use the datasphere command line interface to list, create, update, and delete modeling objects.">Manage Modeling Objects and Tasks via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere
+scoped-roles</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">Manage scoped roles (see <a class="xref" href="85085a35a58a4589bc121fb94efc4876.html" title="You can use the datasphere command line interface to create, read, update, and delete scoped roles.">Managing Scoped Roles via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere spaces</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, create, modify, and delete spaces and connections (see
+<a class="xref" href="5eac5b71e2d34c32b63f3d8d47a0b1d0.html" title="Users with an administrator role can use the datasphere command line interface to create, read, update, and delete spaces. Users with a space administrator role can update some space properties, add (or remove) users, database users and HDI containers, and delete spaces.">Manage Spaces and Space Access via the Command Line</a>)
+and (see <a class="xref" href="8eb811898d1049fbb426339e44a2eb70.html" title="You can use the datasphere command line interface to read, list, validate, create, edit, and delete connections.">Managing Connections via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere tasks</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">Run certain tasks and obtain task logs (see <a class="xref" href="2b26a31f197444dea314495bc0008eae.html" title="You can use the datasphere command line interface to run and manage certain tasks.">Running and Managing Tasks via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere
+users</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">List, create, modify, and delete <span class="ph pname" translate="no">SAP Datasphere</span> users (see <a class="xref" href="72dc33a8f41944f78318138bc1a57307.html" title="You can use the datasphere command line interface to list, create, update, and delete users via the command line.">Managing Users via the Command Line</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d13591e47 "><p><samp class="ph codeph">datasphere
+workload</samp></p></td>
+<td class="entry" style="vertical-align:top;" headers="d13591e50 "><p class="p">Set space priorities and statement limits (see <a class="xref" href="9e3537b72e6c445d9f34201df650735b.html" title="You can use the SAP Datasphere datasphere command line interface to set priorities and statement limits for spaces or groups.">Managing Priorities and Statement Limits for Spaces or Groups via the Command Line</a>).</p></td>
+</tr>
+</tbody></table></div></div>
+</div></div></section><div class="clear"></div>
+</div></div></div></body></html>

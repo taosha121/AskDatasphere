@@ -1,0 +1,60 @@
+{
+  "_version": "1.58.0",
+  "sap.app": {
+    "id": "ds.rag",
+    "type": "application",
+    "title": "SAP Datasphere RAG Playground",
+    "applicationVersion": { "version": "0.1.0" }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "deviceTypes": { "desktop": true, "tablet": true, "phone": false }
+  },
+  "sap.ui5": {
+    "rootView": {
+      "viewName": "ds.rag.view.Shell",
+      "type": "XML",
+      "id": "shell"
+    },
+    "dependencies": {
+      "minUI5Version": "1.120",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ui.layout": {}
+      }
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.m.routing.Router",
+        "viewType": "XML",
+        "viewPath": "ds.rag.view",
+        "controlId": "appNav",
+        "controlAggregation": "pages",
+        "async": true
+      },
+      "routes": [
+        {
+          "name": "chat",
+          "pattern": "",
+          "target": "chat"
+        },
+        {
+          "name": "chunks",
+          "pattern": "chunks",
+          "target": "chunks"
+        }
+      ],
+      "targets": {
+        "chat": {
+          "viewName": "Chat",
+          "viewId": "chatView"
+        },
+        "chunks": {
+          "viewName": "Chunks",
+          "viewId": "chunksView"
+        }
+      }
+    }
+  }
+}

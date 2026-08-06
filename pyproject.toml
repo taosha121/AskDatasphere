@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=70"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ds-doc-rag"
+version = "0.1.0"
+requires-python = ">=3.11"
+dependencies = [
+    "anthropic>=0.40",
+    "chromadb>=0.5",
+    "sentence-transformers>=3.0",
+    "beautifulsoup4>=4.12",
+    "streamlit>=1.35",
+    "python-dotenv>=1.0",
+    "modelscope>=1.15",
+    "fastapi>=0.111",
+]
+
+[project.optional-dependencies]
+dev = ["ipykernel"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["rag*"]

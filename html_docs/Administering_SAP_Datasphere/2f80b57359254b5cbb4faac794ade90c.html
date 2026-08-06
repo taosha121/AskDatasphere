@@ -1,0 +1,447 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Creating and Configuring Your SAP Datasphere Tenant</title><meta charset="utf-8"><meta name="abstract" content="SAP Datasphere is available as part of SAP Business Data Cloud (SAP BDC). Formerly, SAP Datasphere was available as a separate product. The provisioning process depends on whether your access to SAP Datasphere is via SAP BDC or SAP BTP. You can create and configure your own tenant in SAP BTP, select a data center region, and distribute workloads across availability zones."><meta name="description" content="SAP Datasphere is available as part of SAP Business Data Cloud (SAP BDC). Formerly, SAP Datasphere was available as a separate product. The provisioning process depends on whether your access to SAP Datasphere is via SAP BDC or SAP BTP. You can create and configure your own tenant in SAP BTP, select a data center region, and distribute workloads across availability zones."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loio2f80b57359254b5cbb4faac794ade90c"><h1 class="title topictitle1">Creating and Configuring Your <span class="ph pname" translate="no">SAP Datasphere</span> Tenant</h1><div class="body conbody"><p class="shortdesc"><span class="ph pname" translate="no">SAP Datasphere</span> is available as
+part of <span class="ph pname" translate="no">SAP Business Data Cloud</span> (<span class="ph pname">SAP BDC</span>). Formerly, <span class="ph pname" translate="no">SAP Datasphere</span> was available as a
+separate product. The provisioning process depends on whether your access to <span class="ph pname" translate="no">SAP Datasphere</span> is via <span class="ph pname">SAP BDC</span> or <span class="ph pname" translate="no">SAP BTP</span>. You can create and
+configure your own tenant in <span class="ph pname" translate="no">SAP BTP</span>, select a data center
+region, and distribute workloads across availability zones.</p>
+<div class="p">If your access to <span class="ph pname" translate="no">SAP Datasphere</span>
+is via:<ul class="ul">
+<li class="li"><p><span class="ph pname" translate="no">SAP Business Data Cloud</span> (<span class="ph pname">SAP BDC</span>): You must
+provision your tenant in <span class="ph pname" translate="no">SAP for Me</span>. See <a class="xref" href="https://help.sap.com/docs/business-data-cloud/administering-sap-business-data-cloud/provisioning-sap-datasphere" target="_blank" rel="noopener" alt="https://help.sap.com/docs/business-data-cloud/administering-sap-business-data-cloud/provisioning-sap-datasphere" title="https://help.sap.com/docs/business-data-cloud/administering-sap-business-data-cloud/provisioning-sap-datasphere">Provisioning SAP Datasphere</a> in the
+<cite class="cite">Administering SAP Business Data Cloud</cite> guide.</p></li>
+<li class="li"><p><span class="ph pname" translate="no">SAP Business Technology Platform</span> (<span class="ph pname" translate="no">SAP BTP</span>): You must
+provision your tenant in the <span class="ph pname" translate="no">SAP BTP</span> Cockpit. See
+<a class="xref" href="54288aa4843c4856aba8333742a661ea.html" title="If you subscribe to SAP Datasphere in SAP Business Technology Platform (SAP BTP), you must provision your tenant service instance via SAP BTP Cockpit.">Create Your SAP Datasphere Service Instance in SAP BTP</a>.</p></li>
+</ul></div>
+<p class="p">When the tenant is configured, a data center region is selected. The main role of a data
+center is to guarantee the uninterrupted operation of computer systems. It also provides
+secure storage, processing, and networking capabilities for your data. A data center
+refers to the physical location, which could be a building or a group of buildings,
+housing computer systems and their components.</p>
+<p class="p">Each data center region has multiple availability zones. Your workloads are deployed in these
+various zones. By distributing workloads across different zones, we ensure our services
+remain available, even if a specific zone experiences issues. By keeping backup data
+within the same data center zone, the latency for data transfers and access is
+minimized. This infrastructure strategy balances the workload and enhances performance.
+The zone deployment contributes to a more robust and reliable infrastructure, ensuring
+near-zero downtime for your critical processing needs.</p>
+<div class="table-wrapper tablenoborder"><table summary="" id="loio2f80b57359254b5cbb4faac794ade90c__table_qly_2zt_ytb" class="table" data-table-id="table_qly_2zt_ytb" frame="border" border="1" rules="all"><colgroup><col width="20%"><col width="40%"><col width="40%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d5130e115"><p>Characteristics</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e118"><p>Standard Plan</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e121"><p>Free Plan</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e115 "><p class="p"><span class="ph emphasis emphasis">Provisioning</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e118 "><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_ckl_q4z_qvb">
+<li class="li"><p>For information about region availability, see the <a class="extlink" href="/docs/link-disclaimer?site=https%3A%2F%2Fdiscovery-center.cloud.sap%2FserviceCatalog%2Fsap-data-warehouse-cloud" target="_blank" rel="noopener" alt="https://discovery-center.cloud.sap/serviceCatalog/sap-data-warehouse-cloud" title="https://discovery-center.cloud.sap/serviceCatalog/sap-data-warehouse-cloud">SAP Discovery Center<img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>. </p></li>
+<li class="li"><p>The <span class="ph pname" translate="no">SAP BTP</span> subaccount
+administrator must trigger the <span class="ph pname" translate="no">SAP Datasphere</span> instance creation. Tenant creation will not be triggered by
+SAP.</p></li>
+<li class="li"><p class="p">You must create and configure the to-be-provisioned <span class="ph pname" translate="no">SAP Datasphere</span> service instance (tenant) in <span class="ph pname" translate="no">SAP BTP</span>. See <a class="xref" href="54288aa4843c4856aba8333742a661ea.html" title="If you subscribe to SAP Datasphere in SAP Business Technology Platform (SAP BTP), you must provision your tenant service instance via SAP BTP Cockpit.">Create Your SAP Datasphere Service Instance in SAP BTP</a>.</p></li>
+<li class="li"><p>The system owner of <span class="ph pname" translate="no">SAP Datasphere</span>, who has been specified during the provisioning, is notified
+via email when the tenant is provisioned.</p></li>
+</ul></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e121 "><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_qs5_pql_k1c">
+<li class="li"><p>For information about region availability, see the <a class="extlink" href="/docs/link-disclaimer?site=https%3A%2F%2Fdiscovery-center.cloud.sap%2FserviceCatalog%2Fsap-data-warehouse-cloud" target="_blank" rel="noopener" alt="https://discovery-center.cloud.sap/serviceCatalog/sap-data-warehouse-cloud" title="https://discovery-center.cloud.sap/serviceCatalog/sap-data-warehouse-cloud">SAP Discovery Center<img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>. </p></li>
+<li class="li"><p>The <span class="ph pname" translate="no">SAP BTP</span> subaccount
+administrator must trigger the <span class="ph pname" translate="no">SAP Datasphere</span> instance creation. Tenant creation will not be triggered by
+SAP.</p></li>
+<li class="li"><p class="p">You must create and configure the to-be-provisioned <span class="ph pname" translate="no">SAP Datasphere</span> service instance (tenant) in <span class="ph pname" translate="no">SAP BTP</span>. See <a class="xref" href="54288aa4843c4856aba8333742a661ea.html" title="If you subscribe to SAP Datasphere in SAP Business Technology Platform (SAP BTP), you must provision your tenant service instance via SAP BTP Cockpit.">Create Your SAP Datasphere Service Instance in SAP BTP</a>.</p></li>
+<li class="li"><p>The system owner of <span class="ph pname" translate="no">SAP Datasphere</span>, who has been specified during the provisioning, is notified
+via email when the tenant is provisioned.</p></li>
+</ul></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e115 "><p class="p"><span class="ph emphasis emphasis">Size Configuration</span></p><aside class="note" id="loio2f80b57359254b5cbb4faac794ade90c__note_ovz_xhd_m2c" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p class="p">For maximum size configuration options, see the tables below.</p></aside></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e118 "><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_mkg_bf2_15b">
+<li class="li"><p>Tenants are initially created with minimal configuration that
+includes 128 GB of storage and 32 GB of memory (2 compute
+blocks).</p></li>
+<li class="li"><div class="p">Once logged to your tenant, upscaling can be done at any
+time. See <a class="xref" href="33f8ef4ec359409fb75925a68c23ebc3.html" title="Configure the size of your tenant by specifying resource sizes based on your business needs. Capacity Units (CU) are allocated to obtain storage and compute resources for your tenant.">Configure the Size of Your SAP Datasphere Tenant</a>.<aside class="note" id="loio2f80b57359254b5cbb4faac794ade90c__note_pvz_xhd_m2c" aria-labelledby="n1t"><div class="title" id="n1t"><strong>Note</strong></div>
+<p class="p">After finalizing the configuration, you can only
+change the size of your SAP BW Bridge storage later
+if you don’t have any SAP BW Bridge instances.</p></aside></div></li>
+</ul><p class="p">To view all supported size combinations, go to the <a class="xref" href="https://datasphere-estimator-sac-saceu10.cfapps.eu10.hana.ondemand.com/" target="_blank" rel="noopener" alt="https://datasphere-estimator-sac-saceu10.cfapps.eu10.hana.ondemand.com/" title="https://datasphere-estimator-sac-saceu10.cfapps.eu10.hana.ondemand.com/"><span class="ph pname" translate="no">SAP Datasphere</span> Capacity Unit Estimator</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e121 "><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_nnl_3g2_15b">
+<li class="li"><p>Tenants are created with 128 GB of storage and 32 GB of memory
+(2 compute blocks).</p></li>
+<li class="li"><p>You cannot upscale free plan tenants. You need to update your
+plan from free to standard if any sizing configuration is
+required.</p></li>
+</ul></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e115 "><p class="p"><span class="ph emphasis emphasis">Metering</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e118 "><ul class="ul">
+<li class="li"><p class="p">The number of consumed capacity units is reported on a hourly
+basis to your <span class="ph pname" translate="no">SAP BTP</span> account. </p></li>
+</ul></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e121 "><p>:</p><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_sjq_th2_15b">
+<li class="li"><p class="p">The usage of a free plan tenant is reported to your <span class="ph pname" translate="no">SAP BTP</span> account, but SAP does not charge you for using this
+tenant.</p></li>
+</ul></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e115 "><p class="p"><span class="ph emphasis emphasis">Time Limitation</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e118 "><ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_ehd_qg2_15b">
+<li class="li"><p><span class="ph emphasis emphasis">Subscription
+Contract</span>: dependent on the contract.</p></li>
+<li class="li"><p><span class="ph emphasis emphasis">Consumption Based
+Contract</span>: no time limitation.</p></li>
+</ul></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e121 "><p>:</p><p class="p">The time limitation is 90 days and the trial duration cannot be
+extended. </p><p class="p">You can update the tenant from free to standard
+plan before the 90-day expiration (the number of days before the
+expiration is displayed in the top panel of the <span class="ph pname" translate="no">SAP Datasphere</span>
+free-plan tenant). </p><p class="p">If you do not perform the update within 90
+days, the tenant is automatically deleted. The remaining service
+instance cannot be reused and should be deleted at any time by an
+administrator of your <span class="ph pname" translate="no">SAP BTP</span>
+account.</p><p class="p">See <a class="xref" href="f173be27e9cb4c758c0f1fa133d9edda.html" title="Update your service instance from free plan to standard plan.">Update Your Free Plan to Standard Plan in SAP BTP</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e115 "><p class="p"><span class="ph emphasis emphasis">Number of tenants</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e118 "><p class="p">No limitation.</p><p class="p">In the case of a subscription contract, the available capacity units
+can be distributed among all your tenants.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e121 "><p class="p">1 per <span class="ph pname" translate="no">SAP BTP</span>
+global account.</p></td>
+</tr>
+</tbody></table></div>
+<div class="section" id="loio2f80b57359254b5cbb4faac794ade90c__section_vdz_s2c_yxb"><section class="section" type="Maximum Configuration Values"><h2 class="section_title">Maximum Configuration Values</h2>
+
+<div class="p">The maximum configuration size of your tenant depends on regional availability and your server
+type. <aside class="note" id="loio2f80b57359254b5cbb4faac794ade90c__note_qvz_xhd_m2c" aria-labelledby="n2t"><div class="title" id="n2t"><strong>Note</strong></div>
+<ul class="ul" id="loio2f80b57359254b5cbb4faac794ade90c__ul_nhf_c3c_yxb">
+<li class="li"><p>Data integration includes 200h/month from the minimum free package.</p></li>
+<li class="li"><p>Catalog includes 0.5 GB/h from the minimum free package.</p></li>
+</ul></aside><div class="table-wrapper tablenoborder"><table summary="" id="loio2f80b57359254b5cbb4faac794ade90c__table_iff_x2c_yxb" class="table" data-table-id="table_iff_x2c_yxb" frame="border" border="1" rules="all"><caption><span class="tablecap"><span class="tablecap">Amazon Web Services (AWS)</span></span></caption><colgroup><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d5130e480"><p>Hyperscaler Regional Availability</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e483"><p>Memory</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e486"><p>Storage</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e489"><p>BW Bridge</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e492"><p>Data Lake</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e496"><p>Data Integration</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e499"><p>Catalog</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e502"><p>vCPU</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Australia</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Brazil (São Paulo)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>Not Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Canada (Montreal)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>Not Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Europe (Frankfurt) </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p class="p">12000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>61440 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>442 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>EU Access (Frankfurt)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Japan (Tokyo)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>Singapore</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>South Korea</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>5970 GB </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>16000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>Not Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>440 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e480 "><p>US East </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e483 "><p>12000 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e486 "><p>61440 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e489 "><p>4096 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e492 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e496 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e499 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e502 "><p>442 (High Memory Performance Class)</p></td>
+</tr>
+</tbody></table></div><div class="table-wrapper tablenoborder"><table summary="" id="loio2f80b57359254b5cbb4faac794ade90c__table_qgm_rgc_yxb" class="table" data-table-id="table_qgm_rgc_yxb" frame="border" border="1" rules="all"><caption><span class="tablecap"><span class="tablecap">Microsoft Azure</span></span></caption><colgroup><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d5130e795"><p>Hyperscaler Regional Availability</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e798"><p>Memory</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e801"><p>Storage</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e804"><p>BW Bridge</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e807"><p>Data Lake</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e811"><p>Data Integration</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e814"><p>Catalog</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e817"><p>vCPU</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Australia (Sydney)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Brazil</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Canada</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Europe (Amsterdam) </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>11150 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>55760 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Europe (Frankfurt)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>55744 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Europe (Switzerland)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Japan (Tokyo)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5595 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>Singapore </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>US West</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>11150 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>55760 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e795 "><p>US East </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e798 "><p>5600 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e801 "><p>27840 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e804 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e807 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e811 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e814 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e817 "><p>412 (Memory Performance Class)</p></td>
+</tr>
+</tbody></table></div></div>
+<div class="table-wrapper tablenoborder"><table summary="" id="loio2f80b57359254b5cbb4faac794ade90c__table_sj5_shc_yxb" class="table" data-table-id="table_sj5_shc_yxb" frame="border" border="1" rules="all"><caption><span class="tablecap"><span class="tablecap">Google Cloud Platform (GCP)</span></span></caption><colgroup><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"><col width="12.5%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d5130e1136"><p>Hyperscaler Regional Availability</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1139"><p>Memory</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1142"><p>Storage</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1145"><p>BW Bridge</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1148"><p>Data Lake</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1152"><p>Data Integration</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1155"><p>Catalog</p></th>
+<th class="entry" style="vertical-align:top;" id="d5130e1158"><p>vCPU</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Australia</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>3700 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Brazil</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>5750 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>124 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Europe (Frankfurt)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>11520 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>412 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>India (Mumbai)</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>5750 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Israel </p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>3700 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>124 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Japan</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>5750 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Saudi Arabia</p><aside class="note" id="loio2f80b57359254b5cbb4faac794ade90c__note_rvz_xhd_m2c" aria-labelledby="n3t"><div class="title" id="n3t"><strong>Note</strong></div>
+<p>Only available to
+customers representing critical national infrastructure or the
+public sector.</p></aside></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>5750 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Not supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>Saudi Arabia </p><aside class="note" id="loio2f80b57359254b5cbb4faac794ade90c__note_ygl_pfq_4fc" aria-labelledby="n4t"><div class="title" id="n4t"><strong>Note</strong></div>
+<p>Available to non-regulated
+customers.</p></aside></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>5750 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Not supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>204 (High Memory Performance Class)</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d5130e1136 "><p>US Central</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1139 "><p>11520 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1142 "><p>28928 GB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1145 "><p>Supported</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1148 "><p>90 TB</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1152 "><p>7200 h/month</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1155 "><p>20.5 GB/h</p></td>
+<td class="entry" style="vertical-align:top;" headers="d5130e1158 "><p>412 (High Memory Performance Class)</p></td>
+</tr>
+</tbody></table></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

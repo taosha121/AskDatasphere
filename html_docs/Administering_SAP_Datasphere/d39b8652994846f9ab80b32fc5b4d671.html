@@ -1,0 +1,85 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Monitoring SAP Datasphere</title><meta charset="utf-8"><meta name="abstract" content="Users with an administrator role have access to various apps to monitor and manage the health of their SAP Datasphere tenant."><meta name="description" content="Users with an administrator role have access to various apps to monitor and manage the health of their SAP Datasphere tenant."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loiod39b8652994846f9ab80b32fc5b4d671"><h1 class="title topictitle1">Monitoring <span class="ph pname" translate="no">SAP Datasphere</span></h1><div class="body conbody"><p class="shortdesc">Users with an administrator role have access to various apps to monitor and manage the
+health of their <span class="ph pname" translate="no">SAP Datasphere</span>
+tenant.</p>
+<div class="p">This topic contains the following sections:<ul class="ul">
+<li class="li"><p><a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html#loiod39b8652994846f9ab80b32fc5b4d671__system_monitor">System and Tasks</a></p></li>
+<li class="li"><p><a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html#loiod39b8652994846f9ab80b32fc5b4d671__audit_logs">Audit Logs</a></p></li>
+<li class="li"><p><a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html#loiod39b8652994846f9ab80b32fc5b4d671__activities">Activities</a></p></li>
+<li class="li"><p><a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html#loiod39b8652994846f9ab80b32fc5b4d671__db_analysis_users">Database Analysis Users</a></p></li>
+</ul></div>
+<div class="section" id="loiod39b8652994846f9ab80b32fc5b4d671__system_monitor"><section class="section" type="System and Tasks"><h2 class="section_title">System and Tasks</h2>
+
+<div class="p">Click <span class="ph"><span class="SAP-icons-V5"></span>
+<span class="ph uicontrol"> (Monitoring)</span></span> in the side
+navigation to open the monitoring menu. You can access different monitoring apps: <ul class="ul">
+<li class="li"><p><span class="ph">
+<span class="SAP-icons-V5"></span>
+<span class="ph uicontrol">(System and Spaces)</span>
+</span>
+</p><p class="p">Monitor system performance and issues related to storage, tasks,
+out-of-memory, and other issues across all spaces. Monitor the storage
+consumption for file spaces (of storage type SAP HANA Data Lake Files)
+and their usage of the Apache Spark application for task runs. See <a class="xref" href="bce718d12a2540f081510fd097433620.html" title="Monitor disk storage, memory, task, and statement metrics to track tenant resource usage, identify storage risks, investigate failed tasks and expensive operations, and resolve performance issues before outages occur.">Monitoring System and Spaces</a>.</p></li>
+<li class="li"><p><span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Capacities Monitoring)</span>
+</span>
+</p><p class="p">Monitor monthly and daily capacity unit consumption, allowing users to
+track usage relative to their subscription and download detailed hourly
+data. See <a class="xref" href="ba3d05baac854171914c09d64bed7202.html" title="Monitor the number of capacity units consumed each month to track usage patterns and plan resource allocation.">Monitoring Capacity Unit Consumption</a>.</p></li>
+<li class="li"><p><span class="ph">
+<span class="SAP-icons-V5"></span>
+<span class="ph uicontrol">(Task Logs)</span>
+</span>
+</p><p class="p">Monitor the execution history of task runs. See <a class="xref" href="399e52f2b3824026a2c427a346fa792d.html" title="Monitor task execution history including start time, duration, resource usage, status, and object details to identify performance issues, resource bottlenecks, troubleshoot failures, and cancel long-running tasks.">Reviewing Task Logs</a>.</p></li>
+<li class="li"><p><span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Expensive Statement Logs)</span>
+</span>
+</p><p class="p">Monitor SQL statements exceeding configured thresholds. See <a class="xref" href="4f18e743a6464d878f6e10b56461df3e.html" title="Monitor SQL statements exceeding configured thresholds, including execution details such as duration, memory usage, CPU time, errors, and object information to identify performance issues and resource bottlenecks.">Reviewing Expensive Statement Logs</a>.</p></li>
+<li class="li"><p><span class="ph">
+<span class="FPA-icons-V3"></span> <span class="ph uicontrol">(Elastic Compute Nodes)</span>
+</span>
+</p><p class="p">Monitor elastic compute nodes key performance figures. See <a class="xref" href="1d5f583f3b8d4abdae872a363ca3a94e.html" title="Monitor elastic compute node performance by reviewing key metrics including configuration, run details, CPU/memory usage, uptime, top statements, and errors to investigate issues and optimize resource allocation.">Monitoring Elastic Compute Nodes</a>.</p></li>
+<li class="li"><p><span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Data Integration)</span>
+</span>
+</p><p class="p"> Monitor, schedule, and run data replication and persistence tasks for
+remote tables and views, track queries sent to remote source systems,
+perform local table administration tasks like data deletion or house
+keeping, and manage other tasks through flows and task chains. Users
+need a space administrator or integrator role to access this app. See
+<a class="xref" href="4cbf7c7fc64645bfa364332827557267.html" title="Users with a space administrator or integrator role can use the  (Data Integration) app to schedule, run, and monitor data replication and persistence tasks for remote tables and views, track queries sent to remote source systems, and manage other tasks through flows and task chains.">Managing and Monitoring Data Integration</a>.</p></li>
+</ul>
+</div>
+<aside class="note" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p>For optimal performance, it is recommended that you consider
+staggering the scheduled run time of tasks such as data flows or task chains
+that may contain these tasks. Make sure to distribute your work such as
+scheduling and running tasks. There isn't a specific numerical limit on how many
+tasks can be scheduled. There could be a resource distribution issue caused by
+too many tasks running at once. Check your <span class="ph uicontrol">Monitoring</span> app
+to look at your workload distribution. For more information see, <a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html" title="Users with an administrator role have access to various apps to monitor and manage the health of their SAP Datasphere tenant.">Monitoring SAP Datasphere</a> or <a class="xref" href="e3d04951a4a344c28b25b2b1b13bf3d8.html" title="You want to persist a complex view and consider how it affects the memory consumption.">Persisted Views and Memory Consumption</a>.</p></aside>
+</section></div>
+<div class="section" id="loiod39b8652994846f9ab80b32fc5b4d671__audit_logs"><section class="section" type="Audit Logs"><h2 class="section_title">Audit Logs</h2>
+
+<p class="p">Get an overview of audit logs created in spaces and manage the deletion of these logs
+to prevent them growing too large.</p>
+<p class="p">For more information, see <a class="xref" href="110404abd2d044008102c871b39fdf65.html" title="Monitor the read and change actions (policies) performed in the database with audit logs, and see who did what and when.">Monitor Database Operations with Audit Logs</a>.</p>
+</section></div>
+<div class="section" id="loiod39b8652994846f9ab80b32fc5b4d671__activities"><section class="section" type="Activities"><h2 class="section_title">Activities</h2>
+
+<p class="p">Keep track of changes to modeling objects (and system objects) via the
+<span class="ph uicontrol">Activities</span> screen.</p>
+<p class="p">For more information, see <a class="xref" href="08e607c58e5343bd9c0287e7e22c452a.html" title="Monitor the changes that users perform on modeling objects (such as spaces and tables) as well as changes to the system configuration (such as roles and users).">Monitor Object Changes with Activities</a>.</p>
+</section></div>
+<div class="section" id="loiod39b8652994846f9ab80b32fc5b4d671__db_analysis_users"><section class="section" type="Database Analysis Users"><h2 class="section_title">Database Analysis Users</h2>
+
+<p class="p">Create database analysis users, which have read-only access to all space schemas, to
+monitor, analyze, trace, or debug your <span class="ph pname" translate="no">SAP Datasphere</span> database in
+<span class="ph uicontrol">Database Explorer</span> and <span class="ph uicontrol">SAP HANA
+Cockpit</span>.</p>
+<p class="p">For more information, see <a class="xref" href="c28145bcb76c4415a1ec6265dd2a4c11.html" title="Database analysis users are SAP HANA Cloud database users who have read-only access to all space schemas, and all their activities are recorded in audit logs. You create a database user to monitor, analyze, trace, or debug your SAP Datasphere database, and resolve a specific database issue.">Create a Database Analysis User to Debug Database Issues</a>.</p>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

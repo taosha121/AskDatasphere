@@ -1,0 +1,113 @@
+<mvc:View
+  controllerName="ds.rag.controller.Chat"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+
+  <Page title="SAP Datasphere · Q&amp;A" showNavButton="false">
+
+    <headerContent>
+      <Button text="Chunk Browser" type="Transparent" press=".onNavToChunks"/>
+    </headerContent>
+
+    <content>
+      <HBox width="100%" class="sapUiSmallMargin" alignItems="Start">
+
+        <!-- ── 左栏：输入 + 答案 ── -->
+        <VBox width="50%" class="sapUiSmallMarginEnd">
+
+          <Title text="Ask a Question" level="H4" class="sapUiSmallMarginBottom"/>
+
+          <TextArea
+            id="questionInput"
+            placeholder="Type your question about SAP Datasphere…"
+            rows="6"
+            width="100%"/>
+
+          <HBox alignItems="Center" class="sapUiSmallMarginTop">
+            <Button
+              id="askBtn"
+              text="Ask"
+              type="Emphasized"
+              press=".onAsk"/>
+            <Label text="Top K:" labelFor="topKInput" class="sapUiSmallMarginBegin"/>
+            <StepInput
+              id="topKInput"
+              value="3"
+              min="1"
+              max="20"
+              step="1"
+              width="5rem"
+              class="sapUiTinyMarginBegin"/>
+          </HBox>
+
+          <Panel
+            id="answerPanel"
+            headerText="Answer"
+            visible="false"
+            expandable="false"
+            class="sapUiMediumMarginTop">
+            <content>
+              <ScrollContainer height="18rem" vertical="true" width="100%">
+                <Text id="answerText" wrapping="true" class="sapUiSmallMargin"/>
+              </ScrollContainer>
+            </content>
+          </Panel>
+
+        </VBox>
+
+        <!-- ── 右栏：Top 3 + Prompt ── -->
+        <VBox width="50%" class="sapUiSmallMarginBegin">
+
+          <Title id="chunksTitle" text="Retrieved Chunks (Top 3)" level="H4" class="sapUiSmallMarginBottom"/>
+
+          <List
+            id="chunkList"
+            items="{chat>/items}"
+            noDataText="Results will appear after you click Ask."
+            showSeparators="All">
+            <CustomListItem>
+              <VBox class="sapUiSmallMargin">
+                <ObjectStatus
+                  title="{chat>deliverable}"
+                  text="{chat>topic_title}"
+                  state="Information"/>
+                <Text
+                  text="{chat>preview}"
+                  wrapping="true"
+                  class="sapUiTinyMarginTop"/>
+                <Button
+                  text="Full text"
+                  type="Transparent"
+                  press=".onShowChunk"
+                  class="sapUiTinyMarginTop"/>
+              </VBox>
+            </CustomListItem>
+          </List>
+
+          <Panel
+            id="promptPanel"
+            headerText="Final Prompt sent to Claude"
+            visible="false"
+            expandable="true"
+            expanded="false"
+            class="sapUiMediumMarginTop">
+            <content>
+              <TextArea
+                id="promptText"
+                rows="12"
+                width="100%"
+                editable="false"
+                growing="false"/>
+            </content>
+          </Panel>
+
+        </VBox>
+
+      </HBox>
+    </content>
+
+  </Page>
+
+</mvc:View>

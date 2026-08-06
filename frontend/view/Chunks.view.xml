@@ -1,0 +1,76 @@
+<mvc:View
+  controllerName="ds.rag.controller.Chunks"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+
+  <Page title="SAP Datasphere · Chunk Browser" showNavButton="false">
+
+    <headerContent>
+      <Button text="Q&amp;A" type="Transparent" press=".onNavToChat"/>
+    </headerContent>
+
+    <subHeader>
+      <Toolbar>
+        <Text id="totalText" text="Loading…"/>
+        <ToolbarSpacer width="2rem"/>
+        <Label text="Start:" labelFor="inputStart"/>
+        <Input id="inputStart" width="5rem" value="0"/>
+        <Label text="End:" labelFor="inputEnd" class="sapUiSmallMarginBegin"/>
+        <Input id="inputEnd" width="5rem" value="19"/>
+        <Button
+          text="Query"
+          type="Emphasized"
+          press=".onQuery"
+          class="sapUiSmallMarginBegin"/>
+      </Toolbar>
+    </subHeader>
+
+    <content>
+      <Table
+        id="chunkTable"
+        items="{chunks>/items}"
+        mode="None"
+        sticky="ColumnHeaders"
+        noDataText="Enter start / end index and click Query.">
+
+        <columns>
+          <Column width="3.5rem" hAlign="Center">
+            <Text text="#"/>
+          </Column>
+          <Column width="14rem">
+            <Text text="Deliverable"/>
+          </Column>
+          <Column width="16rem">
+            <Text text="Topic Title"/>
+          </Column>
+          <Column width="4.5rem" hAlign="Center">
+            <Text text="Chunk"/>
+          </Column>
+          <Column>
+            <Text text="Text Preview"/>
+          </Column>
+          <Column width="5rem" hAlign="Center">
+            <Text text="Action"/>
+          </Column>
+        </columns>
+
+        <items>
+          <ColumnListItem vAlign="Middle">
+            <cells>
+              <Text text="{chunks>globalIdx}"/>
+              <Text text="{chunks>deliverableLabel}" wrapping="false"/>
+              <Text text="{chunks>topic_title}" wrapping="false"/>
+              <ObjectNumber number="{chunks>chunk_index}" state="None"/>
+              <Text text="{chunks>preview}" wrapping="true"/>
+              <Button text="View" type="Transparent" press=".onShowFullText"/>
+            </cells>
+          </ColumnListItem>
+        </items>
+
+      </Table>
+    </content>
+
+  </Page>
+
+</mvc:View>

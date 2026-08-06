@@ -1,0 +1,46 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Known Issues</title><meta charset="utf-8"><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page topic  - topic-topic " id="loioa87f47fb6bfc1014a79e69594ccc91ad"><h1 class="title topictitle1">Known Issues</h1><div class="body"><div class="table-wrapper tablenoborder"><table summary="" class="table" frame="border" border="1" rules="all"><colgroup><col width="36.666666666666664%"><col width="43.33333333333333%"><col width="19.999999999999996%"></colgroup><tbody class="tbody"><tr class="row"><td class="entry" style="vertical-align:top;"><p>Issue</p></td><td class="entry" style="vertical-align:top;"><p>Solution</p></td><td class="entry" style="vertical-align:top;"><p>Valid from / to SAP Datasphere version</p></td></tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;"><p>The view SAP_FIN_CS_HL_HierNode_GrpJrnlEntryItm from the package “Group Reporting
+for SAP S/4HANA and SAP S/4HANA Cloud” may show unexpected data, because a join
+condition is incomplete. </p></td>
+<td class="entry" style="vertical-align:top;"><p class="p">The issue will be resolved in release 1.0.1 or any subsequent versions. </p><div class="p">To fix the issue in your instance, you can follow these steps: <ul class="ul">
+<li class="li"><p>Please navigate to view the join node “Join 2” (Projection 1 –
+ConsProfitCenterFilter) in view SAP_FIN_CS_HL_HierNode_GrpJrnlEntryItm and add a
+mapping “Partner profit center” to “Partner profit center”. </p></li>
+<li class="li"><p>In join node “Join 3” (Projection 2 - ConsSegFilter), please add a mapping
+from “Partner segment for segmental reporting” to “Partner segment for segmental
+reporting”. Once you're done, deploy the changes. </p></li>
+</ul></div></td>
+<td class="entry" style="vertical-align:top;"><p>Content package version 1.0.0 </p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;"><p>Content package version 1.0.0</p></td>
+</tr><tr class="row"><td class="entry" style="vertical-align:top;"><p>Connection name changes as of release 2021.19 from
+SAP_NAME_CONNECTION to CONNECTION</p></td><td class="entry" style="vertical-align:top;"><p class="p">Create the connection with the full name
+SAP_CONTENT_&lt;ConnectionName&gt; instead of
+&lt;ConnectionName&gt;.</p><p class="p">Once the connection names can be created as
+&lt;ConnectionName&gt; we will update this entry accordingly.</p></td><td class="entry" style="vertical-align:top;"><p>2021.19 -</p></td></tr><tr class="row"><td class="entry" style="vertical-align:top;"><p class="p">One of the following content packages cannot be deployed:</p><ul class="ul"><li class="li"><p>Finance for SAP S/4HANA Cloud</p></li><li class="li"><p>Financial Analytics Dashboard for SAP Analytics Cloud</p></li><li class="li"><p>SAP Intelligent Real Estate</p></li><li class="li"><p class="p">Solution Order Analysis for SAP S/4HANA Cloud.</p></li></ul><p class="p">The deployment fails with an error like or similar to the
+following: <span class="ph uicontrol">Datatype string(5) of attribute 'XYZ' in CSN Document does not match to datatype int(2) of target table.</span>
+</p><p class="p">You have updated your DP Agent version from &lt; 2.5.5 to 2.5.5
+or newer</p></td><td class="entry" style="vertical-align:top;"><p class="p">If you had previously imported one or several of the mentioned
+packages from a content release &lt;= 2022.Q3 and with a DP Agent
+version &lt; 2.5.5, a boolean value got a wrong data type in SAP
+Datasphere.</p><p class="p">(For SAP_FI_SemTagGLAccount the length of two attributes have
+been shortened).</p><p class="p">
+You have by now updated to a new version of the DP Agent (&gt;=
+2.5.5). This results in the usage of the expected data type in SAP
+Datasphere. These changes can possibly affect the following remote
+tables:</p><ul class="ul"><li class="li"><p>SAP_FI_CompanyCode</p></li><li class="li"><p>SAP_FI_Costcenter</p></li><li class="li"><p>SAP_FI_FiscalYearPeriodVariant</p></li><li class="li"><p>SAP_FI_GLAccount_LineItem</p></li><li class="li"><p>SAP_FI_GLAccount</p></li><li class="li"><p>SAP_FI_PlanningCategory</p></li><li class="li"><p>SAP_FI_PlanningEntryItem</p></li><li class="li"><p>SAP_FI_SemTagGLAccount</p></li></ul><p class="p">In case you have replicated data into these tables, delete the
+data and re-deploy these tables and any other not yet deployed
+object of your content package.</p></td><td class="entry" style="vertical-align:top;"><p>2022.22 -</p></td></tr><tr class="row"><td class="entry" style="vertical-align:top;"><p>Issue with data replication after upgrade of SAP S/4HANA Cloud
+2308</p></td><td class="entry" style="vertical-align:top;"><p>Please restart the extraction process. Find all details in the
+<a class="extlink" href="/docs/link-disclaimer?site=https%3A%2F%2Fme.sap.com%2Fnotes%2F3365984" target="_blank" rel="noopener" alt="https://me.sap.com/notes/3365984" title="https://me.sap.com/notes/3365984">SAP Note 3365984<img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>
+</p></td><td class="entry" style="vertical-align:top;"><p>All</p></td></tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;"><p class="p">HDI containers administration can only be used in subscription Standard Plan of SAP Datasphere, not in the Free Tier Plan (see <a href="/docs/link-disclaimer?site=https://me.sap.com/notes/3227267" target="_blank" rel="noopener">3227267 <img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>).</p></td>
+<td class="entry" style="vertical-align:top;"><p>Subscribe to SAP Datasphere Standard Plan Subscription.</p></td>
+<td class="entry" style="vertical-align:top;">&nbsp;</td>
+</tr></tbody></table></div></div></div></section><div class="clear"></div>
+</div></div></div></body></html>

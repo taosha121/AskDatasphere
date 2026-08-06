@@ -1,0 +1,41 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Managing Users and Roles</title><meta charset="utf-8"><meta name="abstract" content="Users with an administrator role can create SAP Datasphere users and manage secure access to the tenant through roles and privileges."><meta name="description" content="Users with an administrator role can create SAP Datasphere users and manage secure access to the tenant through roles and privileges."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loio903b75e638074c638ed88a4b14b935c5"><h1 class="title topictitle1">Managing Users and Roles</h1><div class="body conbody"><p class="shortdesc"><span class="ph">Users with an
+administrator role can create <span class="ph pname" translate="no">SAP Datasphere</span> users and
+manage secure access to the tenant through roles and privileges.</span></p>
+<div class="p">This topic contains the following sections:<ul class="ul">
+<li class="li"><p><a class="xref" href="903b75e638074c638ed88a4b14b935c5.html#loio903b75e638074c638ed88a4b14b935c5__section_provision">Provision Users</a></p></li>
+<li class="li"><p><a class="xref" href="903b75e638074c638ed88a4b14b935c5.html#loio903b75e638074c638ed88a4b14b935c5__section_global">Grant Privileges with Scoped and Global Roles</a></p></li>
+</ul></div>
+<div class="section" id="loio903b75e638074c638ed88a4b14b935c5__section_provision"><section class="section" type="Provision Users"><h2 class="section_title">Provision Users</h2>
+
+<div class="p">Users must be provisioned to <span class="ph pname" translate="no">SAP Datasphere</span> before they can
+be granted privileges to access it. You can provision users via:<ul class="ul">
+<li class="li"><p>Your identity provider (see <a class="xref" href="48b5c8b637a54fa491594272941855b9.html" title="The system owner can choose how to manage user identity and authentication for its SAP Datasphere tenant.">Managing User Identity and Authentication</a>).</p></li>
+<li class="li"><p>The SCIM API (see <a class="xref" href="1ca8c4a9467f43df9ae6d4ed3734f05a.html" title="You can create, read, modify and delete users and add them to roles via the SCIM 2.0 API.">Managing Users via the SCIM 2.0 API</a>).</p></li>
+<li class="li"><p>The command line (see <a class="xref" href="72dc33a8f41944f78318138bc1a57307.html" title="You can use the datasphere command line interface to list, create, update, and delete users via the command line.">Managing Users via the Command Line</a>).</p></li>
+<li class="li"><p>The <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Security</span>)</span>
+<span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol"></span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol"></span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span>
+<span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Users</span>)</span> app (see
+<a class="xref" href="58d4b24f766c4879b71c33f8e8dd5da8.html" title="You can create individual users in SAP Datasphere and assign them to roles.">Create a User</a>).</p></li>
+</ul></div>
+</section></div>
+<div class="section" id="loio903b75e638074c638ed88a4b14b935c5__section_global"><section class="section" type="Grant Privileges with Scoped and Global Roles"><h2 class="section_title">Grant Privileges with Scoped and Global Roles</h2>
+
+<p class="p">Users must be granted privileges before they can work in <span class="ph pname" translate="no">SAP Datasphere</span> or access data
+exposed by it.</p>
+<div class="p">Privileges are granted via roles, which are either:<ul class="ul">
+<li class="li"><p>Scoped roles - Providing access to one or more spaces and privileges to
+perform certain tasks or access certain features in those spaces.</p></li>
+<li class="li"><p>Global roles - Providing tenant-wide privileges to perform certain tasks or
+access certain features.</p></li>
+</ul>Users can be granted a combination of global and scoped roles as necessary to
+perform their tasks in the tenant.</div>
+<div class="p">For more information, see:<ul class="ul">
+<li class="li"><p><a class="xref" href="2d8b7d04dcae402f911d119437ce0a74.html" title="Review the privileges needed to work with apps, tools, and features of SAP Datasphere.">Privileges by App, Tool, Object, and Task</a></p></li>
+<li class="li"><p><a class="xref" href="b5c4e0b6c462414783ebbfc053815521.html" title="A scoped role inherits a set of scoped privileges from a standard or custom role and grants these privileges to users for use in the assigned spaces.">Create a Scoped Role to Assign Privileges to Users in Spaces</a></p></li>
+<li class="li"><p><a class="xref" href="57a78804d8bd48ca9e7e73a0d33e355f.html" title="You can assign an individual user to a role (global or scoped) in the Users page, and you can assign several users to a global role at the same time in the Roles page.">Assign Users to a Role</a></p></li>
+</ul></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

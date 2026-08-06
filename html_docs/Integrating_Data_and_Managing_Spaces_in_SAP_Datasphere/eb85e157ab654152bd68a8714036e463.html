@@ -1,0 +1,321 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Integrating Data via Connections</title><meta charset="utf-8"><meta name="abstract" content="Users with a space administrator or integrator role can create connections to SAP and non-SAP source systems, including cloud and on-premise systems and partner tools, and to target systems for outbound replication flows. Users with modeler roles can import data via connections for preparation and modeling in SAP Datasphere."><meta name="description" content="Users with a space administrator or integrator role can create connections to SAP and non-SAP source systems, including cloud and on-premise systems and partner tools, and to target systems for outbound replication flows. Users with modeler roles can import data via connections for preparation and modeling in SAP Datasphere."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page reference  - topic-topic       reference-reference " id="loioeb85e157ab654152bd68a8714036e463"><h1 class="title topictitle1">Integrating Data via Connections</h1><div class="body refbody"><p class="shortdesc"><span class="ph">Users with a space administrator
+or integrator role can create connections to SAP and non-SAP source systems,
+including cloud and on-premise systems and partner tools, and to target
+systems for outbound replication flows. Users with modeler roles can import
+data via connections for preparation and modeling in <span class="ph pname" translate="no">SAP Datasphere</span>.
+</span></p>
+<div class="section">
+<div class="p">This topic contains the following sections:<ul class="ul" id="loioeb85e157ab654152bd68a8714036e463__ul_swl_nfj_ddc">
+<li class="li"><p><a class="xref" href="eb85e157ab654152bd68a8714036e463.html#loioeb85e157ab654152bd68a8714036e463__intro">Introduction to Connections and Connection Types</a></p></li>
+<li class="li"><p><a class="xref" href="eb85e157ab654152bd68a8714036e463.html#loioeb85e157ab654152bd68a8714036e463__connections">Working with Connections</a></p></li>
+<li class="li"><p><a class="xref" href="eb85e157ab654152bd68a8714036e463.html#loioeb85e157ab654152bd68a8714036e463__connection_types">Working with Custom Connection Types</a></p></li>
+</ul></div>
+</div>
+<div class="section" id="loioeb85e157ab654152bd68a8714036e463__intro"><section class="section" type="Introduction to Connections and Connection Types"><h2 class="section_title">Introduction to Connections and Connection Types</h2>
+
+<p class="p">A connection links a remote data source or target to <span class="ph pname" translate="no">SAP Datasphere</span>. When you create
+a connection, you create an instance based on a specific connection type. The
+connection type serves as a template and determines which configuration settings you
+need to provide when setting up your connection. <span class="ph pname" translate="no">SAP Datasphere</span> provides
+predefined connection types, and you can also create your own custom connection
+types:</p>
+<div class="sectiondiv subsection">
+<h3 class="p subsectiontitle">Predefined, SAP-delivered Connection Types</h3>
+<p class="p">A predefined, SAP-managed connection type represents a specific category of remote system,
+for example SAP S/4HANA Cloud, SAP HANA Cloud, data lake Files, or Google Cloud
+Storage (see <a class="xref" href="94562426f30c475286f50a1e2b45e743.html" title="To connect to remote systems, applications, databases, or storages, SAP Datasphere provides different connection types.">Connection Types Delivered by SAP</a>). </p>
+<p class="p">Each connection type supports:</p>
+<ul class="ul">
+<li class="li"><p>A defined set of properties that applies to the remote system category.
+</p><p class="p">To connect to a specific remote system, you create a connection based
+on the corresponding connection type and complete the properties as
+applicable to your specific remote system and requirements (see <a class="xref" href="c2165842082c43fc85bad9f0c97572bb.html" title="Create a connection from an SAP-delivered connection type to allow users assigned to a space to use the connected source or target for data modeling and data access in SAP Datasphere.">Create a Connection</a>).</p></li>
+<li class="li"><p>A defined set of integration scenarios in <span class="ph pname" translate="no">SAP Datasphere</span>, also
+called features.</p><p class="p">Connection types can support one or more of the following
+features: replication flows, remote tables, data flows, model import, or
+API tasks (see <a class="xref" href="505bf400544846148cf51e5b6d731a8b.html" title="You can use connections in different integration scenarios.">Features Supported by Connections</a>).
+</p><p class="p">When a supported feature is enabled in a connection, users with a
+modeler role can use the connection with the feature. For example, they
+can use the connection to replicate data from or to the connected remote
+system with a replication flow, or to federate data from the connected
+remote system with remote tables.</p></li>
+</ul>
+<p class="p">You can create connections from predefined connection types in spaces with
+storage type <span class="ph uicontrol">SAP HANA Database (Disk and In-Memory)</span> and,
+if supported by the connection type, in spaces with storage type <span class="ph uicontrol">SAP
+HANA Data Lake Files</span> (file spaces). </p>
+<p class="p">Connections created from predefined, SAP-managed connection types depend on their connection
+type and can be updated according to changes in the connection type definition.
+For example when an additional authentication type is introduced for a
+connection type to better secure your connections, you can update existing
+connections to use the new authentication type. </p>
+</div>
+<div class="sectiondiv subsection">
+<h3 class="p subsectiontitle">Custom Connection Types</h3>
+<aside class="note" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p class="p">Custom connection types to connect to REST APIs are not available by default in
+<span class="ph pname" translate="no">SAP Datasphere</span>
+tenants. To enable custom connection types in your tenant, see SAP note
+<a href="/docs/link-disclaimer?site=https://me.sap.com/notes/3696110" target="_blank" rel="noopener">3696110 <img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>. </p></aside>
+<p class="p">Custom connection types allow you to connect to external REST APIs and load
+JSON-based data into the <span class="ph pname" translate="no">SAP Datasphere</span> object store
+using replication flows (see <a class="xref" href="https://help.sap.com/docs/SAP_DATASPHERE/cf74ad0d51d6435684de96f5c82d47e5/5cdf9deffe7944dc9387e8c406428eb5.html?state=DRAFT" target="_blank" rel="noopener" alt="https://help.sap.com/docs/SAP_DATASPHERE/cf74ad0d51d6435684de96f5c82d47e5/5cdf9deffe7944dc9387e8c406428eb5.html?state=DRAFT" title="https://help.sap.com/docs/SAP_DATASPHERE/cf74ad0d51d6435684de96f5c82d47e5/5cdf9deffe7944dc9387e8c406428eb5.html?state=DRAFT">Creating a Custom Connection Type</a>).</p>
+<p class="p">Custom connection types complement <span class="ph pname" translate="no">SAP Datasphere</span>-managed
+connectivity by enabling data replication from REST APIs where standard <span class="ph pname" translate="no">SAP Datasphere</span>-managed
+connectivity is either not available (third-party source systems) or cannot be
+provided (customer-built REST APIs). </p>
+<p class="p">You can create custom connection types and connections based on these connection
+types in spaces with storage type <span class="ph uicontrol">SAP HANA Data Lake
+Files</span> (file spaces). </p>
+<p class="p">When creating a connection from a custom connection type, the custom connection type only
+serves as a template. Upon saving the connection, the connection is decoupled
+and completely independent from the custom connection type used to create it.
+Any later changes in a custom connection type are not reflected in existing
+connections created from this connection
+type.</p>
+</div>
+
+</section></div>
+<div class="section" id="loioeb85e157ab654152bd68a8714036e463__connections"><section class="section" type="Working with Connections"><h2 class="section_title">Working with Connections</h2>
+
+<p class="p">In the <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Connections</span>)</span> app on the
+<span class="ph uicontrol">Connections</span> tab, you get an overview of all connections
+created in your space and use the tools listed below to create and manage
+connections.</p>
+<div class="table-wrapper tablenoborder"><table summary="" id="loioeb85e157ab654152bd68a8714036e463__work_with_connections" class="table" data-table-id="work_with_connections" frame="border" border="1" rules="all"><colgroup><col width="25%"><col width="75%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d4529e251"><p>Tool</p></th>
+<th class="entry" style="vertical-align:top;" id="d4529e254"><p>Description</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p><span class="FPA-icons-V3"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Add
+Connection)</span>
+<span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol"></span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Create Connection</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Create a connection to allow users assigned to the space to use the connected remote
+system for data modeling and data access in <span class="ph pname" translate="no">SAP Datasphere</span>.</p><p class="p">For more information about
+creating connections based on SAP-managed connection types, see
+<a class="xref" href="c2165842082c43fc85bad9f0c97572bb.html" title="Create a connection from an SAP-delivered connection type to allow users assigned to a space to use the connected source or target for data modeling and data access in SAP Datasphere.">Create a Connection</a>.</p><p class="p">For more information about
+creating connections based on custom connection types in file
+spaces, see <a class="xref" href="d0653d37167a49679d0a3e909547a674.html" title="Create a connection from custom connection type to allow users assigned to a file space to use the connected REST API source for loading JSON-based data to the SAP Datasphere object store using replication flows.">Create a Connection from a Custom Connection Type</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p>Edit</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Select and edit a connection to change its properties. Warnings
+might indicate that you need to edit a connection.</p><p class="p">For more
+information, see <a class="xref" href="ba20892f25744b86a62ae571e3ea6ead.html" title="Edit a connection, for example if the setup of the connected remote system changed, if the connection has been imported from another tenant, or if a new feature is available for the connection type after you have created your connection. A warning in the connections list might indicate the need to edit a connection.">Edit a Connection</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p>Delete</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Select and delete one or more connections if they are not used anymore. </p><p class="p">For more information, see <a class="xref" href="e90c290260a04dfa94062e1d2824113e.html" title="Select one or more connections and delete them if they are not used.">Delete a Connection</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p>Validate</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Select and validate a connection to get detailed status information and make sure that
+it can be used for data modeling and data access. </p><p> Always validate a
+connection after you have created or edited it. </p><p class="p">For more
+information, see <a class="xref" href="99bd2294c3724d478c41555e186ce0ef.html" title="Select a connection created from an SAP-delivered connection type and open the validation message to get detailed status information.">Validate a Connection</a>.</p><aside class="note" aria-labelledby="n1t"><div class="title" id="n1t"><strong>Note</strong></div>
+<p>Validation is not supported
+for connections created from custom connection
+types.</p></aside></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p>Pause/Restart</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>For connections that connect to a remote system through SAP HANA
+Smart Data Integration and its Data Provisioning Agent, you can
+pause and restart real-time replication for selected connections, if
+required.</p><p class="p">For more information, see <a class="xref" href="a11f2441b840405c91918de757589097.html" title="Pause real-time replication for a connection while updating or maintaining the source. After you have finished with your maintenance activities you can restart real-time replication.">Pause Real-Time Replication for a Connection Using SAP HANA Smart Data Integration</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Reload Connection
+List)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Reload the connections list to include the latest updates into
+the list.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Sort
+Connections)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>Open the <span class="ph uicontrol">Sort</span> dialog to control the
+ordering of the connections list.</p><p class="p">By default, the list is sorted
+by <span class="ph uicontrol">Business Name</span>. To sort on a specific
+column, select a <span class="ph uicontrol">Sort Order</span> and a
+<span class="ph uicontrol">Sort By</span> column, and then click
+<span class="ph uicontrol">OK</span> to apply them.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Filter
+Connections)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p><span class="ph">Select one or more
+filter values to restrict the connection list according to your
+needs.</span></p><p class="p">The
+following filter categories and values are available:</p><ul class="ul">
+<li class="li"><p><span class="ph uicontrol">Features</span> that a connection type supports</p><ul class="ul">
+<li class="li"><p><span class="ph uicontrol">Replication Flows</span></p></li>
+<li class="li"><p><span class="ph uicontrol">Data Flows</span> (in spaces with
+storage with storage type <span class="ph uicontrol">SAP HANA
+Database (Disk and In-Memory)</span>)</p></li>
+<li class="li"><p><span class="ph uicontrol">Model Import</span> (in spaces with
+storage with storage type <span class="ph uicontrol">SAP HANA
+Database (Disk and In-Memory)</span>)</p></li>
+<li class="li"><p><span class="ph uicontrol">Remote Tables</span> (in spaces with
+storage with storage type <span class="ph uicontrol">SAP HANA
+Database (Disk and In-Memory)</span>)</p></li>
+<li class="li"><p><span class="ph uicontrol">API Tasks</span> (in spaces with
+storage with storage type <span class="ph uicontrol">SAP HANA
+Database (Disk and In-Memory)</span>)</p></li>
+</ul></li>
+<li class="li"><p><span class="ph uicontrol">Categories</span> that the corresponding
+source belongs to</p><ul class="ul">
+<li class="li"><p><span class="ph uicontrol">Cloud</span></p></li>
+<li class="li"><p><span class="ph uicontrol">On-Premise</span></p></li>
+</ul></li>
+<li class="li"><p><span class="ph uicontrol">Sources</span> that you would like to connect</p><ul class="ul">
+<li class="li"><p><span class="ph uicontrol">SAP</span></p></li>
+<li class="li"><p><span class="ph uicontrol">Non-SAP</span></p></li>
+<li class="li"><p><span class="ph uicontrol">REST
+API</span> (custom connection types)</p></li>
+<li class="li"><p><span class="ph uicontrol">Partner Tools</span> (in spaces with
+storage with storage type <span class="ph uicontrol">SAP HANA
+Database (Disk and In-Memory)</span>)</p></li>
+</ul></li>
+</ul></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Select
+Columns)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p class="p"><span class="ph">Open the
+<span class="ph uicontrol">Columns</span> dialog to control
+the display of columns in the results table.</span></p><div class="p">Modify the column list in
+any of the following ways, and then click
+<span class="ph uicontrol">OK</span> to apply your
+changes:<ul class="ul" id="loioeb85e157ab654152bd68a8714036e463__d41e734">
+<li class="li"><p>To select a column for display, select its
+checkbox. To hide a column deselect its
+checkbox.</p></li>
+<li class="li"><p>Click on a column token to highlight it and
+use the arrow buttons to move it in the list.</p></li>
+<li class="li"><p>Click <span class="ph uicontrol">Reset</span> to go back
+to the default column display.</p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><p>Search</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p><span class="ph">Enter one or more
+characters in the <span class="ph uicontrol">Search</span> field to restrict the list
+to connections containing the string.</span></p><p class="p">Search
+considers the <span class="ph uicontrol">Technical Name</span>,
+<span class="ph uicontrol">Business Name</span>, <span class="ph uicontrol">Real-Time
+Replication Status</span>, and <span class="ph uicontrol">Created
+By</span> column.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e251 "><div class="p"><div class="fig fignone" id="loioeb85e157ab654152bd68a8714036e463__fig_ofn_s2q_d1c"><div class="figbody">
+<img class="inline" id="loioeb85e157ab654152bd68a8714036e463__image_upq_t2q_d1c" src="loio2689954ed5874af480166f033f98b1bd_LowRes.png">
+</div></div>(Warning Messages)</div></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e254 "><p>When there is one or more messages for your connections, a button is displayed
+specifying the number of warning or error messages for all
+connections in the list. </p><p class="p">Click the button to open the list of
+messages. Clicking a message title selects the corresponding
+connection in the list. Clicking <span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description">
+(Navigation)</span> for a message opens a more detailed message
+containing guidance on how to solve the issue.</p><p class="p">In the
+connections list, connections with warning messages are
+highlighted in yellow, connections with error messages are
+highlighted in red.</p></td>
+</tr>
+</tbody></table></div>
+<div class="p">In addition to working with connections in
+the <span class="ph uicontrol">Connections</span> app, you can also:<ul class="ul">
+<li class="li"><p>Read, list, validate, create, edit, and delete them using the
+<samp class="ph codeph">datasphere</samp> command line interface (see <a class="xref" href="8eb811898d1049fbb426339e44a2eb70.html" title="You can use the datasphere command line interface to read, list, validate, create, edit, and delete connections.">Managing Connections via the Command Line</a>).</p></li>
+<li class="li"><p>Read, list, validate, create, edit, and delete them using a REST API (see <a class="xref" href="5aafe32418b14f7e99528b49f48bd3ac.html" title="You can manage TLS server certificates and connections via the Certificates and Connections REST APIs. Creating and editing connections via the API is supported for SAP SuccessFactors connections only.">Managing Connectivity via the REST API</a>).</p></li>
+</ul></div>
+<aside class="note" aria-labelledby="n2t"><div class="title" id="n2t"><strong>Note</strong></div>
+<p><span class="ph" id="loioeb85e157ab654152bd68a8714036e463__d23e84">Connections based on custom connection types are
+not supported by the <span class="ph pname" translate="no">SAP Datasphere</span> command
+line interface or the <span class="ph pname" translate="no">SAP Datasphere</span>
+<span class="ph uicontrol">Connections</span> API. You cannot list, read, create, edit, delete, or validate
+these connections via the command line interface or the API.</span></p></aside>
+</section></div>
+<div class="section" id="loioeb85e157ab654152bd68a8714036e463__connection_types"><section class="section" type="Working with Custom Connection Types"><h2 class="section_title">Working with Custom Connection Types</h2>
+
+<p class="p">In the <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Connections</span>)</span> app on
+the <span class="ph uicontrol">Custom Connection Types</span> tab, you get an overview of all
+connection types created in your file space and use the tools listed below to create
+and manage connection types.</p>
+<div class="table-wrapper tablenoborder"><table summary="" id="loioeb85e157ab654152bd68a8714036e463__work_with_custom_connection_types" class="table" data-table-id="work_with_custom_connection_types" frame="border" border="1" rules="all"><colgroup><col width="25%"><col width="75%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d4529e785"><p>Tool</p></th>
+<th class="entry" style="vertical-align:top;" id="d4529e788"><p>Description</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p><span class="FPA-icons-V3"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Add Connection
+Type)</span>
+</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p class="p">Create a custom connection type to allow users assigned to a <span class="ph pname" translate="no">SAP Datasphere</span> file space to connect to external REST APIs and load
+JSON-based data into <span class="ph pname" translate="no">SAP Datasphere</span>.</p><p class="p">For more information, see <a class="xref" href="9c582ca295164a538cb61b7e7beb6719.html" title="Create a custom connection type to allow users assigned to a SAP Datasphere file space to connect to external REST APIs and load JSON-based data into the SAP Datasphere object store using replication flows.">Creating a Custom Connection Type</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p>Edit</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p>Select and edit a custom connection type.</p><p class="p">When you edit a custom connection type,
+existing connection instances based on it remain unchanged.
+Changes are not applied retroactively.</p><p class="p">For more
+information, see <a class="xref" href="80d8b8a70b24449dac0fa76f10c3727b.html" title="You can change the configuration of a custom connection type after it has been created. However, existing connections created from it are not updated when you edit the connection type. These updates apply only to new connections you create from this connection type. If you want a replication to use a new connection created from the modified connection type, you also need to update the corresponding replication flow.">Edit a Custom Connection Type</a>.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p>Delete</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p>Select and delete one or more custom connection types. </p><p class="p">When you delete a custom
+connection type, existing connection instances based on it
+remain unaffected.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Reload Connection Type
+List)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p>Reload the custom connection type list to include the latest updates into the
+list.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Sort Connection
+Types)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p>Open the <span class="ph uicontrol">Sort</span> dialog to control the ordering of the custom
+connection type list.</p><p class="p">By default, the list is sorted by
+<span class="ph uicontrol">Business Name</span>. To sort on a specific
+column, select a <span class="ph uicontrol">Sort Order</span> and a
+<span class="ph uicontrol">Sort By</span> column, and then click
+<span class="ph uicontrol">OK</span> to apply them.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p><span class="SAP-icons-V5"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Select
+Columns)</span></p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p class="p"><span class="ph">Open the
+<span class="ph uicontrol">Columns</span> dialog to control
+the display of columns in the results table.</span></p><div class="p">Modify the column list in
+any of the following ways, and then click
+<span class="ph uicontrol">OK</span> to apply your
+changes:<ul class="ul" id="loioeb85e157ab654152bd68a8714036e463__d41e734">
+<li class="li"><p>To select a column for display, select its
+checkbox. To hide a column deselect its
+checkbox.</p></li>
+<li class="li"><p>Click on a column token to highlight it and
+use the arrow buttons to move it in the list.</p></li>
+<li class="li"><p>Click <span class="ph uicontrol">Reset</span> to go back
+to the default column display.</p></li>
+</ul>
+</div></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d4529e785 "><p>Search</p></td>
+<td class="entry" style="vertical-align:top;" headers="d4529e788 "><p>Enter one more characters in the <span class="ph uicontrol">Search</span> field to restrict the
+list to custom connection types containing the string.</p><p class="p">Search
+considers the <span class="ph uicontrol">Technical Name</span>,
+<span class="ph uicontrol">Business Name</span>, and <span class="ph uicontrol">Created
+By</span> column.</p></td>
+</tr>
+</tbody></table></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Managing and Monitoring Data Integration</title><meta charset="utf-8"><meta name="abstract" content="Users with a space administrator or integrator role can use the (Data Integration) app to schedule, run, and monitor data replication and persistence tasks for remote tables and views, track queries sent to remote source systems, and manage other tasks through flows and task chains."><meta name="description" content="Users with a space administrator or integrator role can use the (Data Integration) app to schedule, run, and monitor data replication and persistence tasks for remote tables and views, track queries sent to remote source systems, and manage other tasks through flows and task chains."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loio4cbf7c7fc64645bfa364332827557267"><h1 class="title topictitle1">Managing and Monitoring Data Integration</h1><div class="body conbody"><p class="shortdesc"><span class="ph">Users with a space
+administrator or integrator role can use the <span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Data Integration)</span>
+</span> app to schedule, run, and monitor data replication
+and persistence tasks for remote tables and views, track queries sent to
+remote source systems, and manage other tasks through flows and task
+chains.</span></p>
+
+<aside class="note" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p>For optimal performance, it is recommended that you consider
+staggering the scheduled run time of tasks such as data flows or task chains
+that may contain these tasks. Make sure to distribute your work such as
+scheduling and running tasks. There isn't a specific numerical limit on how many
+tasks can be scheduled. There could be a resource distribution issue caused by
+too many tasks running at once. Check your <span class="ph uicontrol">Monitoring</span> app
+to look at your workload distribution. For more information see, <a class="xref" href="d39b8652994846f9ab80b32fc5b4d671.html" title="Users with an administrator role have access to various apps to monitor and manage the health of their SAP Datasphere tenant.">Monitoring SAP Datasphere</a> or <a class="xref" href="e3d04951a4a344c28b25b2b1b13bf3d8.html" title="You want to persist a complex view and consider how it affects the memory consumption.">Persisted Views and Memory Consumption</a>.</p></aside>
+<div class="p">To access the <span class="ph uicontrol">Data
+Integration</span> monitoring app, click <span class="ph"><span class="SAP-icons-V5"></span>
+<span class="ph uicontrol"> (Monitoring)</span></span> &gt; <span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Data Integration)</span>
+</span> .
+It is composed of several monitors that help you track how data is managed within
+your space. <span class="ph">Note that the available monitors depend on space capabilities. </span>
+<ul class="ul" id="loio4cbf7c7fc64645bfa364332827557267__d36e42">
+<li class="li"><p><span class="ph uicontrol">Remote Tables</span>
+<span class="ph">(Not available if you are in space of type SAP HANA Cloud, data lake
+files)</span>: Copy data for remote tables that have been deployed in your
+space and monitor the replication of the data. Copy or schedule copying the
+full set of data from the source, or set up replication of data changes in
+real-time via change data capturing (CDC). For more information, see <a class="xref" href="4dd95d7bff1f48b399c8b55dbdd34b9e.html" title="In the Remote Tables monitor, you can find a remote table monitor per space. Here, you can copy data from remote tables that have been deployed in your space into SAP Datasphere, and you can monitor the replication of the data. You can copy or schedule copying the full set of data from the source, or you can set up replication of data changes in real-time via change data capturing (CDC).">Monitoring Remote Tables</a>.</p><aside class="note" aria-labelledby="n1t"><div class="title" id="n1t"><strong>Note</strong></div>
+<p>The
+<span class="ph uicontrol">Remote Tables</span> monitor displays only remote
+tables that support data replication: Remote tables from a source that
+is configured as data access <span class="ph uicontrol">Remote Only</span>, and
+remote tables with input parameters are therefore not displayed in this
+monitor. For more information, see <a class="xref" href="4cbf7c7fc64645bfa364332827557267.html" title="Users with a space administrator or integrator role can use the (Data Integration) app to schedule, run, and monitor data replication and persistence tasks for remote tables and views, track queries sent to remote source systems, and manage other tasks through flows and task chains.">Managing and Monitoring Data Integration</a>
+</p></aside></li>
+<li class="li"><p><span class="ph uicontrol">Local Tables</span>
+<span class="ph">(Not available if you are in space of type SAP HANA Cloud, data lake
+files)</span>: Monitor all local tables which have been created in a space
+and display their metrics. <span class="ph">From the detail screen, you can also delete
+table records on-demand, using filter conditions or using a schedule.
+</span></p></li>
+<li class="li"><p><span class="ph uicontrol">Local Tables (Files)</span>
+<span class="ph">(Not available if you are in space of type SAP HANA Cloud, SAP HANA
+database)</span>: Check how and when your local tables (files) were last
+updated and if new data has still to be merged. For more information, see
+<a class="xref" href="6b2d0073a8684ee6a59d6f47d00ec895.html" title="Monitor your local tables (file). Check how and when they were last updated and if new data has still to be merged.">Monitoring Local Tables (File)</a></p></li>
+<li class="li"><p><span class="ph uicontrol">Views</span>
+<span class="ph">(Not available if you are in space of type SAP HANA Cloud data lake
+files)</span>: Add, monitor and schedule persisted views. Turn your views
+into persisted views to improve performance while accessing your data. For
+more information, see <a class="xref" href="9af04c990f294fd28c00f46763dd8b0d.html" title="From Data Integration Monitor &gt; Views , you can monitor views that have been created in the Data Builder. You can persist these views (direct run or via a schedule) to make them available locally to improve the performance when accessing your data. You can monitor the existing persisted views to keep control of your data sizing and free up memory space.">Persisting and Monitoring Views</a>.</p></li>
+<li class="li"><p><span class="ph uicontrol">Flows</span>: View and monitor the execution details of the
+executed data flows, replication flows or transformation flows. For more
+information, see <a class="xref" href="b661ea0766a24c7d839df950330a89fd.html" title="In the Flows monitor, you can find all the deployed flows per space.">Monitoring Flows</a>.</p><aside class="note" aria-labelledby="n2t"><div class="title" id="n2t"><strong>Note</strong></div>
+<p>Data flows are not available for spaces of type SAP HANA Cloud
+data lake files</p></aside></li>
+<li class="li"><p><span class="ph uicontrol">Remote Queries</span>: </p><ul class="ul" id="loio4cbf7c7fc64645bfa364332827557267__d36e107">
+<li class="li"><p><span class="ph uicontrol">Remote Queries</span>: Check and analyze how the
+communication is running between the federation layer of <span class="ph pname">SAP
+HANA Cloud</span> and the connected remote source systems. For
+more information, see <a class="xref" href="806d7f0c45a14f1fb07db0a226b2b822.html" title="In the Remote Queries monitor, you track the queries sent to your remote connected source systems for your space. You can monitor the communication between the federation layer of SAP HANA Cloud and the connected remote source systems, and analyze them.">Monitoring Remote Queries</a>.</p></li>
+<li class="li"><p><span class="ph uicontrol">Remote Table Statistics</span>
+<span class="ph">(Not available if you are in space of type SAP HANA Cloud, data
+lake files)</span>: Create statistics for your remote tables to
+improve federated query execution. For more information, see <a class="xref" href="e4120bbb98e44994aa1e0b32ff3f209d.html" title="Create statistics for your remote tables to improve federated query execution.">Creating Statistics for Your Remote Tables</a>.</p></li>
+</ul></li>
+<li class="li"><p><span class="ph uicontrol">Task Chains</span>: Monitor the status and progress of
+running and past task chains. For more information, see <a class="xref" href="4142201ec1aa49faad89a688a2f1852c.html" title="Monitor the status and progress of running and previously run task chains.">Monitoring Task Chains</a>.</p></li>
+</ul></div>
+<p class="p">Depending on your role and the tasks you need to perform in the <span class="ph">
+<span class="SAP-icons-V5"></span> <span class="ph uicontrol">(Data Integration)</span>
+</span>, you may need specific privileges. See <a class="xref" href="d7350c6823a14733a7a5727bad8371aa.html" title="A privilege represents a task or an area in SAP Datasphere and can be assigned to a specific role. The actions that can be performed in the area are determined by the permissions assigned to a privilege.">Privileges and Permissions</a>. </p>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

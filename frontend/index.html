@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAP Datasphere RAG Playground</title>
+  <style>
+    html, body, #container { height: 100%; margin: 0; padding: 0; }
+  </style>
+  <script
+    id="sap-ui-bootstrap"
+    src="https://sdk.openui5.org/1.120/resources/sap-ui-core.js"
+    data-sap-ui-theme="sap_horizon"
+    data-sap-ui-libs="sap.m,sap.ui.core,sap.ui.layout"
+    data-sap-ui-compatVersion="edge"
+    data-sap-ui-async="true"
+    data-sap-ui-resourceroots='{"ds.rag": "./"}'
+    data-sap-ui-oninit="module:sap/ui/core/ComponentSupport">
+  </script>
+</head>
+<body class="sapUiBody sapUiSizeCompact">
+  <div data-sap-ui-component
+       data-name="ds.rag"
+       data-id="container"
+       data-settings='{"id":"ds.rag"}'>
+  </div>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Securing Data with Data Access Controls</title><meta charset="utf-8"><meta name="abstract" content="Users with a space administrator role can create data access controls to allow modelers to apply row-level security to Data Builder and Business Builder objects. Once a data access control is applied to an object, any user viewing its data either directly or via an object using it as a source, will see only those records they are authorized to view, based on the specified criteria."><meta name="description" content="Users with a space administrator role can create data access controls to allow modelers to apply row-level security to Data Builder and Business Builder objects. Once a data access control is applied to an object, any user viewing its data either directly or via an object using it as a source, will see only those records they are authorized to view, based on the specified criteria."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loioa032e51c730147c7a1fcac125b4cfe14"><h1 class="title topictitle1">Securing Data with Data Access Controls</h1><div class="body conbody"><p class="shortdesc"><span class="ph"><span class="ph">Users with a space administrator
+role can create data access controls to allow modelers to apply
+row-level security to <span class="ph uicontrol">Data Builder</span> and
+<span class="ph uicontrol">Business Builder</span> objects. Once a data access
+control is applied to an object, any user viewing its data either
+directly or via an object using it as a source, will see only those
+records they are authorized to view, based on the specified
+criteria.</span></span>
+</p>
+<div class="p">This topic contains the following sections:<ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_lvv_s41_kzb">
+<li class="li"><p><a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html#loioa032e51c730147c7a1fcac125b4cfe14__section_permissions_entities">Permissions Entities</a></p></li>
+<li class="li"><p><a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html#loioa032e51c730147c7a1fcac125b4cfe14__section_best_practices">Data Access Control Best Practices</a></p></li>
+<li class="li"><p><a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html#loioa032e51c730147c7a1fcac125b4cfe14__section_applying">Applying Data Access Controls</a></p></li>
+<li class="li"><p><a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html#loioa032e51c730147c7a1fcac125b4cfe14__section_example">Data Access Control Example</a></p></li>
+</ul></div>
+<aside class="note" id="loioa032e51c730147c7a1fcac125b4cfe14__note_twv_hhc_r2c" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p>This feature is not supported for file spaces
+(spaces with a storage type of <span class="ph uicontrol">SAP HANA Data Lake
+Files</span>).</p></aside>
+<div class="section" id="loioa032e51c730147c7a1fcac125b4cfe14__section_permissions_entities"><section class="section" type="Permissions Entities"><h2 class="section_title">Permissions Entities</h2>
+
+<div class="p">Your criteria are defined in a table or view that lists <span class="ph pname" translate="no">SAP Datasphere</span> user IDs (in the
+form required by your identity provider) and assigns them to one or more criteria.
+You can define: <ul class="ul">
+<li class="li"><p>Single Values - <span class="ph">Each user can only see
+the records that match any of the single values she is authorized for in
+the permissions entity.</span> See
+<a class="xref" href="5246328ec59045cb9c2aa693daee2557.html" title="You can create data access controls in which criteria are defined as single values. Each user can only see the records that match any of the single values she is authorized for in the permissions entity.">Create a "Single Values" Data Access Control</a>.</p></li>
+<li class="li"><p>Operator and Values - <span class="ph">Each user
+can only see the records that fulfill the operator-value pairs she is
+authorized for in the permissions entity, including support for complex
+<samp class="ph codeph">AND</samp> and <samp class="ph codeph">OR</samp>
+combinations.</span>
+See <a class="xref" href="501594bf2afb4e49ab5ce254e35e3504.html" title="You can create data access controls in which criteria are defined as operator and value pairs. Each user can only see the records that fulfill the operator-value pairs she is authorized for in the permissions entity, including support for complex AND and OR combinations.">Create an "Operator and Values" Data Access Control</a>.</p></li>
+<li class="li"><p>Hierarchy - <span class="ph">Each user can only see the
+records that match the hierarchy values she is authorized for in the
+permissions entity, along with any of their descendants.</span> See <a class="xref" href="0afeeed6b56a40f5a02581032ec39420.html" title="You can create data access controls in which criteria are defined as hierarchy values. Each user can only see the records that match the hierarchy values she is authorized for in the permissions entity, along with any of their descendants.">Create a "Hierarchy" Data Access Control</a></p></li>
+<li class="li"><p>Hierarchy with Directory
+- <span class="ph">Each user can only see the records that
+match the hierarchy values she is authorized for in the permissions
+entity, along with any of their descendants.</span> See <a class="xref" href="44ae6289f96949f48781959f9d284578.html" title="You can create data access controls in which criteria are defined as hierarchy values in a hierarchy with directory. Each user can only see the records that match the hierarchy values she is authorized for in the permissions entity, along with any of their descendants.">Create a "Hierarchy with Directory" Data Access Control</a>.</p></li>
+</ul></div>
+<p class="p">You can create one or more data access controls that consume each permissions entity,
+and select one or more columns in each data access control to specify the criteria
+that it will enforce. You can apply a single data access control to multiple views.
+Each view protected in this way will filter the results available in its data
+preview to only those rows meeting the criteria for the current user.</p>
+<div class="p">
+<aside class="note" id="loioa032e51c730147c7a1fcac125b4cfe14__note_wh5_hrt_22c" aria-labelledby="n1t"><div class="title" id="n1t"><strong>Note</strong></div>
+<p><span class="ph">While
+permissions entities can, themselves, be protected by a data access control
+or have protected views among their sources, this may impact
+performance.</span></p></aside>
+</div>
+</section></div>
+<div class="section" id="loioa032e51c730147c7a1fcac125b4cfe14__section_best_practices"><section class="section" type="Data Access Control Best Practices"><h2 class="section_title">Data Access Control Best Practices</h2>
+
+<div class="p">We recommend that you develop clear policies for securing data, and that you:<ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_gf2_wnm_htb">
+<li class="li"><p>Focus in particular on securing transactional data and sensitive master
+data.</p></li>
+<li class="li"><p>Avoid applying multiple data access controls to a view if possible.</p></li>
+<li class="li"><p>Secure data as soon as possible once it is ingested into <span class="ph pname" translate="no">SAP Datasphere</span> and then
+only use the protected view going forward, keeping the following factors in
+mind as you plan your modeling strategy for security and performance:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_fvp_zdk_fdc">
+<li class="li"><p>Encapsulating individual source tables in views and applying data
+access controls to them:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_dpm_cjk_fdc">
+<li class="li"><p>Improves performance by filtering records immediately, as
+fewer go forward for subsequent preparation.</p></li>
+<li class="li"><p>Can impact performance when any view that combines multiple
+sources is run, by increasing the number of data access
+controls that must be applied.</p></li>
+<li class="li"><p>Can impact performance by excluding the possibility of
+persisting subsequent views, since views cannot be persisted
+if any of their sources is protected by a data access
+control.</p></li>
+</ul></li>
+<li class="li"><p>Doing initial processing and joining separate data sources before
+applying a single, more targeted data access control to the
+result:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_tvb_1kk_fdc">
+<li class="li"><p>Improves performance by applying only a single data access
+control to a combined view.</p></li>
+<li class="li"><p>Improves performance by allowing the use of persistence at
+any stage during the preparation.</p></li>
+<li class="li"><p>Can impact performance as more records will pass through
+each stage of the data preparation.</p></li>
+</ul></li>
+</ul></li>
+<li class="li"><p>When using <span class="ph uicontrol">Operator and Values</span> data access controls,
+try to control the size of the permissions entity and, in particular, avoid
+having more than 5,000 permissions records for a single user:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_n14_cdk_fdc">
+<li class="li"><p>Consider applying the filter against a different column that could
+simplify calculation.</p></li>
+<li class="li"><p>You can use the <samp class="ph codeph">*</samp> operator to provide access to all
+records.</p></li>
+</ul></li>
+</ul><aside class="note" aria-labelledby="n2t"><div class="title" id="n2t"><strong>Note</strong></div>
+<p>The row-level security provided by the data access control can be
+circumvented while the view remains in its space. It is enforced only when the
+view is:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_pzt_cxw_gtb">
+<li class="li"><p>Shared to another space, or</p></li>
+<li class="li"><p>Consumed outside the space in <span class="ph pname" translate="no">SAP Analytics Cloud</span>.</p></li>
+</ul></aside></div>
+</section></div>
+<div class="section" id="loioa032e51c730147c7a1fcac125b4cfe14__section_applying"><section class="section" type="Applying Data Access Controls"><h2 class="section_title">Applying Data Access Controls</h2>
+
+<div class="p">For information about:<ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_v1z_gtz_y4b">
+<li class="li"><p>Applying a data access control to a view, see <a class="xref" href="8f79fc80d6134a89a03837a205d340cd.html" title="You can apply one or more data access controls to a view to control the data that users will see based on the specified criteria.">Apply a Data Access Control to a Graphical or SQL View</a>.</p><aside class="note" id="loioa032e51c730147c7a1fcac125b4cfe14__note_lwr_t5k_3fc" aria-labelledby="n3t"><div class="title" id="n3t"><strong>Note</strong></div>
+<p>For information about persisting data in a view
+that has a data access control applied to it, see <a class="xref" href="7a4a983611cc4efb9415e6f3db310eaa.html" title="When Data Access Control is defined, it can impact the data persistence. Depending on where the Data Access Control is set, it might prevent you from persisting a view.">Persisted Views and Data Access Control</a>.</p></aside></li>
+<li class="li"><p>Applying a data access control to an analytic model, see <a class="xref" href="8d8e2f9b36a74de3b6f5f1384ad8f70d.html" title="You can apply one or more data access controls to an analytic model to control the data that users will see based on the specified criteria.">Apply a Data Access Control to an Analytic Model</a></p><aside class="note" id="loioa032e51c730147c7a1fcac125b4cfe14__note_ily_w5k_3fc" aria-labelledby="n4t"><div class="title" id="n4t"><strong>Note</strong></div>
+<p>For analytic models containing standard, reference
+date, or X variables, mapping a data access control to a dimension
+attribute is not supported.</p></aside></li>
+<li class="li"><p>Using a data access control to create authorization scenarios in the
+business layer, see <a class="xref" href="46d8c42e1b1f421c9735a7cbc6fdba60.html" title="Authorization scenarios allow modelers to define which data is relevant to a user&apos;s context. They are made available through business entities and can be used in consumption models for specific use-cases.">Authorization Scenario</a>.</p></li>
+</ul><aside class="note" aria-labelledby="n5t"><div class="title" id="n5t"><strong>Note</strong></div>
+<p>If you experience performance issues with a view protected by a data
+access control, we recommend enabling replication for source tables,
+particularly if any source contains more than 500,000 rows.</p></aside>
+</div>
+</section></div>
+<div class="section" id="loioa032e51c730147c7a1fcac125b4cfe14__section_example"><section class="section" type="Data Access Control Example"><h2 class="section_title">Data Access Control Example</h2>
+
+<div class="p">This diagram shows a typical environment where a permissions entity is maintained by
+business users in one space and shared to a second space, where technical users
+create data access controls from it and apply them to views. These views are then
+shared to other spaces where they can be securely accessed by modelers and
+analysts:<div class="block wide"><img class="break" id="loioa032e51c730147c7a1fcac125b4cfe14__image_axy_1g5_f4b" src="loio87d66a9c3ffa4314881e928df8e63dea_LowRes.png" alt="A typical environment for implementing data access controls" title="A typical environment for implementing data access controls"></div></div>
+<div class="p">In this environment:<ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_dzj_lc5_f4b">
+<li class="li"><p>The <kbd class="ph userinput">Permissions</kbd> space users are a select group of
+business users who:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_acg_lrz_f4b">
+<li class="li"><p>Maintain the <kbd class="ph userinput">Permissions</kbd> table, assigning
+users (which, in this case, are identified by their email address)
+to the appropriate country, department, and any other relevant
+criteria: </p><div class="table-wrapper tablenoborder"><table summary="" id="loioa032e51c730147c7a1fcac125b4cfe14__table_gkh_kg4_3nb" class="table" data-table-id="table_gkh_kg4_3nb" frame="border" border="1" rules="all"><colgroup><col width="33.333333333333336%"><col width="33.333333333333336%"><col width="33.333333333333336%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d128742e331"><p>User ID</p></th>
+<th class="entry" style="vertical-align:top;" id="d128742e334"><p>Country</p></th>
+<th class="entry" style="vertical-align:top;" id="d128742e337"><p>Department</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d128742e331 "><p>anne.archer@acme.com</p></td>
+<td class="entry" style="vertical-align:top;" headers="d128742e334 "><p>US</p></td>
+<td class="entry" style="vertical-align:top;" headers="d128742e337 "><p>Sales</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d128742e331 "><p>jennifer.jones@acme.com</p></td>
+<td class="entry" style="vertical-align:top;" headers="d128742e334 "><p>FR</p></td>
+<td class="entry" style="vertical-align:top;" headers="d128742e337 "><p>Sales</p></td>
+</tr>
+</tbody></table></div></li>
+<li class="li"><p>Share the <kbd class="ph userinput">Permissions</kbd> table to the
+<kbd class="ph userinput">IT</kbd> space to use as a data source for data
+access controls.</p><aside class="note" aria-labelledby="n6t"><div class="title" id="n6t"><strong>Note</strong></div>
+<p>Tables and views shared to a space cannot be
+directly used as the permissions entity for a data access
+control. Modelers in the space receiving the shared object must
+encapsulate it in a view, which can then serve as the
+permissions entity for one or more data access
+controls.</p></aside></li>
+</ul></li>
+<li class="li"><p>The <kbd class="ph userinput">IT</kbd> space users are technical users who:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_x2l_225_f4b">
+<li class="li"><p>Use the shared <kbd class="ph userinput">Permissions</kbd> table as the
+source for a <kbd class="ph userinput">Permissions</kbd> view that they will
+use as a permissions entity in their space.</p></li>
+<li class="li"><p>Create a <kbd class="ph userinput">Country</kbd> data access control, which
+uses the <kbd class="ph userinput">Permissions</kbd> view as its permissions
+entity.</p></li>
+<li class="li"><p>Maintain a connection to a source system, from which they import the
+<kbd class="ph userinput">Sales</kbd> table.</p></li>
+<li class="li"><p>Create a <kbd class="ph userinput">Sales</kbd> view for use by business
+analysts, to which they apply the <kbd class="ph userinput">Country</kbd>
+data access control.</p><aside class="note" aria-labelledby="n7t"><div class="title" id="n7t"><strong>Note</strong></div>
+<p>The row-level security provided by the
+<kbd class="ph userinput">Country</kbd> data access control can still
+be circumvented while the view remains in the
+<kbd class="ph userinput">IT</kbd> space.</p></aside></li>
+<li class="li"><p>Share the <kbd class="ph userinput">Sales</kbd> view to the
+<kbd class="ph userinput">Sales</kbd> space where it can be used
+securely.</p></li>
+</ul></li>
+<li class="li"><p>The <kbd class="ph userinput">Sales</kbd> space users use the protected
+<kbd class="ph userinput">Sales</kbd> view to do analytics on sales data:</p><ul class="ul" id="loioa032e51c730147c7a1fcac125b4cfe14__ul_dc4_1f5_f4b">
+<li class="li"><p>Anne is a data modeler in the US sales department. She connects to
+<span class="ph pname" translate="no">SAP Datasphere</span>
+and combines the <kbd class="ph userinput">Sales</kbd> view with other data.
+Whenever she previews data, she can only see US data.</p></li>
+<li class="li"><p>Jennifer is a business analyst in the French sales department. She
+connects to <span class="ph pname" translate="no">SAP Analytics Cloud</span>,
+builds a story on the <kbd class="ph userinput">Sales</kbd> view, and can
+only see French sales data.</p></li>
+</ul></li>
+</ul></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

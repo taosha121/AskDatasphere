@@ -1,0 +1,214 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Acquiring Data</title><meta charset="utf-8"><meta name="abstract" content="Users with a modeler role can import data directly into the Data Builder from connections and other sources, and use flows to replicate, extract, transform and load data."><meta name="description" content="Users with a modeler role can import data directly into the Data Builder from connections and other sources, and use flows to replicate, extract, transform and load data."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loio1f15a29a25354ec28392ab10ca4e9350"><h1 class="title topictitle1">Acquiring Data</h1><div class="body conbody"><p class="shortdesc"><span class="ph">Users with a
+modeler role can import data directly into the <span class="ph uicontrol">Data
+Builder</span> from connections and other sources, and use flows to
+replicate, extract, transform and load data.</span></p>
+<div class="p">This topic contains the following sections:<ul class="ul">
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_federate_replicate">Federate and Replicate Data in Remote Tables</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_etl">Extract, Transform, and Load Data with Data Flows</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_replication_flows">Load Data from Multiple Objects with Replication Flows</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_s4">Acquire Data from SAP S/4HANA</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_bw_bridge">Acquire Data from SAP BW and SAP BW Bridge</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_import_csv">Import Data from CSV Files</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_marketplace">Purchase Data from Data Marketplace</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_create_tables">Create and Import Objects to Receive and Prepare Data</a></p></li>
+<li class="li"><p><a class="xref" href="1f15a29a25354ec28392ab10ca4e9350.html#loio1f15a29a25354ec28392ab10ca4e9350__section_tools">Create Objects and Act On Existing Objects</a></p></li>
+</ul></div>
+<p class="p">Space administrators and integrators prepare connections and other sources to allow modelers to
+acquire data (see <a class="xref" href="8f98d3c917f94452bafe288055b60b35.html" title="Users with a space administrator or integrator role can create connections to source systems and databases and can schedule and monitor data replication and other data integration tasks. Space administrators are, additionally, responsible for controlling user access to their space, creating data access controls to secure data, enabling other forms of data integration, transporting content between tenants, and monitoring and otherwise managing the space.">Integrating Data and Managing Spaces in SAP Datasphere</a>).</p>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_federate_replicate"><section class="section" type="Federate and Replicate Data in Remote Tables"><h2 class="section_title">Federate and Replicate Data in Remote Tables</h2>
+
+<p class="p">Many connections (including most connections to SAP systems) support importing remote
+tables to federate or replicate data (see <a class="xref" href="eb85e157ab654152bd68a8714036e463.html" title="Users with a space administrator or integrator role can create connections to SAP and non-SAP source systems, including cloud and on-premise systems and partner tools, and to target systems for outbound replication flows. Users with modeler roles can import data via connections for preparation and modeling in SAP Datasphere.">Integrating Data via Connections</a>).</p>
+<div class="p">You can import remote tables to make the data available in your space from the
+<span class="ph uicontrol">Data Builder</span> start page, in an entity-relationship model,
+or directly as a source in a view.<ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e507">
+<li class="li"><p>To get started: <span class="ph">In the side navigation
+area, click <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Data Builder</span>)</span>, select a space if necessary, and click <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Import</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Import Remote Tables</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span>.</span>
+See <a class="xref" href="fd04efbac29c44fb8cfeaf2166b3d882.html" title="Import remote tables from a connection into your space directly from the Data Builder start page or the Repository Explorer.">Import Remote Tables</a>.</p></li>
+<li class="li"><p class="p">By default, remote tables federate data, and each time the data is used a
+call is made to the remote system to load it. You can improve
+performance by enabling replication to store the data in <span class="ph pname" translate="no">SAP Datasphere</span>.
+Some connections support real-time replication and for others, you can
+keep your data fresh by scheduling regular updates (see <a class="xref" href="7e258a7554f84bf386c1bb029df5413f.html" title="By default, when you import a remote table, its data is not replicated and must be accessed via federation each time from the remote system. You can improve performance by replicating the data to SAP Datasphere and you can schedule regular updates (or, for many connection types, enable real-time replication) to keep the data fresh and up-to-date.">Replicate Remote Table Data</a>).</p></li>
+<li class="li"><p class="p">To optimize replication performance and reduce your data footprint, you
+can remove unneccessary columns and set filters (see <a class="xref" href="bd1ece5c9f78444c87708ef11eed0a31.html" title="Remove unnecessary columns, create filters or add columns to reduce the volume of data that is loaded in your remote table.">Restrict Remote Table Data Loads</a>).</p></li>
+<li class="li"><p class="p">To maximize access performance, you can store the replicated data
+in-memory (see <a class="xref" href="407d1dff76a842699ea08c17eb8748dd.html" title="By default, when you are working in an SAP HANA Cloud, SAP HANA database space, table data is stored on disk. You can improve performance by enabling in-memory storage.">Accelerate Table Data Access with In-Memory Storage</a>).</p></li>
+<li class="li"><p>Once a remote table is imported, it is available for use by all users of the
+space and can be used as a source for views.</p></li>
+<li class="li"><p class="p">You can automate sequences of data replication and loading tasks with
+task chains (see <a class="xref" href="d1afbc2b9ee84d44a00b0b777ac243e1.html" title="Group multiple tasks into a task chain and run them manually once, or periodically, through a schedule.">Creating a Task Chain</a>).</p></li>
+</ul></div>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_etl"><section class="section" type="Extract, Transform, and Load Data with Data Flows"><h2 class="section_title">Extract, Transform, and Load Data with Data Flows</h2>
+
+<p class="p">Many connections (including most connections to SAP systems) support loading data to
+<span class="ph pname" translate="no">SAP Datasphere</span> via data
+flows (see <a class="xref" href="eb85e157ab654152bd68a8714036e463.html" title="Users with a space administrator or integrator role can create connections to SAP and non-SAP source systems, including cloud and on-premise systems and partner tools, and to target systems for outbound replication flows. Users with modeler roles can import data via connections for preparation and modeling in SAP Datasphere.">Integrating Data via Connections</a>).</p>
+<div class="p">Data flows support a wide range of extract, transform, and load (ETL) operations.<ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e569">
+<li class="li"><p>To get started: <span class="ph">In the side navigation
+area, click <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Data Builder</span>)</span>, select a space if necessary, and click <span class="ph uicontrol">New Data
+Flow</span> to open the editor.</span> See
+<a class="xref" href="e30fd1417e954577baae3246ea470c3f.html" title="Create a data flow to move and transform data in an intuitive graphical interface. You can drag and drop sources from the Source Browser, join them as appropriate, add other operators to remove or create columns, aggregate data, and do Python scripting, before writing the data to the target table.">Creating a Data Flow</a>.</p></li>
+<li class="li"><p>To add a source to your data flow, drag it from the <span class="ph uicontrol">Source
+Browser</span> (see <a class="xref" href="7d2b21d974e44bdc9d548cf7532b5a43.html" title="You use the Source Browser to add objects as sources for your data flow, graphical view, SQL view, or intelligent lookup. In an E/R model you add objects to visualize them together in a diagram, including importing objects from connections and other sources, and prepare them for use in other editors.">Using the Source Browser</a>).</p></li>
+<li class="li"><p>In addition to connections, data flows can load and transform data from the
+following kinds of sources:</p><ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e588">
+<li class="li"><p>Open SQL schemas (see <a class="xref" href="3de55a78a4614deda589633baea28645.html" title="Users with a space administrator role can create database users to read data exposed by the space and to write data to Open SQL schemas attached to space, providing a secure method for exchanging data with the space via ODBC access to the run-time SAP HANA Cloud database.">Integrating Data via Database Users/Open SQL Schemas</a>)</p></li>
+<li class="li"><p>HDI containers (see <a class="xref" href="1aec7ca95af24208a61c1a444b249d95.html" title="Users with a space administrator role can use SAP HANA for SQL data warehousing to build calculation views and other SAP HANA Cloud HDI objects directly in the run-time SAP HANA Cloud database and then exchange data between HDI containers and SAP Datasphere spaces. SAP HANA for SQL data warehousing can be used to bring existing HDI objects into your SAP Datasphere environment, and to allow users familiar with the HDI tools to leverage advanced SAP HANA Cloud features.">Exchanging Data with SAP HANA for SQL Data Warehousing HDI Containers</a>).</p></li>
+<li class="li"><p>Objects that are already in the <span class="ph pname" translate="no">SAP Datasphere</span>
+repository (see <a class="xref" href="13fcecd59327407a91777c2e8e111bd7.html" title="Drag objects from the Repository tab of the Source Browser to add them as sources in your data flow, graphical view, SQL view, or intelligent lookup. In an E/R model, you add objects to visualize them together in a diagram and prepare them for use in other editors.">Add Objects from the Repository</a>).</p></li>
+</ul></li>
+<li class="li"><p>Data flows load data into local tables.</p></li>
+<li class="li"><p class="p">You can automate sequences of data replication and loading tasks with
+task chains (see <a class="xref" href="d1afbc2b9ee84d44a00b0b777ac243e1.html" title="Group multiple tasks into a task chain and run them manually once, or periodically, through a schedule.">Creating a Task Chain</a>).</p></li>
+</ul>
+</div>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_replication_flows"><section class="section" type="Load Data from Multiple Objects with Replication Flows"><h2 class="section_title">Load Data from Multiple Objects with Replication Flows</h2>
+
+<p class="p">Certain connections support loading data from multiple source objects to <span class="ph pname" translate="no">SAP Datasphere</span> via a
+replication flow. You can enable a single initial load or request initial and delta
+loads and perform simple projection operations (see <a class="xref" href="25e2bd7a70d44ac5b05e844f9e913471.html" title="Create a replication flow to copy multiple data assets from a source to a target with support for delta loads.">Creating a Replication Flow</a>).</p>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_s4"><section class="section" type="Acquire Data from SAP S/4HANA"><h2 class="section_title">Acquire Data from <span class="ph pname" translate="no">SAP S/4HANA</span></h2>
+
+<p class="p">The <span class="ph uicontrol">Import Entities</span> wizard allows you to import entities from
+<span class="ph pname" translate="no">SAP S/4HANA Cloud</span> and
+<span class="ph pname" translate="no">SAP S/4HANA</span> on-premise
+systems with rich metadata. See <a class="xref" href="845fedbd28574aa8b84239df848936f6.html" title="You can use the Import Entities wizard to load metadata from your SAP S/4HANA Cloud and SAP S/4HANA on-premise connections via semantically-rich objects. The wizard creates Business Builder and Data Builder entities (along with all the objects on which they depend) in SAP Datasphere.">Importing Entities with Semantics from SAP S/4HANA</a>.</p>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_bw_bridge"><section class="section" type="Acquire Data from SAP BW and SAP BW Bridge"><h2 class="section_title">Acquire Data from <span class="ph pname" translate="no">SAP BW</span> and <span class="ph pname" translate="no">SAP BW</span> Bridge</h2>
+
+<p class="p">If your <span class="ph pname" translate="no">SAP Datasphere</span> tenant is part of an <span class="ph pname" translate="no">SAP Business Data Cloud</span> formation, then data can be pushed from <span class="ph pname" translate="no">SAP BW</span> via the data product generator for <span class="ph pname" translate="no">SAP Business Data Cloud</span>. See <a class="xref" href="cca4744c85b14788babe7cb6b77c9973.html" title="In the SAP Datasphere component of SAP Business Data Cloud, you can work with data and objects received from SAP BW and SAP BW∕4HANA systems via the Data Product Generator for SAP Business Data Cloud.">Integrating Data from SAP BW and SAP BW∕4HANA with the Data Product Generator for SAP Business Data Cloud</a>.</p>
+<p class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e454">You can enable the <span class="ph pname" translate="no">SAP Datasphere</span><span class="ph pname">, SAP BW
+Bridge</span> option to access SAP BW and <span class="ph pname" translate="no">SAP BW∕4HANA</span> functionalities
+in the public cloud, and to import SAP BW bridge data models into <span class="ph pname" translate="no">SAP Datasphere</span>. See <a class="xref" href="32b4861ce7d94ebd9f5abd854691582f.html" title="SAP Datasphere, SAP BW bridge enables you to use SAP BW functionality in the public cloud, and to import SAP BW bridge data models into SAP Datasphere.">Getting Started With SAP Datasphere, SAP BW Bridge</a>.</p>
+<p class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e467">You can use the <span class="ph uicontrol">Import Entities</span> wizard to
+import entities from <span class="ph pname" translate="no">SAP BW∕4HANA</span> and <span class="ph pname">SAP
+BW bridge</span> systems with rich metadata. See <a class="xref" href="7bcd3218b4064b898ca367b47ff246e2.html" title="You can use the Import Entities wizard to load metadata from your SAP BW∕4HANA and SAP BW bridge connection via semantically-rich objects. The wizard creates Business Builder and Data Builder entities (along with all the objects on which they depend) in SAP Datasphere.">Importing Entities with Semantics from SAP BW∕4HANA or SAP BW Bridge</a>.</p>
+<div class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e480">For older SAP BW versions, you can use an SAP BW or SAP ABAP
+connection to import data. See:<ul class="ul">
+<li class="li"><p><a class="xref" href="e589041e80264f43b6c209c407336376.html" title="Use an SAP BW connection to access data from SAP Business Warehouse (SAP BW) or SAP BW∕4HANA systems.">SAP BW Connections</a></p></li>
+<li class="li"><p><a class="xref" href="a75c1aacf951449ba3b740c7e46da3a9.html" title="Use an SAP ABAP connection to access data from ABAP-based on-premise or cloud systems.">SAP ABAP Connections</a> (including support for
+replication flows)</p></li>
+</ul></div>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_import_csv"><section class="section" type="Import Data from CSV Files"><h2 class="section_title">Import Data from CSV Files</h2>
+
+<p class="p">You can import data from a CSV file to create a new local table (see <a class="xref" href="8bba251c78874736963703cff56b1b74.html" title="Import a .csv file to create a table and fill it with the data from the file.">Creating a Local Table from a CSV File</a>).</p>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_marketplace"><section class="section" type="Purchase Data from Data Marketplace"><h2 class="section_title">Purchase Data from Data Marketplace</h2>
+
+<p class="p">Purchase data products from providers and download them directly into your space (see
+<a class="xref" href="92c35efd6a4945a1a78250539aee9a51.html" title="Use the catalog Data Products (Marketplace) collection to view data products for use in your modeling and other projects.">Installing Marketplace Data Products</a>).</p>
+<p class="p">You can become a data provider and offer your own data products for sale in Data
+Marketplace via the Data Sharing Cockpit (see <a class="xref" href="e479b7b4c95741c7a7a1d42397984c7e.html" title="Users with a modeler role can create a data provider profile and publish data products to the Catalog &amp; Marketplace.">Data Sharing Cockpit - Data Provider&apos;s Guide</a>).</p>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_create_tables"><section class="section" type="Create and Import Objects to Receive and Prepare Data"><h2 class="section_title">Create and Import Objects to Receive and Prepare Data</h2>
+
+<div class="p">You can create and import empty tables and views to receive and prepare data:<ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d49e730">
+<li class="li"><p>You can create an empty local table ready to receive data from a CSV file or
+from a data flow (see <a class="xref" href="2509fe4d86aa472b9858164b55b38077.html" title="Create a table and define columns to receive data. You can add data from a flow or a CSV file, or import tables from a connection or a CSN file.">Creating a Local Table</a>).</p></li>
+<li class="li"><p>You can import business content prepared by SAP and partners to support
+end-to-end business scenarios (see <a class="xref" href="400078d689bf4454b3fc977a4e201c2f.html" title="Users with an administrator role or space administrator role, can use the Semantic Onboarding app to import business content and sample content from SAP and partners published to the Content Network.">Importing SAP and Partner Business Content from the Content Network</a>).</p></li>
+<li class="li"><p>You can import object definitions from a CSN/JSON file (see <a class="xref" href="23599e6347fb4c9e9a71c82f62449875.html" title="Import objects from a CSN/JSON file into your space from the Data Builder start page or an entity-relationship model.">Importing Objects from a CSN/JSON File</a>).</p></li>
+</ul></div>
+</section></div>
+<div class="section" id="loio1f15a29a25354ec28392ab10ca4e9350__section_tools"><section class="section" type="Create Objects and Act On Existing Objects"><h2 class="section_title">Create Objects and Act On Existing Objects</h2>
+
+<div class="p">All the objects you import or create in the <span class="ph uicontrol">Data Builder</span> are listed on the <span class="ph uicontrol">Data
+Builder</span> start page. You can act on objects in the list in the following ways:<ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d50e24">
+<li class="li"><p>Click one of the tabs to filter the list by object type.</p></li>
+<li class="li"><p>Click a tile to create a new object</p></li>
+<li class="li"><p>Click <span class="ph"><span class="FPA-icons-V3"></span> <span class="ph sap-icon-font-description sap-icon-font-description"> (Show
+filters)</span></span> to filter the list on
+collections and search by criteria. Click <span class="ph uicontrol">Show More</span> to open a dialog with additional filter options.</p></li>
+<li class="li"><p><span class="ph">Enter one or more characters in the
+<span class="ph uicontrol">Search</span> field and press <span class="ph uicontrol">Enter</span> (or
+click <span class="ph uicontrol">Search</span>).</span>
+</p><div class="p">
+<ul class="ul">
+<li class="li"><p class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e39">
+<span class="ph" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e41">If you've
+searched for objects before, clicking in the search field shows a
+list of recently entered searches.</span>
+<span class="ph" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e44">As you type, the field will begin proposing objects
+and search strings. Select an object to open it directly. Click on a
+string to start a search on it.</span>
+</p></li>
+<li class="li"><p class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e51">The search is
+case-insensitive and automatically applies wildcards so that, for
+example, the string "<kbd class="ph userinput">lend</kbd>" will find objects
+containing both "<kbd class="ph userinput">lender</kbd>" and
+"<kbd class="ph userinput">calendar</kbd>".</p></li>
+<li class="li"><p class="p" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e66"><span class="ph" id="loio1f15a29a25354ec28392ab10ca4e9350__d187e67">If natural
+language search is enabled on your tenant (and you have the
+appropriate role), the search field will propose example natural
+language strings that are appropriate to your current filter
+context. Select an example string or enter your own and <span class="ph pname" translate="no">SAP Datasphere</span>
+will interpret it and filter your results accordingly.</span> See
+<a class="xref" href="04170c64c1004fc58d7f235aea0e4970.html" title="If natural language search is enabled on your tenant (and you have the appropriate role), the search field will propose example natural language strings that are appropriate to your current filter context. Select an example string or enter your own and SAP Datasphere will interpret it and filter your results accordingly.">Natural Language Search</a>.</p></li>
+</ul>
+</div></li>
+<li class="li"><p>Click a column header to sort or filter the list by values in the column.</p></li>
+<li class="li"><p>Select one or more objects and use any of the following tools:</p><div class="table-wrapper tablenoborder"><table summary="" id="loio1f15a29a25354ec28392ab10ca4e9350__d50e52" class="table" data-table-id="d50e52" frame="border" border="1" rules="all"><colgroup><col width="25%"><col width="75%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d37661e711"><p>Tool</p></th>
+<th class="entry" style="vertical-align:top;" id="d37661e714"><p>Description</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>New</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>Create <span class="ph uicontrol">Data Builder</span> objects (independent of any selection).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Import</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>Import objects from files and connections:</p><ul class="ul" id="loio1f15a29a25354ec28392ab10ca4e9350__d50e93">
+<li class="li"><p><span class="ph uicontrol">Import CSV File</span> - Import data from a CSV file to create a local table (see <a class="xref" href="8bba251c78874736963703cff56b1b74.html" title="Import a .csv file to create a table and fill it with the data from the file.">Creating a Local Table from a CSV File</a>.</p></li>
+<li class="li"><p><span class="ph uicontrol">Import Objects from CSN/JSON File</span> - Import table, view, and other object definitions from a CSN/JSON
+file (see <a class="xref" href="23599e6347fb4c9e9a71c82f62449875.html" title="Import objects from a CSN/JSON file into your space from the Data Builder start page or an entity-relationship model.">Importing Objects from a CSN/JSON File</a>).</p></li>
+<li class="li"><p><span class="ph uicontrol">Import Remote Tables</span> - Import remote tables from a connection (see <a class="xref" href="fd04efbac29c44fb8cfeaf2166b3d882.html" title="Import remote tables from a connection into your space directly from the Data Builder start page or the Repository Explorer.">Import Remote Tables</a>).</p></li>
+<li class="li"><p><span class="ph uicontrol">Import Permissions</span> - Import analysis authorizations
+from SAP BW and and <span class="ph pname" translate="no">SAP BW∕4HANA</span> systems to
+create data access controls (see <a class="xref" href="f56e4271dc4943aa9f21223ce5c93873.html" title="You can import analysis authorizations defined in SAP BW and SAP BW∕4HANA systems into SAP Datasphere to provide row-level protection for data imported from these systems.">Import SAP BW and SAP BW∕4HANA Analysis Authorizations</a>).</p></li>
+</ul></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Edit</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>Open the selected object in the appropriate editor. Alternatively, click the object directly in the list.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Deploy</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p class="p">Select one or more objects and deploy them together.</p><div class="p">Choose from the following entity types: <ul class="ul">
+<li class="li"><p>Local tables (see <a class="xref" href="2509fe4d86aa472b9858164b55b38077.html" title="Create a table and define columns to receive data. You can add data from a flow or a CSV file, or import tables from a connection or a CSN file.">Creating a Local Table</a>)</p></li>
+<li class="li"><p>Graphical views (see <a class="xref" href="27efb479c4814252964d3fbc6ca2dfc3.html" title="Create a view to query sources in an intuitive graphical interface. You can drag and drop sources from the Source Browser, join them as appropriate, add other operators to remove or create columns and filter or aggregate data, and specify measures and other aspects of your output structure in the output node.">Creating a Graphical View</a>)</p></li>
+<li class="li"><p>SQL views (see <a class="xref" href="81920e4d583f45fd8761c662d3c8abab.html" title="Create a view to query sources in a powerful SQL editor. You can choose between writing a standard SQL query using SELECT statements and operators such as JOIN and UNION, or use SQLScript to produce a table function. You can drag sources from the Source Browser, and specify measures and other aspects of your output structure in the side panel.">Creating an SQL View</a>)</p></li>
+<li class="li"><p>Data access controls (see <a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html" title="Users with a space administrator role can create data access controls to allow modelers to apply row-level security to Data Builder and Business Builder objects. Once a data access control is applied to an object, any user viewing its data either directly or via an object using it as a source, will see only those records they are authorized to view, based on the specified criteria.">Securing Data with Data Access Controls</a>)</p></li>
+<li class="li"><p>Analytic models (see <a class="xref" href="e5fbe9e2cb93484dab8b1963145e565f.html" title="Create an analytic model as a basis for consumption in SAP Analytics Cloud.">Creating an Analytic Model</a>)</p></li>
+<li class="li"><p>Task chains (see <a class="xref" href="d1afbc2b9ee84d44a00b0b777ac243e1.html" title="Group multiple tasks into a task chain and run them manually once, or periodically, through a schedule.">Creating a Task Chain</a>)</p></li>
+</ul> Other types of objects can only be deployed via their editors.</div><p class="p">If one or more objects that you have selected cannot be deployed, the <span class="ph uicontrol">Deploy</span> dialog opens, allowing you
+to review your selection. Click <span class="ph uicontrol">Deploy</span> to deploy those objects listed on the
+<span class="ph uicontrol">Deployable</span> tab, or <span class="ph uicontrol">Cancel</span> to go back and alter your selection.</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Share</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>Share the selected tables and views to other spaces (see <a class="xref" href="64b318f8afd74bb78467cf56eb44294f.html" title="Share a table, a view, or an analytic model to another space to allow users assigned to that space to use it as a source for their objects. Share a task chain to another space to allow it to be added to and controlled by another task chain in the space that you share it to.">Sharing Entities and Task Chains to Other Spaces</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Impact and Lineage Analysis</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>View the objects that depend on the selected object, and those objects on which it depends (see <a class="xref" href="9da4892cb0e4427ab80ad8d89e6676b8.html" title="The Impact and Lineage Analysis diagram helps you to understand the lineage or data provenance of a selected object or one or more of its columns, along with its impacts - the objects that depend on it and that will be impacted by any changes that are made to it.">Impact and Lineage Analysis</a>).</p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d37661e711 "><p>Delete</p></td>
+<td class="entry" style="vertical-align:top;" headers="d37661e714 "><p>Delete the selected objects (see <a class="xref" href="1e69cbb9a99645cba9c8e241c72e8be3.html" title="You can delete objects from SAP Datasphere only if other objects do not depend on them.">Deleting Objects</a>).</p></td>
+</tr>
+</tbody></table></div></li>
+</ul><aside class="note" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p>In various places in editors where there is not enough room to show both business and technical names for entities and columns, you
+can choose which of these names to display. Click <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Profile</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Settings</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">UI Settings</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span> and select either <span class="ph uicontrol">Show Business Name</span> or <span class="ph uicontrol">Show Technical Name</span>.</p></aside></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

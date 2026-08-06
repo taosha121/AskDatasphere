@@ -1,0 +1,211 @@
+<!DOCTYPE html
+  SYSTEM "about:legacy-compat">
+<html lang="en-us" dir="ltr"><head><title>Transporting Content Between Tenants</title><meta charset="utf-8"><meta name="abstract" content="Users with an administrator or space administrator role can use the Transport app to transfer content between tenants via a private cloud storage area."><meta name="description" content="Users with an administrator or space administrator role can use the Transport app to transfer content between tenants via a private cloud storage area."><link rel="stylesheet" type="text/css" media="screen,projection" href="/resource/css/style-v2.css"><script type="text/javascript" src="js/sap-strings.js"></script></head><body class="en-us sap-light centered navigation-default enumeration-disabled"><div id="d4h5-main-container" class="container_12" role="application"><div id="d4h5-section-container" class="grid_12"><div id="d4h5-main-content" class="grid_8 alpha omega"><section><div class="page concept  - topic-topic concept-concept " id="loiodf12666cf98e41248ef2251c564b0166"><h1 class="title topictitle1">Transporting Content Between Tenants</h1><div class="body conbody"><p class="shortdesc"><span class="ph">Users with an administrator or space
+administrator role can use the <span class="ph uicontrol">Transport</span> app to
+transfer content between tenants via a private cloud storage area.</span></p>
+<div class="p">This topic contains the following sections:<ul class="ul">
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__intro">Introduction to Content Transport</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__one-off">Create One-Off Manual Transport Packages</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__model">Model Transport Packages for Repeatable Export</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__import">Import Transport Packages</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__automate">Automate and Schedule Package Imports with SAP Cloud Transport Management</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__monitor">Monitor Transports</a></p></li>
+<li class="li"><p><a class="xref" href="df12666cf98e41248ef2251c564b0166.html#loiodf12666cf98e41248ef2251c564b0166__objects">Objects and Dependencies</a></p></li>
+</ul></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__intro"><section class="section" type="Introduction to Content Transport"><h2 class="section_title">Introduction to Content Transport</h2>
+
+<div class="p">Organizations typically work with three tenants to safely develop, test, and deploy content:<ul class="ul">
+<li class="li"><p>Development ("Dev") Tenant - Where data ingestion, preparation, and exposure
+is modeled and tables, views, flows, analytic models, and other objects are
+created.</p></li>
+<li class="li"><p>Test Tenant - Where the prepared content is transported to be rigorously
+tested.</p></li>
+<li class="li"><p>Production ("Prod") Tenant - Where the tested content is transported to be
+used by the organization's data analysts and other stakeholders.</p></li>
+</ul>The <span class="ph uicontrol">Transport</span> apps allow you to safely and securely
+package and move content from the <kbd class="ph userinput">Dev</kbd> tenant to the
+<kbd class="ph userinput">Test</kbd> tenant and, once a release decision has been made,
+on to the <kbd class="ph userinput">Prod</kbd> tenant.</div>
+<div class="p">
+<aside class="note" aria-labelledby="n0t"><div class="title" id="n0t"><strong>Note</strong></div>
+<p>You can also export content from and import
+content to your space via:</p><ul class="ul" id="loiodf12666cf98e41248ef2251c564b0166__d71e1478">
+<li class="li" id="loiodf12666cf98e41248ef2251c564b0166__d71e1480"><p><span class="ph uicontrol">Export to CSN/JSON File</span> buttons in
+selected <span class="ph uicontrol">Data Builder</span> editors (see <a class="xref" href="f8ff0628c9fc49229740ffcd4d20e9aa.html" title="You can use the tools in certain Data Builder editors to import objects to and export objects from your space.">Importing and Exporting Objects in CSN/JSON Files</a>).</p></li>
+<li class="li" id="loiodf12666cf98e41248ef2251c564b0166__d71e1490"><p>The <span class="keyword cmdname">datasphere</span> command line interface
+<samp class="ph codeph">objects</samp> commands (see <a class="xref" href="6f5c65f209004751aa48f9682ee2ec45.html" title="Users with a modeler role can use the datasphere command line interface to list, create, update, and delete modeling objects.">Manage Modeling Objects and Tasks via the Command Line</a>).</p></li>
+</ul></aside>
+<aside class="note" aria-labelledby="n1t"><div class="title" id="n1t"><strong>Note</strong></div>
+<p>Graphical views and other
+<span class="ph pname" translate="no">SAP Datasphere</span>
+objects are stored in CSN format files, with a maximum file size of 25MB. If
+your view has many sources, many columns, or very complex logic, you may
+encounter issues when saving or transporting it. For information about
+simplifying your view structure or otherwise working around the size limit,
+see SAP Note <a href="/docs/link-disclaimer?site=https://me.sap.com/notes/3768744" target="_blank" rel="noopener">3768744 <img src="themes/sap-light/img/sap_link.png" class="link-sap" alt="Information published on SAP site" title="Information published on SAP site" border="0"></a>.</p></aside>
+</div>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__one-off"><section class="section" type="Create One-Off Manual Transport Packages"><h2 class="section_title">Create One-Off Manual Transport Packages</h2>
+
+<p class="p">The simplest way to export content is to use the <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Transport</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Export</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span> editor, which allows you to add objects to a package, specify which
+tenants can access it, and export it to private cloud storage for future import.</p>
+<p class="p">For more information, see <a class="xref" href="44e775c3b7d24d2483caaf02c598bc21.html" title="You can use the Transport app to export content from one or more spaces for sharing with other tenants.">Exporting Content for Sharing with Other Tenants</a>.</p>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__model"><section class="section" type="Model Transport Packages for Repeatable Export"><h2 class="section_title">Model Transport Packages for Repeatable Export</h2>
+
+<p class="p">You can model your packages and their dependencies in the <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Transport</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Packages</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span> editor. A package modeled in this way allows you to persist your
+object selections, and re-export the package at any time, allowing you to easily
+ensure that your target tenants always have access to the most up-to-date version of
+each object. </p>
+<p class="p">Each modeled package can contain only objects from one space and each object can belong to
+only one package, but you can specify dependencies to other packages (including
+packages in other spaces) to ensure that all required objects are exported together
+every time.</p>
+<p class="p">This export process requires that all dependencies are resolved before export, offers
+semantic versioning for major, minor, and patch releases, and supports transporting
+data in local tables in certain circumstances.</p>
+<p class="p">For more information, see <a class="xref" href="24aba84ceeb3416881736f70f02e3a0a.html" title="Users with space administrator privileges can create packages to model groups of related objects for transport between tenants. Modelers can add objects to packages via the Package field, which appears in editors when a package is created in their space. Once a package is complete and validated, the space administrator can export it to the Content Network. The structure of your package is preserved and, as the objects it contains evolve, you can easily export updated versions of it.">Creating Packages to Export</a>.</p>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__import"><section class="section" type="Import Transport Packages"><h2 class="section_title">Import Transport Packages</h2>
+
+<p class="p">You can import any package made available to your tenant via the <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Transport</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Import</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span> editor.</p>
+<p class="p">For more information, see <a class="xref" href="b607a12931d74c4a93506ea64c55ab4e.html" title="You can use the Transport app to import content that has been shared from another tenant.">Importing Content from Another Tenant</a>.</p>
+<aside class="note" aria-labelledby="n2t"><div class="title" id="n2t"><strong>Note</strong></div>
+<p class="p">For information about importing business content in the form of end-to-end
+business scenarios for specific industries and lines of business provided by SAP
+and its partners via the <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Semantic
+Onboarding</span>)</span>
+app, see <a class="xref" href="400078d689bf4454b3fc977a4e201c2f.html" title="Users with an administrator role or space administrator role, can use the Semantic Onboarding app to import business content and sample content from SAP and partners published to the Content Network.">Importing SAP and Partner Business Content from the Content Network</a>.</p></aside>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__automate"><section class="section" type="Automate and Schedule Package Imports with SAP Cloud Transport Management"><h2 class="section_title">Automate and Schedule Package Imports with SAP Cloud Transport Management</h2>
+
+<div class="p">You can integrate your <span class="ph pname" translate="no">SAP Datasphere</span>
+tenants to SAP Cloud Transport Management, a separate BTP service, which provides
+support for:<ul class="ul">
+<li class="li"><p>Scheduling imports</p></li>
+<li class="li"><p>Central management of imports to all your <span class="ph pname" translate="no">SAP Datasphere</span>
+tenants</p></li>
+<li class="li"><p>Coordinated transport of related <span class="ph pname" translate="no">SAP Analytics Cloud</span> and
+other service packages</p></li>
+<li class="li"><p>Improved governance and audit trails</p></li>
+<li class="li"><p>Optional integration with SAP Cloud ALM</p></li>
+</ul></div>
+<p class="p">For more information, see <a class="xref" href="05383980f0704c71ab9872360ce45622.html" title="Integrate SAP Datasphere with SAP Cloud Transport Management service to transport content packages across different landscapes.">Transporting Content Through SAP Cloud Transport Management</a>.</p>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__monitor"><section class="section" type="Monitor Transports"><h2 class="section_title">Monitor Transports</h2>
+
+<p class="p">You can use the <span class="ph menucascade"><img src="themes/sap-light/img/navstart.gif" alt="Start of the navigation path" title="Start of the navigation path"><span class="ph uicontrol">Transport</span>&nbsp;<img src="themes/sap-light/img/navstep.gif" alt="Next navigation step" title="Next navigation step">&nbsp;<span class="ph uicontrol">Monitor</span><img src="themes/sap-light/img/navend.gif" alt="End of the navigation path" title="End of the navigation path"></span> page to review the status and summary of all import and export jobs
+on your tenant.</p>
+<p class="p">For more information, see <a class="xref" href="fa9015ccf050412ba1c67e9ede012a21.html" title="You can search through and review the history of transport jobs in the Monitor app.">Monitoring Transport Jobs</a>.</p>
+</section></div>
+<div class="section" id="loiodf12666cf98e41248ef2251c564b0166__objects"><section class="section" type="Objects and Dependencies"><h2 class="section_title">Objects and Dependencies</h2>
+
+<div class="p">The following object types can be exported and
+imported via the <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Transport</span>)</span> app:<aside class="note" id="loiodf12666cf98e41248ef2251c564b0166__d71e801" aria-labelledby="n3t"><div class="title" id="n3t"><strong>Note</strong></div>
+<p>With limited exceptions, object definitions only can be
+transported between <span class="ph pname" translate="no">SAP Datasphere</span> tenants via
+the <span class="ph"><span class="FPA-icons-V3"></span> (<span class="ph uicontrol">Transport</span>)</span> app.
+For information about including local table data in your package, see <a class="xref" href="9ec1c3ce2ec24c8f9ce330f075918cd5.html" title="If your SAP Datasphere tenant is part of an SAP Business Data Cloud formation, you can include local table data in your package. This feature is intended to allow you to transport limited quantities of data for static and slowly changing dimensions, text entities, and relational datasets.">Transporting Local Table Data</a>.</p></aside><div class="table-wrapper tablenoborder"><table summary="" id="loiodf12666cf98e41248ef2251c564b0166__d71e809" class="table" data-table-id="d71e809" frame="border" border="1" rules="all"><colgroup><col width="20%"><col width="80%"></colgroup><thead class="thead" style="text-align:left;">
+<tr class="row">
+<th class="entry" style="vertical-align:top;" id="d141722e433"><p>Object Type</p></th>
+<th class="entry" style="vertical-align:top;" id="d141722e436"><p>Details</p></th>
+</tr>
+</thead><tbody class="tbody">
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Connections</span></p><p class="p">See <a class="xref" href="c2165842082c43fc85bad9f0c97572bb.html" title="Create a connection from an SAP-delivered connection type to allow users assigned to a space to use the connected source or target for data modeling and data access in SAP Datasphere.">Create a Connection</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a connection
+does not have dependencies on any other objects.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Remote Tables</span></p><p class="p">See <a class="xref" href="fd04efbac29c44fb8cfeaf2166b3d882.html" title="Import remote tables from a connection into your space directly from the Data Builder start page or the Repository Explorer.">Import Remote Tables</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a remote
+table contains information about its connection.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Local Tables</span></p><p class="p">See <a class="xref" href="2509fe4d86aa472b9858164b55b38077.html" title="Create a table and define columns to receive data. You can add data from a flow or a CSV file, or import tables from a connection or a CSN file.">Creating a Local Table</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a local table
+without delta capture contains the structure of the table only, and does not have
+dependencies on any other objects. The definition of a local table with delta
+capture enabled contains the definition of an additional internal table with the
+suffix <samp class="ph codeph">_Delta</samp>. When you export a table with delta capture
+enabled, this table is exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Flows</span></p><p class="p">See <a class="xref" href="e30fd1417e954577baae3246ea470c3f.html" title="Create a data flow to move and transform data in an intuitive graphical interface. You can drag and drop sources from the Source Browser, join them as appropriate, add other operators to remove or create columns, aggregate data, and do Python scripting, before writing the data to the target table.">Creating a Data Flow</a>, <a class="xref" href="25e2bd7a70d44ac5b05e844f9e913471.html" title="Create a replication flow to copy multiple data assets from a source to a target with support for delta loads.">Creating a Replication Flow</a>, and <a class="xref" href="f7161e6c20204672ac4a6d90c81762e4.html" title="Create a transformation flow to load data from one or more sources, apply transformations (such as a join), and output the result in a target table. You can load a full set of data from one or more sources to a target table. You can add local tables and views, Open SQL schema objects, and also remote tables located in BW Bridge spaces. You can also load delta changes (including deleted records) from one source table to a target table.">Creating a Transformation Flow</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a data flow,
+replication flow, or transformation flow contains the definitions of all its
+sources and its target table. When you export a flow, these objects are exported
+too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Views</span></p><p class="p">See
+<a class="xref" href="27efb479c4814252964d3fbc6ca2dfc3.html" title="Create a view to query sources in an intuitive graphical interface. You can drag and drop sources from the Source Browser, join them as appropriate, add other operators to remove or create columns and filter or aggregate data, and specify measures and other aspects of your output structure in the output node.">Creating a Graphical View</a> and <a class="xref" href="81920e4d583f45fd8761c662d3c8abab.html" title="Create a view to query sources in a powerful SQL editor. You can choose between writing a standard SQL query using SELECT statements and operators such as JOIN and UNION, or use SQLScript to produce a table function. You can drag sources from the Source Browser, and specify measures and other aspects of your output structure in the side panel.">Creating an SQL View</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a view contains the
+definitions of all its sources and any used data access controls. When you export
+a view, these objects are exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Intelligent Lookups</span></p><p class="p">See <a class="xref" href="8f29f801faea4d48816d0339777f9d16.html" title="Create an intelligent lookup to merge data from two entities even if there are problems joining them. Intelligent lookup offers a business-centric, interactive data harmonization environment for subject matter experts.">Creating an Intelligent Lookup</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of an
+intelligent lookup contains the definitions of its input and lookup entities. When
+you export an intelligent lookup, these entities are exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Analytic Models</span></p><p class="p">See <a class="xref" href="e5fbe9e2cb93484dab8b1963145e565f.html" title="Create an analytic model as a basis for consumption in SAP Analytics Cloud.">Creating an Analytic Model</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of an analytic
+model contains the definitions of its fact and dimension sources. When you export
+an analytic model, these entities are exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">E/R Models</span></p><p class="p">See <a class="xref" href="a91c042549fb497384e756d5f5c71fde.html" title="Create an E/R model to import, visualize, edit, and deploy multiple tables and views together. You can use an E/R model to better understand a subset of the entities in your space, and to communicate this information to other stakeholders.">Creating an Entity-Relationship Model</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of an E/R model does
+not include the objects that it visualizes as dependencies. These objects must be
+selected manually.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Data Access Controls</span></p><p class="p">See <a class="xref" href="a032e51c730147c7a1fcac125b4cfe14.html" title="Users with a space administrator role can create data access controls to allow modelers to apply row-level security to Data Builder and Business Builder objects. Once a data access control is applied to an object, any user viewing its data either directly or via an object using it as a source, will see only those records they are authorized to view, based on the specified criteria.">Securing Data with Data Access Controls</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a data
+access control contains the definition of its permissions entity. When you export
+a data access control, the permissions entity is exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Task Chains</span></p><p class="p">See <a class="xref" href="d1afbc2b9ee84d44a00b0b777ac243e1.html" title="Group multiple tasks into a task chain and run them manually once, or periodically, through a schedule.">Creating a Task Chain</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a task chain
+does not include the objects that it automates. These objects must be selected
+manually.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Business Entities / Business Entity
+Versions</span></p><p class="p">See <a class="xref" href="c912cdc1537d4efbb24b08327ea68918.html" title="You use business entities to build your consumption model for analysis and reporting.">Creating a Business Entity</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a
+business entity contains all its versions (which are also listed separately),
+along with the definition of its source data entity and any authorization
+scenarios. When you export a business entity (or one of its versions), these
+objects are exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Fact Models</span></p><p class="p">See <a class="xref" href="5bbd14a328b549b2b53fce830ea25c15.html" title="Fact models are reusable models you can use to streamline the creation of other models within the same business context.">Creating a Fact Model</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a fact model
+contains all its versions (which are also listed separately), along with the
+definition of all its source fact models and business entities. When you export a
+fact model (or one of its versions), these objects are exported too.</span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Consumption Models</span></p><p class="p">See <a class="xref" href="337fa99de4a44700ba49e2214a1f3349.html" title="Consumption models are the basis to consume your data.">Creating a Consumption Model</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of a
+consumption model contains all its perspectives (which are also listed
+separately), along with the definition of all its source fact models and business
+entities. When you export a consumption model (or one of its perspectives), these
+objects are exported too. </span></p></td>
+</tr>
+<tr class="row">
+<td class="entry" style="vertical-align:top;" headers="d141722e433 "><p><span class="ph">Authorization Scenarios</span></p><p class="p">See <a class="xref" href="167c05c673dc4715baba8d5d305abb1e.html" title="Authorization scenarios help you control data access for business entities leveraging data access controls.">Creating an Authorization Scenario</a>.</p></td>
+<td class="entry" style="vertical-align:top;" headers="d141722e436 "><p><span class="ph">The definition of an
+authorization scenario contains the definition of its data access control. When
+you export an authorization scenario, the data access control is exported
+too.</span></p></td>
+</tr>
+</tbody></table></div></div>
+</section></div>
+</div><div class="related-links"> </div></div></section><div class="clear"></div>
+</div></div></div></body></html>

@@ -1,0 +1,11 @@
+<mvc:View
+  controllerName="ds.rag.controller.Shell"
+  xmlns="sap.m"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+
+  <App id="appNav">
+    <pages/>
+  </App>
+
+</mvc:View>
