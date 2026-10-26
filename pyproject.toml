@@ -10,16 +10,23 @@ dependencies = [
     "anthropic>=0.40",
     "chromadb>=0.5",
     "sentence-transformers>=3.0",
-    "beautifulsoup4>=4.12",
     "pymupdf>=1.24",
-    "streamlit>=1.35",
     "python-dotenv>=1.0",
     "modelscope>=1.15",
     "fastapi>=0.111",
+    "uvicorn>=0.30",
 ]
 
 [project.optional-dependencies]
 dev = ["ipykernel"]
+eval = [
+    "ragas>=0.2,<0.3",
+    "langchain-anthropic<0.3",
+    "langchain<0.4",
+    "langchain-core<0.4",
+    "langchain-community<0.4",
+    "langchain-openai<0.3",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

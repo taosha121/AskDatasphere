@@ -6,4 +6,7 @@ chroma_db/
 *.egg-info/
 .DS_Store
 pdfs/
+html_docs/
 .playwright-mcp/
+eval_runs.jsonl
+eval_scores.csv
