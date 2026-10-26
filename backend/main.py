@@ -54,7 +54,7 @@ async def lifespan(app: FastAPI):
     yield
 
 
-app = FastAPI(title="DS-doc RAG API", version="0.1.0", lifespan=lifespan)
+app = FastAPI(title="AskDatasphere API", version="0.1.0", lifespan=lifespan)
 
 
 @app.get("/api/chunks")
@@ -102,7 +102,11 @@ def ask(req: AskRequest):
     col = _get_collection()
 
     vec = model.encode(req.question, normalize_embeddings=True).tolist()
-    results = col.query(query_embeddings=[vec], n_results=req.top_k)
+    results = col.query(
+        query_embeddings=[vec],
+        n_results=req.top_k,
+        include=["documents", "metadatas", "distances"],
+    )
 
     chunks = [
         {
@@ -111,8 +115,13 @@ def ask(req: AskRequest):
             "topic_title": meta.get("topic_title", ""),
             "source_file": meta.get("source_file", ""),
             "chunk_index": meta.get("chunk_index", 0),
+            "score": round(1 - dist, 4),
         }
-        for doc, meta in zip(results["documents"][0], results["metadatas"][0])
+        for doc, meta, dist in zip(
+            results["documents"][0],
+            results["metadatas"][0],
+            results["distances"][0],
+        )
     ]
 
     context_parts = [

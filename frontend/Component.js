@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (UIComponent) {
   "use strict";
 
-  return UIComponent.extend("ds.rag.Component", {
+  return UIComponent.extend("ask.datasphere.Component", {
     metadata: {
       manifest: "json"
     },

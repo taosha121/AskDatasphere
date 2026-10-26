@@ -1,9 +1,9 @@
 {
   "_version": "1.58.0",
   "sap.app": {
-    "id": "ds.rag",
+    "id": "ask.datasphere",
     "type": "application",
-    "title": "SAP Datasphere RAG Playground",
+    "title": "AskDatasphere",
     "applicationVersion": { "version": "0.1.0" }
   },
   "sap.ui": {
@@ -12,7 +12,7 @@
   },
   "sap.ui5": {
     "rootView": {
-      "viewName": "ds.rag.view.Shell",
+      "viewName": "ask.datasphere.view.Shell",
       "type": "XML",
       "id": "shell"
     },
@@ -28,7 +28,7 @@
       "config": {
         "routerClass": "sap.m.routing.Router",
         "viewType": "XML",
-        "viewPath": "ds.rag.view",
+        "viewPath": "ask.datasphere.view",
         "controlId": "appNav",
         "controlAggregation": "pages",
         "async": true

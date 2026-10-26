@@ -1,5 +1,5 @@
 <mvc:View
-  controllerName="ds.rag.controller.Chat"
+  controllerName="ask.datasphere.controller.Chat"
   xmlns="sap.m"
   xmlns:l="sap.ui.layout"
   xmlns:mvc="sap.ui.core.mvc"
@@ -73,6 +73,11 @@
                   title="{chat>deliverable}"
                   text="{chat>topic_title}"
                   state="Information"/>
+                <ObjectStatus
+                  title="Score"
+                  text="{chat>scoreLabel}"
+                  state="{chat>scoreState}"
+                  class="sapUiTinyMarginTop"/>
                 <Text
                   text="{chat>preview}"
                   wrapping="true"

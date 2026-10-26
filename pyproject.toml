@@ -3,7 +3,7 @@ requires = ["setuptools>=70"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "ds-doc-rag"
+name = "ask-datasphere"
 version = "0.1.0"
 requires-python = ">=3.11"
 dependencies = [
@@ -11,6 +11,7 @@ dependencies = [
     "chromadb>=0.5",
     "sentence-transformers>=3.0",
     "beautifulsoup4>=4.12",
+    "pymupdf>=1.24",
     "streamlit>=1.35",
     "python-dotenv>=1.0",
     "modelscope>=1.15",

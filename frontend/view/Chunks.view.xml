@@ -1,5 +1,5 @@
 <mvc:View
-  controllerName="ds.rag.controller.Chunks"
+  controllerName="ask.datasphere.controller.Chunks"
   xmlns="sap.m"
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true">

@@ -1,4 +1,4 @@
-# SAP Datasphere RAG Playground
+# AskDatasphere
 
 基于 SAP Datasphere 官方文档构建的 RAG 问答系统，提供 Chunk 浏览和 Q&A 两个功能页面。
 
@@ -15,7 +15,7 @@
 ## 目录结构
 
 ```
-DS-doc/
+AskDatasphere/
 ├── backend/
 │   └── main.py          # FastAPI：/api/chunks、/api/ask、静态文件托管
 ├── frontend/
@@ -31,7 +31,7 @@ DS-doc/
 │       ├── Chunks.controller.js
 │       └── Chat.controller.js
 ├── rag/
-│   ├── ingest.py        # 一次性脚本：HTML → Chroma
+│   ├── ingest.py        # 一次性脚本：HTML + PDF → Chroma
 │   └── __init__.py
 ├── html_docs/           # SAP Help Portal 原始 HTML 文档
 ├── chroma_db/           # Chroma 向量库（运行 ingest 后生成）
@@ -62,7 +62,7 @@ ANTHROPIC_BASE_URL=http://localhost:6655/anthropic   # 公司内网代理地址
 python -m rag.ingest
 ```
 
-从 `html_docs/` 读取所有 HTML，按 3200 字符切块（400 字符重叠），写入 `chroma_db/`。目前共 112 条记录。
+从 `html_docs/` 读取所有 HTML、从 `pdfs/` 读取所有 PDF，按 3200 字符切块（400 字符重叠），写入 `chroma_db/`。重复运行是幂等的，已存在的 chunk 会自动跳过。
 
 ## 启动服务
 
@@ -216,11 +216,34 @@ python -m graphrag query --root ./my_graphrag --method local  "如何在 DataBui
 
 ## 原始文档说明
 
-从 SAP Help Portal 下载的 HTML 文档，涵盖 17 个 deliverable，包括：
+本项目的语料库来源于 [SAP Help Portal — SAP Datasphere](https://help.sap.com/docs/SAP_DATASPHERE)，均为公开文档，无需登录即可访问。
+
+### 文档来源
+
+**HTML 文档（`html_docs/`）**
+
+从各章节页面逐页抓取，涵盖以下 deliverable：
 
 - Acquiring, Preparing, and Modeling Data with SAP Datasphere
 - Administering SAP Datasphere
+- Accessing SAP Datasphere via the Command Line
+- Consuming Data Exposed by SAP Datasphere
+- Data Sharing Cockpit - Data Providers Guide
+- Feature Scope Description - SAP Datasphere
 - Getting Started with SAP Datasphere
-- Integrating Data and Managing Spaces
-- Security Guide / Security Recommendations
-- 等（详见 `html_docs/` 目录）
+- Getting Started With SAP Datasphere, SAP BW Bridge
+- Governing and Publishing Data in the Catalog
+- Integrating Data and Managing Spaces in SAP Datasphere
+- SAP Datasphere Business Content
+- SAP Datasphere Security Recommendations
+- Security Guide
+- Video Tutorials
+- What's New in SAP Datasphere
+
+**PDF 文档（`pdfs/`，已加入 `.gitignore`）**
+
+从各章节的"Download PDF"按钮下载，与 HTML 内容对应，但通常包含更完整的页面数量。PDF 文件体积较大，不随代码库分发，需自行从上述入口下载。
+
+### 版本说明
+
+SAP Datasphere 文档随产品持续迭代更新。重新运行抓取脚本所获取的内容会与本仓库当前存储的版本有所差异（新增、修改或删除的页面），属于正常现象。本仓库的 HTML 快照基于抓取时的文档版本，不保证与最新版本一致。

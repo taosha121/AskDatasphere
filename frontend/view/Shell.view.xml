@@ -1,5 +1,5 @@
 <mvc:View
-  controllerName="ds.rag.controller.Shell"
+  controllerName="ask.datasphere.controller.Shell"
   xmlns="sap.m"
   xmlns:mvc="sap.ui.core.mvc"
   displayBlock="true">

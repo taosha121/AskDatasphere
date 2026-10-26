@@ -3,7 +3,7 @@ sap.ui.define([
 ], function (Controller) {
   "use strict";
 
-  return Controller.extend("ds.rag.controller.Shell", {
+  return Controller.extend("ask.datasphere.controller.Shell", {
     onInit: function () {
       var oRouter = this.getOwnerComponent().getRouter();
       oRouter.initialize();

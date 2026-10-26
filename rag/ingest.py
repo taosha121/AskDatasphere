@@ -1,8 +1,9 @@
 """
 向量数据库构建脚本。
 
-扫描 html_docs/ 下所有 HTML topic 文件，提取纯文本，切块后生成向量并写入
-Chroma 本地数据库。只需运行一次；重复运行会跳过已存在的 chunk（幂等）。
+扫描 html_docs/ 下所有 HTML topic 文件以及 pdfs/ 下所有 PDF 文件，提取纯文本，
+切块后生成向量并写入 Chroma 本地数据库。只需运行一次；重复运行会跳过已存在的
+chunk（幂等）。
 
 运行方式：
     python -m rag.ingest
@@ -10,12 +11,14 @@ Chroma 本地数据库。只需运行一次；重复运行会跳过已存在的 
 import re
 from pathlib import Path
 
+import fitz  # pymupdf
 from bs4 import BeautifulSoup
 import chromadb
 from sentence_transformers import SentenceTransformer
 
-# html_docs/ 和 chroma_db/ 都在项目根目录，相对于本文件向上两级
+# html_docs/、pdfs/ 和 chroma_db/ 都在项目根目录，相对于本文件向上两级
 HTML_DIR   = Path(__file__).parent.parent / "html_docs"
+PDF_DIR    = Path(__file__).parent.parent / "pdfs"
 CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 
 # ModelScope / HuggingFace 上的 embedding 模型名称
@@ -71,6 +74,29 @@ def _extract_text(html_path: Path) -> tuple[str, str]:
     return title.strip(), text.strip()
 
 
+def _extract_text_from_pdf(pdf_path: Path) -> tuple[str, str]:
+    """
+    从 PDF 文件中提取 (标题, 正文纯文本)。
+
+    逐页提取文本后拼接，优先使用 PDF 内嵌的 title 元数据作为标题，
+    没有则用文件名。
+    """
+    doc = fitz.open(pdf_path)
+
+    title = (doc.metadata.get("title") or "").strip()
+    if not title:
+        title = pdf_path.stem
+
+    pages = []
+    for page in doc:
+        pages.append(page.get_text())
+    doc.close()
+
+    text = "\n\n".join(pages)
+    text = re.sub(r"\s{3,}", "\n\n", text)
+    return title, text.strip()
+
+
 def _chunk(text: str) -> list[str]:
     """
     将长文本按固定窗口切成多个 chunk，相邻 chunk 有 OVERLAP_CHARS 字符重叠。
@@ -123,15 +149,12 @@ def build():
 
         chunks = _chunk(text)
         for i, chunk_text in enumerate(chunks):
-            # chunk ID 由文件名 stem + chunk 序号组成，全局唯一
             chunk_id = f"{html_path.stem}__{i}"
 
-            # 已存在则跳过，保证重复运行不会产生重复向量
             if col.get(ids=[chunk_id])["ids"]:
                 skipped += 1
                 continue
 
-            # normalize_embeddings=True 使向量长度为 1，余弦相似度计算更稳定
             embedding = model.encode(chunk_text, normalize_embeddings=True).tolist()
             col.add(
                 ids=[chunk_id],
@@ -147,6 +170,38 @@ def build():
             added += 1
 
         print(f"  {deliverable[:45]:<45} {len(chunks)} chunks")
+
+    pdf_files = sorted(PDF_DIR.glob("*.pdf"))
+    print(f"\nFound {len(pdf_files)} PDF files")
+
+    for pdf_path in pdf_files:
+        title, text = _extract_text_from_pdf(pdf_path)
+        if not text:
+            continue
+
+        chunks = _chunk(text)
+        for i, chunk_text in enumerate(chunks):
+            chunk_id = f"pdf__{pdf_path.stem}__{i}"
+
+            if col.get(ids=[chunk_id])["ids"]:
+                skipped += 1
+                continue
+
+            embedding = model.encode(chunk_text, normalize_embeddings=True).tolist()
+            col.add(
+                ids=[chunk_id],
+                embeddings=[embedding],
+                documents=[chunk_text],
+                metadatas=[{
+                    "deliverable": "pdf",
+                    "topic_title": title,
+                    "source_file": str(pdf_path.relative_to(PDF_DIR.parent)),
+                    "chunk_index": i,
+                }],
+            )
+            added += 1
+
+        print(f"  {title[:45]:<45} {len(chunks)} chunks")
 
     print(f"\nDone. Added: {added}  Skipped: {skipped}  Total: {col.count()}")
 

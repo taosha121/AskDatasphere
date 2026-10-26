@@ -15,7 +15,7 @@ sap.ui.define([
 ) {
   "use strict";
 
-  return Controller.extend("ds.rag.controller.Chat", {
+  return Controller.extend("ask.datasphere.controller.Chat", {
 
     onInit: function () {
       this._oModel = new JSONModel({ items: [] });
@@ -59,11 +59,20 @@ sap.ui.define([
 
           // 右栏：chunks
           var items = data.chunks.map(function (c, i) {
+            var score = c.score != null ? c.score : null;
+            var scoreLabel = score != null ? score.toFixed(4) : "—";
+            var scoreState = score == null ? "None"
+              : score >= 0.75 ? "Success"
+              : score >= 0.50 ? "Warning"
+              : "Error";
             return {
               rank:        i + 1,
               deliverable: c.deliverable.replace(/_/g, " "),
               topic_title: c.topic_title,
               chunk_index: c.chunk_index,
+              score:       score,
+              scoreLabel:  scoreLabel,
+              scoreState:  scoreState,
               preview:     c.text.length > 300 ? c.text.substring(0, 300) + "…" : c.text,
               _full:       c
             };

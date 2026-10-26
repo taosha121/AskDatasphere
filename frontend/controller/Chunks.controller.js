@@ -16,7 +16,7 @@ sap.ui.define([
 
   var API_BASE = "/api";
 
-  return Controller.extend("ds.rag.controller.Chunks", {
+  return Controller.extend("ask.datasphere.controller.Chunks", {
 
     onInit: function () {
       this._oModel = new JSONModel({ items: [], total: 0 });
