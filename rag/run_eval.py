@@ -62,6 +62,6 @@ if __name__ == "__main__":
     p.add_argument("--input",  type=Path, default=ROOT / "eval_dataset.jsonl")
     p.add_argument("--output", type=Path, default=ROOT / "eval_runs.jsonl")
     p.add_argument("--limit",  type=int, default=None, help="只处理前 N 条")
-    p.add_argument("--top-k",  type=int, default=3)
+    p.add_argument("--top-k",  type=int, default=5)
     args = p.parse_args()
     build(args.input, args.output, args.limit, args.top_k)

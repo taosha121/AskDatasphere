@@ -8,6 +8,7 @@
   <Page title="SAP Datasphere · Q&amp;A" showNavButton="false">
 
     <headerContent>
+      <Button text="Eval Report" type="Transparent" press=".onNavToEval"/>
       <Button text="Chunk Browser" type="Transparent" press=".onNavToChunks"/>
     </headerContent>
 
@@ -34,7 +35,7 @@
             <Label text="Top K:" labelFor="topKInput" class="sapUiSmallMarginBegin"/>
             <StepInput
               id="topKInput"
-              value="3"
+              value="5"
               min="1"
               max="20"
               step="1"
@@ -60,7 +61,7 @@
         <!-- ── 右栏：Top 3 + Prompt ── -->
         <VBox width="50%" class="sapUiSmallMarginBegin">
 
-          <Title id="chunksTitle" text="Retrieved Chunks (Top 3)" level="H4" class="sapUiSmallMarginBottom"/>
+          <Title id="chunksTitle" text="Retrieved Chunks (Top 5)" level="H4" class="sapUiSmallMarginBottom"/>
 
           <List
             id="chunkList"

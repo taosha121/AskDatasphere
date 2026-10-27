@@ -1,0 +1,148 @@
+<mvc:View
+  controllerName="ask.datasphere.controller.Eval"
+  xmlns="sap.m"
+  xmlns:l="sap.ui.layout"
+  xmlns:core="sap.ui.core"
+  xmlns:unified="sap.ui.unified"
+  xmlns:mvc="sap.ui.core.mvc"
+  displayBlock="true">
+
+  <Page title="SAP Datasphere · Eval Report" showNavButton="false">
+
+    <headerContent>
+      <Button text="Q&amp;A" type="Transparent" press=".onNavToChat"/>
+    </headerContent>
+
+    <content>
+      <VBox class="sapUiMediumMargin">
+
+        <!-- 上传区 -->
+        <Title text="Upload eval_scores.csv" level="H4" class="sapUiSmallMarginBottom"/>
+        <HBox alignItems="Center">
+          <unified:FileUploader
+            id="csvUploader"
+            placeholder="Select eval_scores.csv…"
+            fileType="csv"
+            width="22rem"
+            change=".onFileChange"/>
+          <Button
+            text="Analyze"
+            type="Emphasized"
+            press=".onAnalyze"
+            class="sapUiSmallMarginBegin"/>
+        </HBox>
+
+        <!-- 汇总指标卡片 -->
+        <VBox id="summarySection" visible="false" class="sapUiMediumMarginTop">
+
+          <Title text="Overall Scores" level="H4" class="sapUiSmallMarginBottom"/>
+
+          <l:Grid
+            defaultSpan="XL3 L3 M6 S12"
+            class="sapUiSmallMarginBottom">
+            <l:content>
+
+              <VBox class="sapUiSmallMargin">
+                <ObjectStatus title="Context Recall" text="{eval>/summary/context_recall_label}" state="{eval>/summary/context_recall_state}"/>
+                <ProgressIndicator
+                  percentValue="{eval>/summary/context_recall_pct}"
+                  state="{eval>/summary/context_recall_state}"
+                  height="0.75rem"
+                  class="sapUiTinyMarginTop"/>
+                <Text text="召回了多少必要信息" class="sapUiTinyMarginTop" wrapping="true"/>
+              </VBox>
+
+              <VBox class="sapUiSmallMargin">
+                <ObjectStatus title="Context Precision" text="{eval>/summary/context_precision_label}" state="{eval>/summary/context_precision_state}"/>
+                <ProgressIndicator
+                  percentValue="{eval>/summary/context_precision_pct}"
+                  state="{eval>/summary/context_precision_state}"
+                  height="0.75rem"
+                  class="sapUiTinyMarginTop"/>
+                <Text text="有用 chunk 是否排在前面" class="sapUiTinyMarginTop" wrapping="true"/>
+              </VBox>
+
+              <VBox class="sapUiSmallMargin">
+                <ObjectStatus title="Faithfulness" text="{eval>/summary/faithfulness_label}" state="{eval>/summary/faithfulness_state}"/>
+                <ProgressIndicator
+                  percentValue="{eval>/summary/faithfulness_pct}"
+                  state="{eval>/summary/faithfulness_state}"
+                  height="0.75rem"
+                  class="sapUiTinyMarginTop"/>
+                <Text text="答案有无编造 context 外内容" class="sapUiTinyMarginTop" wrapping="true"/>
+              </VBox>
+
+              <VBox class="sapUiSmallMargin">
+                <ObjectStatus title="Answer Relevancy" text="{eval>/summary/answer_relevancy_label}" state="{eval>/summary/answer_relevancy_state}"/>
+                <ProgressIndicator
+                  percentValue="{eval>/summary/answer_relevancy_pct}"
+                  state="{eval>/summary/answer_relevancy_state}"
+                  height="0.75rem"
+                  class="sapUiTinyMarginTop"/>
+                <Text text="答案是否切题" class="sapUiTinyMarginTop" wrapping="true"/>
+              </VBox>
+
+            </l:content>
+          </l:Grid>
+
+          <Text id="sampleCount" text="" class="sapUiTinyMarginBottom"/>
+
+        </VBox>
+
+        <!-- 逐条结果表格 -->
+        <VBox id="tableSection" visible="false" class="sapUiMediumMarginTop">
+
+          <Title text="Per-Question Results" level="H4" class="sapUiSmallMarginBottom"/>
+
+          <Toolbar>
+            <Label text="Sort by:"/>
+            <Select id="sortSelect" change=".onSortChange" class="sapUiTinyMarginBegin">
+              <items>
+                <core:Item key="context_recall"     text="Context Recall"/>
+                <core:Item key="context_precision"  text="Context Precision"/>
+                <core:Item key="faithfulness"       text="Faithfulness"/>
+                <core:Item key="answer_relevancy"   text="Answer Relevancy"/>
+              </items>
+            </Select>
+            <ToggleButton id="sortAscBtn" text="Ascending" pressed="true" press=".onSortDirChange" class="sapUiTinyMarginBegin"/>
+          </Toolbar>
+
+          <Table
+            id="evalTable"
+            items="{eval>/rows}"
+            sticky="ColumnHeaders"
+            noDataText="No data loaded."
+            class="sapUiSmallMarginTop">
+
+            <columns>
+              <Column width="2.5rem" hAlign="Center"><Text text="#"/></Column>
+              <Column><Text text="Question"/></Column>
+              <Column width="7rem" hAlign="Center"><Text text="Context Recall"/></Column>
+              <Column width="7rem" hAlign="Center"><Text text="Context Precision"/></Column>
+              <Column width="7rem" hAlign="Center"><Text text="Faithfulness"/></Column>
+              <Column width="7rem" hAlign="Center"><Text text="Answer Relevancy"/></Column>
+            </columns>
+
+            <items>
+              <ColumnListItem vAlign="Middle" press=".onRowPress" type="Active">
+                <cells>
+                  <Text text="{eval>_rank}"/>
+                  <Text text="{eval>question_preview}" wrapping="false"/>
+                  <ObjectStatus text="{eval>context_recall_label}"    state="{eval>context_recall_state}"/>
+                  <ObjectStatus text="{eval>context_precision_label}" state="{eval>context_precision_state}"/>
+                  <ObjectStatus text="{eval>faithfulness_label}"      state="{eval>faithfulness_state}"/>
+                  <ObjectStatus text="{eval>answer_relevancy_label}"  state="{eval>answer_relevancy_state}"/>
+                </cells>
+              </ColumnListItem>
+            </items>
+
+          </Table>
+
+        </VBox>
+
+      </VBox>
+    </content>
+
+  </Page>
+
+</mvc:View>

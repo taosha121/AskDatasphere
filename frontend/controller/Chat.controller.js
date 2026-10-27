@@ -26,6 +26,10 @@ sap.ui.define([
       this.getOwnerComponent().getRouter().navTo("chunks");
     },
 
+    onNavToEval: function () {
+      this.getOwnerComponent().getRouter().navTo("eval");
+    },
+
     onAsk: function () {
       var question = this.byId("questionInput").getValue().trim();
       if (!question) {

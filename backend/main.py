@@ -93,7 +93,7 @@ def list_chunks(
 
 class AskRequest(BaseModel):
     question: str
-    top_k: int = 3
+    top_k: int = 5
 
 
 @app.post("/api/ask")

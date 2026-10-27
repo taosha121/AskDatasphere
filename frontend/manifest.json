@@ -21,7 +21,8 @@
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
-        "sap.ui.layout": {}
+        "sap.ui.layout": {},
+        "sap.ui.unified": {}
       }
     },
     "routing": {
@@ -43,6 +44,11 @@
           "name": "chunks",
           "pattern": "chunks",
           "target": "chunks"
+        },
+        {
+          "name": "eval",
+          "pattern": "eval",
+          "target": "eval"
         }
       ],
       "targets": {
@@ -53,6 +59,10 @@
         "chunks": {
           "viewName": "Chunks",
           "viewId": "chunksView"
+        },
+        "eval": {
+          "viewName": "Eval",
+          "viewId": "evalView"
         }
       }
     }
