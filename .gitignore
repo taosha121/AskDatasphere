@@ -10,3 +10,4 @@ html_docs/
 .playwright-mcp/
 eval_runs.jsonl
 eval_scores.csv
+eval_summary.json
