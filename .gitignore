@@ -11,3 +11,4 @@ html_docs/
 eval_runs.jsonl
 eval_scores.csv
 eval_summary.json
+eval_dataset.jsonl
