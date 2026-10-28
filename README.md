@@ -87,7 +87,7 @@ python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 
 - 左栏：输入问题 → Ask → 显示 Claude 的回答
 - 右栏：显示检索命中的 Top K 文档块 + 最终发给 Claude 的完整 Prompt
-- Top K 可在页面上调节（默认 3，最大 20）
+- Top K 可在页面上调节（默认 5，最大 20）
 
 ## 评估 RAG 质量
 
@@ -147,14 +147,14 @@ SAP Datasphere 文档随产品持续迭代更新。重新下载所获取的 PDF 
 
 ## 评估基线记录
 
+### 第一次基线（2026-10-26，50 样本）
+
 | 项目 | 值 |
 |---|---|
-| 日期 | 2026-10-26 |
 | 样本量 | 50（从 400 条评估集取前 50） |
 | Top K | 3 |
 | 生成 / judge 模型 | claude-sonnet-4-5 |
 | Embedding | BAAI/bge-base-en-v1.5 |
-| RAGAS | 0.2.15 |
 
 | 指标 | 分数 | 低于 0.5 的条数 |
 |---|---|---|
@@ -163,4 +163,81 @@ SAP Datasphere 文档随产品持续迭代更新。重新下载所获取的 PDF 
 | Faithfulness | 0.916 | 1 / 50 |
 | Answer Relevancy | 0.797 | 9 / 50 |
 
-**结论：** 瓶颈在检索而非生成。Faithfulness 0.916 说明幻觉抑制的 Prompt 约束有效、答案基本不脱离召回内容；但 Context Precision 仅 0.625、近半数条数低于 0.5，个别问题检索完全没命中正确切片（precision = recall = 0）。下一步优化应聚焦检索侧——混合检索（BM25 + 向量）与 reranker，见 [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md) 第 2 节。
+---
+
+### 第二次全量评估（2026-10-28，400 样本）
+
+| 项目 | 值 |
+|---|---|
+| 样本量 | 400（全量，200 个 chunk × 2 问答对） |
+| Top K | 5 |
+| 生成 / judge 模型 | claude-sonnet-4-5 |
+| Embedding | BAAI/bge-base-en-v1.5 |
+
+| 指标 | 均值 | 低于 0.5 的条数 | 等于 0 的条数 |
+|---|---|---|---|
+| Context Recall | **0.793** | 77 / 400（19%） | 77 / 400 |
+| Context Precision | **0.631** | 165 / 400（41%） | 73 / 400 |
+| Faithfulness | **0.909** | 13 / 400（3%） | 2 / 400 |
+| Answer Relevancy | **0.796** | 74 / 400（18.5%） | 74 / 400 |
+
+---
+
+### 四个指标详解
+
+#### Context Recall（0.793）——检索有没有找回必要信息
+
+**计算方式：** judge LLM 把 `ground_truth` 拆成若干命题，逐条检查 `retrieved_contexts` 里是否有支撑内容，统计覆盖比例。
+
+**本次结果解读：** 整体 0.793，说明约八成的问题检索器找到了必要信息。但有 77 条（19%）得分为 0——这些问题的正确切片完全没被召回，Claude 无从作答，只能输出"信息不足"。
+
+**改进方向：**
+- 引入混合检索（BM25 + 向量）：纯向量检索对精确术语（如产品名称、API 名）匹配较弱，BM25 能弥补
+- Query expansion / HyDE：先让模型生成假想答案再检索，提升语义覆盖
+
+---
+
+#### Context Precision（0.631）——召回内容是否有用、排序是否合理
+
+**计算方式：** judge LLM 判断每个召回 chunk 对回答 `ground_truth` 是否真正相关，再按排名加权——有用的 chunk 排越靠前分越高。
+
+**本次结果解读：** 0.631 是四个指标里最弱的，且 165 条（41%）低于 0.5，说明近一半问题的召回结果里充斥着噪音 chunk，或者有用的 chunk 排在靠后位置。这是当前系统最主要的瓶颈。
+
+**改进方向：**
+- 加 Reranker（cross-encoder）：召回阶段用 Top K=10 拉回更多候选，再用 reranker 精选 Top 3–5 送给 Claude，能大幅提升 precision
+- 混合检索同样有帮助（减少无关切片混入）
+
+---
+
+#### Faithfulness（0.909）——答案有没有编造
+
+**计算方式：** judge LLM 从 `answer` 里提取所有事实性陈述，逐条检查 `retrieved_contexts` 里是否有依据，统计有依据的比例。
+
+**本次结果解读：** 0.909 是四个指标里最高的，仅 13 条低于 0.5。系统提示词的约束（"只基于文档片段回答，不足则说信息不足"）效果显著，Claude 基本没有凭空编造内容。2 条得分为 0 的 case 值得单独排查，可能是 Claude 回答时混入了训练数据里的 SAP 知识而非召回内容。
+
+**改进方向：** 当前已足够好，优先级低。如需进一步提升，可在 Prompt 里加更明确的引用要求（已有 `[1] [2]` 引用，可结合验证逻辑）。
+
+---
+
+#### Answer Relevancy（0.796）——答案是否切题
+
+**计算方式：** embedding 模型从 `answer` 反向生成多个假想问题，计算这些假想问题与原始 `question` 的余弦相似度均值。此指标不依赖 `ground_truth`，只看答案和问题语义是否匹配。
+
+**本次结果解读：** 74 条得分恰好为 0（占 18.5%），与 Context Recall 为 0 的 77 条高度重合——这不是巧合。当检索器完全没找回正确内容时，Claude 输出"信息不足，无法回答"，这类回答的反向生成问题和原始问题毫无语义关联，导致 answer_relevancy = 0。所以这 74 条低分的根因是检索失败，而非生成模型的问题。
+
+**改进方向：** 与 Context Recall 相同——提升检索覆盖率，答案质量会随之改善，answer_relevancy 也会跟着上来。
+
+---
+
+### 综合结论与优先改进方向
+
+瓶颈在检索，不在生成。Faithfulness 0.909 证明 Prompt 约束有效，Claude 忠于召回内容；但 Context Precision 0.631 / Context Recall 0.793 都有明显提升空间，19% 的问题检索完全失败，41% 的问题召回噪音过多。
+
+**优先级排序：**
+
+1. **Reranker（最高优先级）**：在当前架构上加 cross-encoder reranker，改动最小、收益最大，直接改善 Context Precision
+2. **混合检索（BM25 + 向量）**：对精确术语类问题提升 Context Recall，尤其是产品功能名、API 名等
+3. **语义切块**：当前按固定字符数切块，改成按段落 / 标题边界切可减少切块内容碎片化
+4. **Top K 动态调整**：根据问题复杂度动态决定召回数量，而非固定值
+
+详细技术方案见 [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md)。
