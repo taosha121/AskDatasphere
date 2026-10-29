@@ -23,12 +23,15 @@ CLAUDE_MODEL = "claude-sonnet-4-5"
 
 # 混合检索：两路各召回 CANDIDATES 条候选，经 RRF 融合后取 top_k
 _CANDIDATES = 20
-_RRF_K = 60   # 标准 RRF 常数，越大越平滑两路权重
+_RRF_K = 60             # 标准 RRF 常数，越大越平滑两路权重
+_RERANK_CANDIDATES = 10 # RRF 后送入 cross-encoder 精排的候选数
 
 # BM25 索引（启动时构建，常驻内存）
 _bm25_index: BM25Okapi | None = None
 _bm25_docs: list[dict] = []       # [{"id": str, "text": str, "meta": dict}, ...]
 _bm25_by_id: dict[str, dict] = {} # id → doc dict，供 RRF 后查元数据
+
+RERANKER_NAME = "BAAI/bge-reranker-base"
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant for SAP Datasphere. "
@@ -50,6 +53,17 @@ def _get_embed_model():
     except Exception:
         from sentence_transformers import SentenceTransformer
         return SentenceTransformer(MODEL_NAME)
+
+
+@lru_cache(maxsize=1)
+def _get_reranker():
+    from sentence_transformers import CrossEncoder
+    try:
+        from modelscope import snapshot_download
+        local = snapshot_download(RERANKER_NAME)
+    except ImportError:
+        local = RERANKER_NAME
+    return CrossEncoder(local)
 
 
 @lru_cache(maxsize=1)
@@ -78,6 +92,7 @@ def _build_bm25_index() -> None:
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     _get_embed_model()
+    _get_reranker()
     _get_collection()
     _build_bm25_index()
     yield
@@ -164,7 +179,16 @@ def ask(req: AskRequest):
     for rank, id_ in enumerate(bm25_ids):
         rrf_scores[id_] = rrf_scores.get(id_, 0.0) + 1.0 / (_RRF_K + rank + 1)
 
-    top_ids = sorted(rrf_scores, key=lambda x: -rrf_scores[x])[:req.top_k]
+    top_ids = sorted(rrf_scores, key=lambda x: -rrf_scores[x])[:_RERANK_CANDIDATES]
+
+    # --- Reranker 精排（cross-encoder 对候选重新打分，取 top_k）---
+    reranker = _get_reranker()
+    pairs = [
+        (req.question, _bm25_by_id[id_]["text"] if id_ not in dense_by_id else dense_by_id[id_]["text"])
+        for id_ in top_ids
+    ]
+    rerank_scores = reranker.predict(pairs)
+    top_ids = [id_ for _, id_ in sorted(zip(rerank_scores, top_ids), reverse=True)][:req.top_k]
 
     # --- 组装 chunk 列表（优先用 dense 的余弦相似度做 score 展示）---
     chunks = []
