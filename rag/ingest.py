@@ -18,8 +18,8 @@ PDF_DIR    = Path(__file__).parent.parent / "pdfs"
 CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 
 MODEL_NAME    = "BAAI/bge-base-en-v1.5"
-CHUNK_CHARS   = 3200
-OVERLAP_CHARS = 400
+CHUNK_CHARS   = 1500   # ~375 token，留足 bge-base 512 token 上限余量（3200≈800 token 会被尾部截断）
+OVERLAP_CHARS = 200
 
 
 def _load_model() -> SentenceTransformer:
