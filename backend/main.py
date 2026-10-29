@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import os
+import re
 from contextlib import asynccontextmanager
 from functools import lru_cache
 from pathlib import Path
@@ -12,12 +13,22 @@ from fastapi import FastAPI, Query, HTTPException
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+from rank_bm25 import BM25Okapi
 
 load_dotenv(Path(__file__).parent.parent / ".env")
 
 CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 MODEL_NAME = "BAAI/bge-base-en-v1.5"
 CLAUDE_MODEL = "claude-sonnet-4-5"
+
+# 混合检索：两路各召回 CANDIDATES 条候选，经 RRF 融合后取 top_k
+_CANDIDATES = 20
+_RRF_K = 60   # 标准 RRF 常数，越大越平滑两路权重
+
+# BM25 索引（启动时构建，常驻内存）
+_bm25_index: BM25Okapi | None = None
+_bm25_docs: list[dict] = []       # [{"id": str, "text": str, "meta": dict}, ...]
+_bm25_by_id: dict[str, dict] = {} # id → doc dict，供 RRF 后查元数据
 
 SYSTEM_PROMPT = (
     "You are a helpful assistant for SAP Datasphere. "
@@ -47,10 +58,28 @@ def _get_collection():
     return client.get_collection("datasphere")
 
 
+def _tokenize(text: str) -> list[str]:
+    return re.sub(r"[^a-z0-9\s]", " ", text.lower()).split()
+
+
+def _build_bm25_index() -> None:
+    # Chroma 全量拉取，在内存里建 BM25 倒排索引
+    global _bm25_index, _bm25_docs, _bm25_by_id
+    result = _get_collection().get(include=["documents", "metadatas"])
+    _bm25_docs = [
+        {"id": id_, "text": doc, "meta": meta}
+        for id_, doc, meta in zip(result["ids"], result["documents"], result["metadatas"])
+    ]
+    _bm25_index = BM25Okapi([_tokenize(d["text"]) for d in _bm25_docs])
+    _bm25_by_id = {d["id"]: d for d in _bm25_docs}
+    print(f"BM25 index built: {len(_bm25_docs)} docs")
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     _get_embed_model()
     _get_collection()
+    _build_bm25_index()
     yield
 
 
@@ -101,28 +130,62 @@ def ask(req: AskRequest):
     model = _get_embed_model()
     col = _get_collection()
 
+    # --- 向量检索（dense path）---
     vec = model.encode(req.question, normalize_embeddings=True).tolist()
-    results = col.query(
+    dense_res = col.query(
         query_embeddings=[vec],
-        n_results=req.top_k,
+        n_results=_CANDIDATES,
         include=["documents", "metadatas", "distances"],
     )
+    dense_ids = dense_res["ids"][0]
+    dense_by_id = {
+        id_: {"text": doc, "meta": meta, "dist": dist}
+        for id_, doc, meta, dist in zip(
+            dense_ids,
+            dense_res["documents"][0],
+            dense_res["metadatas"][0],
+            dense_res["distances"][0],
+        )
+    }
 
-    chunks = [
-        {
-            "text": doc,
+    # --- BM25 检索（sparse path）---
+    tokens = _tokenize(req.question)
+    if tokens and _bm25_index is not None:
+        bm25_scores = _bm25_index.get_scores(tokens)
+        bm25_top_idx = sorted(range(len(bm25_scores)), key=lambda i: -bm25_scores[i])[:_CANDIDATES]
+        bm25_ids = [_bm25_docs[i]["id"] for i in bm25_top_idx]
+    else:
+        bm25_ids = []
+
+    # --- RRF 融合 ---
+    rrf_scores: dict[str, float] = {}
+    for rank, id_ in enumerate(dense_ids):
+        rrf_scores[id_] = rrf_scores.get(id_, 0.0) + 1.0 / (_RRF_K + rank + 1)
+    for rank, id_ in enumerate(bm25_ids):
+        rrf_scores[id_] = rrf_scores.get(id_, 0.0) + 1.0 / (_RRF_K + rank + 1)
+
+    top_ids = sorted(rrf_scores, key=lambda x: -rrf_scores[x])[:req.top_k]
+
+    # --- 组装 chunk 列表（优先用 dense 的余弦相似度做 score 展示）---
+    chunks = []
+    for id_ in top_ids:
+        if id_ in dense_by_id:
+            d = dense_by_id[id_]
+            text, meta = d["text"], d["meta"]
+            score = round(1 - d["dist"], 4)
+        else:
+            d = _bm25_by_id[id_]
+            text, meta = d["text"], d["meta"]
+            # BM25-only 命中：用归一化后的 RRF 分数展示
+            score = round(rrf_scores[id_] * (_RRF_K + 1), 4)
+        chunks.append({
+            "text": text,
             "deliverable": meta.get("deliverable", ""),
             "topic_title": meta.get("topic_title", ""),
             "source_file": meta.get("source_file", ""),
             "chunk_index": meta.get("chunk_index", 0),
-            "score": round(1 - dist, 4),
-        }
-        for doc, meta, dist in zip(
-            results["documents"][0],
-            results["metadatas"][0],
-            results["distances"][0],
-        )
-    ]
+            "score": score,
+        })
 
     context_parts = [
         f"[{i+1}] {c['deliverable']}\n{c['text']}" for i, c in enumerate(chunks)
