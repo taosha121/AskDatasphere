@@ -92,6 +92,14 @@ python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 - Top K 可在页面上调节（默认 5，最大 20）
 - 检索采用混合策略：Dense（Chroma 向量检索）和 BM25 各召回 20 个候选，经 RRF 融合后取 Top 10，再由 CrossEncoder reranker 精排，最终返回 Top K
 
+### Eval 报告页
+
+上传 `eval_scores.csv`（由 `python -m rag.evaluate` 生成）后，页面展示：
+
+- 顶部四个指标卡片（Context Recall / Context Precision / Faithfulness / Answer Relevancy），绿色 ≥ 0.75、黄色 ≥ 0.50、红色 < 0.50
+- 明细表：列出全部评估问题及每条四个指标得分，支持按任意指标排序（升序 / 降序）
+- 点击任意行展开详情弹窗，可查看完整问题、系统答案、标准答案和各项得分
+
 ## 评估 RAG 质量
 
 用 RAGAS 对检索和生成分别打分（judge 用 Claude，embedding 用本地 bge，不依赖 OpenAI）。三步：
