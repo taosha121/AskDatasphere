@@ -10,6 +10,8 @@
 | 后端 | FastAPI + uvicorn |
 | 向量数据库 | Chroma (本地持久化) |
 | Embedding 模型 | BAAI/bge-base-en-v1.5 (via ModelScope) |
+| 检索策略 | Dense（Chroma）+ BM25（rank_bm25）→ RRF 融合 → CrossEncoder 精排 |
+| Reranker | BAAI/bge-reranker-base (via ModelScope) |
 | 生成模型 | Anthropic Claude (claude-sonnet-4-5) |
 | 评估 | RAGAS (Claude 做 judge，bge 做 embedding) |
 
@@ -75,7 +77,7 @@ python -m rag.ingest
 python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
-访问 `http://localhost:8000`。服务启动时会预加载 embedding 模型，第一次启动较慢（约 10-30 秒）。
+访问 `http://localhost:8000`。服务启动时会预加载 embedding 模型和 reranker 模型，并从 Chroma 全量拉取所有 chunk 构建 BM25 倒排索引，第一次启动较慢（约 30-60 秒）。
 
 ## 功能说明
 
@@ -88,6 +90,7 @@ python -m uvicorn backend.main:app --reload --host 0.0.0.0 --port 8000
 - 左栏：输入问题 → Ask → 显示 Claude 的回答
 - 右栏：显示检索命中的 Top K 文档块 + 最终发给 Claude 的完整 Prompt
 - Top K 可在页面上调节（默认 5，最大 20）
+- 检索采用混合策略：Dense（Chroma 向量检索）和 BM25 各召回 20 个候选，经 RRF 融合后取 Top 10，再由 CrossEncoder reranker 精排，最终返回 Top K
 
 ## 评估 RAG 质量
 
