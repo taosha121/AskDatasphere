@@ -1,18 +1,19 @@
 """
-运行真实 RAG 管线，为评估集补全 answer 和 retrieved_contexts。
+Run the real RAG pipeline to fill in answers and retrieved contexts for the eval set.
 
-读取 gen_eval_dataset.py 产出的 eval_dataset.jsonl（只含 question + ground_truth），
-对每条 question 调用真实管线 backend.main.ask（检索 + Claude 生成），
-补上系统实际生成的 answer 和实际召回的 retrieved_contexts，
-输出供 RAGAS 评估使用的 jsonl。
+Reads eval_dataset.jsonl (produced by gen_eval_dataset.py, containing only question +
+ground_truth), calls the live pipeline backend.main.ask (retrieval + Claude generation)
+for each question, appends the system's actual answer and retrieved contexts, and writes
+an output JSONL file ready for RAGAS scoring.
 
-与 eval_dataset.jsonl 的区别：
-- contexts（原来的"正确来源 chunk"）不进入这里；RAGAS 要评的是检索器实际召回的内容
-- 新增 answer（系统答案）、retrieved_contexts（实际召回）
+Difference from eval_dataset.jsonl:
+- contexts (the "correct source chunk") are not included; RAGAS evaluates what the
+  retriever actually returned, not what it should have
+- adds answer (system-generated) and retrieved_contexts (actually retrieved)
 
-运行方式：
-    python -m rag.run_eval                 # 全量 400 条，烧 token
-    python -m rag.run_eval --limit 20      # 先跑通链路
+Usage:
+    python -m rag.run_eval                 # full 400-question run (token-heavy)
+    python -m rag.run_eval --limit 20      # smoke test
     python -m rag.run_eval --limit 20 --top-k 5
 """
 import argparse
@@ -61,7 +62,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="Run RAG pipeline over eval questions")
     p.add_argument("--input",  type=Path, default=ROOT / "eval_dataset.jsonl")
     p.add_argument("--output", type=Path, default=ROOT / "eval_runs.jsonl")
-    p.add_argument("--limit",  type=int, default=None, help="只处理前 N 条")
+    p.add_argument("--limit",  type=int, default=None, help="Process only the first N rows")
     p.add_argument("--top-k",  type=int, default=5)
     args = p.parse_args()
     build(args.input, args.output, args.limit, args.top_k)

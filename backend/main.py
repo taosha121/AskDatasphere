@@ -21,15 +21,15 @@ CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 MODEL_NAME = "BAAI/bge-base-en-v1.5"
 CLAUDE_MODEL = "claude-sonnet-4-5"
 
-# 混合检索：两路各召回 CANDIDATES 条候选，经 RRF 融合后取 top_k
+# Hybrid retrieval: both paths retrieve CANDIDATES candidates, merged via RRF, then top_k returned
 _CANDIDATES = 20
-_RRF_K = 60             # 标准 RRF 常数，越大越平滑两路权重
-_RERANK_CANDIDATES = 10 # RRF 后送入 cross-encoder 精排的候选数
+_RRF_K = 60             # Standard RRF constant; higher values smooth the two-path weight blend
+_RERANK_CANDIDATES = 10 # Candidates passed to the cross-encoder after RRF fusion
 
-# BM25 索引（启动时构建，常驻内存）
+# BM25 index (built at startup, kept in memory)
 _bm25_index: BM25Okapi | None = None
 _bm25_docs: list[dict] = []       # [{"id": str, "text": str, "meta": dict}, ...]
-_bm25_by_id: dict[str, dict] = {} # id → doc dict，供 RRF 后查元数据
+_bm25_by_id: dict[str, dict] = {} # id → doc dict for metadata lookup after RRF
 
 RERANKER_NAME = "BAAI/bge-reranker-base"
 
@@ -77,7 +77,7 @@ def _tokenize(text: str) -> list[str]:
 
 
 def _build_bm25_index() -> None:
-    # Chroma 全量拉取，在内存里建 BM25 倒排索引
+    # Pull all documents from Chroma and build an in-memory BM25 inverted index
     global _bm25_index, _bm25_docs, _bm25_by_id
     result = _get_collection().get(include=["documents", "metadatas"])
     _bm25_docs = [
@@ -145,7 +145,7 @@ def ask(req: AskRequest):
     model = _get_embed_model()
     col = _get_collection()
 
-    # --- 向量检索（dense path）---
+    # --- Dense retrieval (vector search via Chroma) ---
     vec = model.encode(req.question, normalize_embeddings=True).tolist()
     dense_res = col.query(
         query_embeddings=[vec],
@@ -163,7 +163,7 @@ def ask(req: AskRequest):
         )
     }
 
-    # --- BM25 检索（sparse path）---
+    # --- BM25 retrieval (sparse path) ---
     tokens = _tokenize(req.question)
     if tokens and _bm25_index is not None:
         bm25_scores = _bm25_index.get_scores(tokens)
@@ -172,7 +172,7 @@ def ask(req: AskRequest):
     else:
         bm25_ids = []
 
-    # --- RRF 融合 ---
+    # --- RRF fusion ---
     rrf_scores: dict[str, float] = {}
     for rank, id_ in enumerate(dense_ids):
         rrf_scores[id_] = rrf_scores.get(id_, 0.0) + 1.0 / (_RRF_K + rank + 1)
@@ -181,7 +181,7 @@ def ask(req: AskRequest):
 
     top_ids = sorted(rrf_scores, key=lambda x: -rrf_scores[x])[:_RERANK_CANDIDATES]
 
-    # --- Reranker 精排（cross-encoder 对候选重新打分，取 top_k）---
+    # --- Reranker: CrossEncoder rescores each (question, chunk) pair, returns top_k ---
     reranker = _get_reranker()
     pairs = [
         (req.question, _bm25_by_id[id_]["text"] if id_ not in dense_by_id else dense_by_id[id_]["text"])
@@ -190,7 +190,7 @@ def ask(req: AskRequest):
     rerank_scores = reranker.predict(pairs)
     top_ids = [id_ for _, id_ in sorted(zip(rerank_scores, top_ids), reverse=True)][:req.top_k]
 
-    # --- 组装 chunk 列表（优先用 dense 的余弦相似度做 score 展示）---
+    # --- Assemble chunk list (prefer cosine similarity from dense path for score display) ---
     chunks = []
     for id_ in top_ids:
         if id_ in dense_by_id:
@@ -200,7 +200,7 @@ def ask(req: AskRequest):
         else:
             d = _bm25_by_id[id_]
             text, meta = d["text"], d["meta"]
-            # BM25-only 命中：用归一化后的 RRF 分数展示
+            # BM25-only hit: use normalized RRF score for display
             score = round(rrf_scores[id_] * (_RRF_K + 1), 4)
         chunks.append({
             "text": text,

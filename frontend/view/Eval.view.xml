@@ -16,7 +16,7 @@
     <content>
       <VBox class="sapUiMediumMargin">
 
-        <!-- 上传区 -->
+        <!-- Upload area -->
         <Title text="Upload eval_scores.csv" level="H4" class="sapUiSmallMarginBottom"/>
         <HBox alignItems="Center">
           <unified:FileUploader
@@ -32,7 +32,7 @@
             class="sapUiSmallMarginBegin"/>
         </HBox>
 
-        <!-- 汇总指标卡片 -->
+        <!-- Aggregate metric cards -->
         <VBox id="summarySection" visible="false" class="sapUiMediumMarginTop">
 
           <Title text="Overall Scores" level="H4" class="sapUiSmallMarginBottom"/>
@@ -49,7 +49,7 @@
                   state="{eval>/summary/context_recall_state}"
                   height="0.75rem"
                   class="sapUiTinyMarginTop"/>
-                <Text text="召回了多少必要信息" class="sapUiTinyMarginTop" wrapping="true"/>
+                <Text text="How much necessary information was retrieved" class="sapUiTinyMarginTop" wrapping="true"/>
               </VBox>
 
               <VBox class="sapUiSmallMargin">
@@ -59,7 +59,7 @@
                   state="{eval>/summary/context_precision_state}"
                   height="0.75rem"
                   class="sapUiTinyMarginTop"/>
-                <Text text="有用 chunk 是否排在前面" class="sapUiTinyMarginTop" wrapping="true"/>
+                <Text text="Are relevant chunks ranked higher" class="sapUiTinyMarginTop" wrapping="true"/>
               </VBox>
 
               <VBox class="sapUiSmallMargin">
@@ -69,7 +69,7 @@
                   state="{eval>/summary/faithfulness_state}"
                   height="0.75rem"
                   class="sapUiTinyMarginTop"/>
-                <Text text="答案有无编造 context 外内容" class="sapUiTinyMarginTop" wrapping="true"/>
+                <Text text="Does the answer fabricate content beyond the context" class="sapUiTinyMarginTop" wrapping="true"/>
               </VBox>
 
               <VBox class="sapUiSmallMargin">
@@ -79,7 +79,7 @@
                   state="{eval>/summary/answer_relevancy_state}"
                   height="0.75rem"
                   class="sapUiTinyMarginTop"/>
-                <Text text="答案是否切题" class="sapUiTinyMarginTop" wrapping="true"/>
+                <Text text="Is the answer on-topic" class="sapUiTinyMarginTop" wrapping="true"/>
               </VBox>
 
             </l:content>
@@ -89,7 +89,7 @@
 
         </VBox>
 
-        <!-- 逐条结果表格 -->
+        <!-- Per-question results table -->
         <VBox id="tableSection" visible="false" class="sapUiMediumMarginTop">
 
           <Title text="Per-Question Results" level="H4" class="sapUiSmallMarginBottom"/>

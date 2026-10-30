@@ -15,7 +15,7 @@
     <content>
       <HBox width="100%" class="sapUiSmallMargin" alignItems="Start">
 
-        <!-- ── 左栏：输入 + 答案 ── -->
+        <!-- ── Left column: input + answer ── -->
         <VBox width="50%" class="sapUiSmallMarginEnd">
 
           <Title text="Ask a Question" level="H4" class="sapUiSmallMarginBottom"/>
@@ -58,7 +58,7 @@
 
         </VBox>
 
-        <!-- ── 右栏：Top 3 + Prompt ── -->
+        <!-- ── Right column: retrieved chunks + prompt ── -->
         <VBox width="50%" class="sapUiSmallMarginBegin">
 
           <Title id="chunksTitle" text="Retrieved Chunks (Top 5)" level="H4" class="sapUiSmallMarginBottom"/>

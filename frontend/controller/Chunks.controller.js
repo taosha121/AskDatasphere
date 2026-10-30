@@ -69,7 +69,7 @@ sap.ui.define([
           return r.json();
         })
         .then(function (data) {
-          // 预处理好 view 需要的字段，直接绑定
+          // Pre-compute display fields and bind directly to the view
           var items = data.items.map(function (item, idx) {
             return {
               globalIdx:      offset + idx,
@@ -79,7 +79,7 @@ sap.ui.define([
               preview:        item.text.length > 180
                                 ? item.text.substring(0, 180) + "…"
                                 : item.text,
-              // 完整数据保留，供 Dialog 使用
+              // full data kept for the detail Dialog
               _full: item
             };
           });

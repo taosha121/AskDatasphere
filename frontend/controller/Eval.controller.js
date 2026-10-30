@@ -22,13 +22,13 @@ sap.ui.define([
     return (v == null || isNaN(v)) ? "—" : v.toFixed(3);
   }
 
-  // 流式解析 CSV，正确处理字段内嵌换行（retrieved_contexts 里有大量 \n）
+  // Streaming CSV parser — correctly handles embedded newlines in fields (retrieved_contexts contains many \n)
   function parseCSV(text) {
     var rows = [], headers = null;
     var fields = [], cur = "", inQ = false;
 
     for (var i = 0; i <= text.length; i++) {
-      var c = i < text.length ? text[i] : "\n"; // 末尾哨兵，确保最后一行被 flush
+      var c = i < text.length ? text[i] : "\n"; // sentinel at end to flush the last row
       if (c === '"') {
         if (inQ && text[i + 1] === '"') { cur += '"'; i++; }
         else { inQ = !inQ; }
@@ -98,7 +98,7 @@ sap.ui.define([
         return;
       }
 
-      // 计算每行的展示字段
+      // Compute display fields for each row
       var rows = parsed.map(function (r, i) {
         var row = { _idx: i };
         METRICS.forEach(function (m) {
@@ -107,7 +107,7 @@ sap.ui.define([
           row[m + "_label"] = scoreLabel(row[m]);
           row[m + "_state"] = scoreState(row[m]);
         });
-        // question 来自 user_input 列（RAGAS 输出格式）
+        // question comes from the user_input column (RAGAS output format)
         var q = r["user_input"] || r["question"] || "";
         row["question_full"] = q;
         row["question_preview"] = q.length > 90 ? q.substring(0, 90) + "…" : q;

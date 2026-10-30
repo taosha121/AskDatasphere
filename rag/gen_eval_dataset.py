@@ -1,21 +1,20 @@
 """
-评估集生成脚本。
+Evaluation dataset generation script.
 
-从 ChromaDB 按 deliverable 比例随机采样 chunk，
-用 Claude 对每个 chunk 生成 2 条 Q&A 对，
-输出 JSONL 文件供 RAGAS 评估使用。
+Randomly samples chunks from ChromaDB proportional to each deliverable's share,
+uses Claude to generate 2 Q&A pairs per chunk, and writes a JSONL file for RAGAS.
 
-每条记录格式：
+Each record format:
 {
     "question":     str,
     "ground_truth": str,
-    "contexts":     [str],   # 原始 chunk 文本
+    "contexts":     [str],   # original chunk text
     "chunk_id":     str,
     "deliverable":  str,
     "source_file":  str
 }
 
-运行方式：
+Usage:
     python -m rag.gen_eval_dataset
     python -m rag.gen_eval_dataset --sample 100 --output my_eval.jsonl
 """
@@ -72,7 +71,7 @@ def _sample_chunks(col, n: int) -> list[dict]:
     if n >= total:
         return rows
 
-    # 按 deliverable 分组后按比例采样，保证覆盖面
+    # Group by deliverable, then sample proportionally to ensure coverage across all docs
     groups: dict[str, list] = {}
     for row in rows:
         groups.setdefault(row.get("deliverable", "unknown"), []).append(row)

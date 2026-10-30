@@ -1,37 +1,40 @@
 """
-用 RAGAS 对 run_eval.py 产出的结果算分。
+Score run_eval.py output with RAGAS.
 
-整体思路：
-  eval_runs.jsonl（run_eval.py 产出）
-      ↓ 每条记录含 question / ground_truth / answer / retrieved_contexts
-  RAGAS 框架
-      ↓ 用 Claude 作为 judge LLM，用本地 bge 做 embedding
-  eval_scores.csv     ← 每条问题的逐项得分
-  eval_summary.json   ← 所有问题的指标均值汇总
+Overview:
+  eval_runs.jsonl (produced by run_eval.py)
+      ↓ each record contains question / ground_truth / answer / retrieved_contexts
+  RAGAS framework
+      ↓ Claude as judge LLM, local bge for embeddings
+  eval_scores.csv     ← per-question scores for all four metrics
+  eval_summary.json   ← aggregate means across all questions
 
-四个指标的评估逻辑：
+How each metric works:
 - context_recall
-    judge LLM 把 ground_truth 拆成若干命题，逐一检查 retrieved_contexts 里
-    有没有支撑该命题的内容。衡量"检索有没有找到答对这题所需的信息"。
+    Judge LLM decomposes ground_truth into individual claims, checks each against
+    retrieved_contexts for supporting content. Measures "did retrieval find the
+    information needed to answer this question?"
 
 - context_precision
-    judge LLM 判断每个召回 chunk 对回答 ground_truth 是否真正有用，
-    然后加权计算有用 chunk 在排名靠前位置的比例。
-    衡量"有用的 chunk 排在前面了吗"（排序质量）。
+    Judge LLM decides whether each retrieved chunk is genuinely useful for answering
+    ground_truth, then computes a rank-weighted ratio of useful chunks.
+    Measures "are useful chunks ranked near the top?" (ranking quality).
 
 - faithfulness
-    judge LLM 从 answer 中提取所有事实性陈述，再逐一检查 retrieved_contexts
-    里有没有支撑，统计比例。衡量"答案有没有捏造 context 里没有的内容"。
+    Judge LLM extracts all factual claims from answer, checks each against
+    retrieved_contexts for support, reports the supported ratio.
+    Measures "does the answer fabricate anything not in the retrieved context?"
 
 - answer_relevancy
-    embedding 模型把 answer 反向生成多个假想问题，计算这些假想问题与原始
-    question 的余弦相似度均值。衡量"答案是否在答这道题，而不是答非所问"。
-    （这个指标不需要 ground_truth，只需要 question 和 answer）
+    Embedding model reverse-generates candidate questions from answer, computes
+    cosine similarity between those candidates and the original question.
+    Measures "is the answer actually answering this question, not something else?"
+    (Does not require ground_truth — only question and answer.)
 
-judge LLM 用 Claude（走 .env 里的 base_url），embedding 用本地 bge
-（与检索时的 embedding 保持一致，避免引入额外误差），全程不依赖 OpenAI。
+Judge LLM uses Claude (via base_url from .env); embeddings use local bge
+(same model as retrieval, avoiding extra variance). No OpenAI dependency.
 
-运行方式：
+Usage:
     python -m rag.evaluate
     python -m rag.evaluate --input eval_runs.jsonl --limit 20
 """
@@ -62,10 +65,10 @@ CLAUDE_MODEL = "claude-sonnet-4-5"
 
 
 class BGEEmbeddings(Embeddings):
-    """把本地 bge SentenceTransformer 包成 langchain Embeddings 接口。
+    """Wrap the local bge SentenceTransformer as a langchain Embeddings interface.
 
-    RAGAS 内部通过 langchain Embeddings 协议调用 embedding，
-    复用 backend 里已经初始化好的同一个模型实例，避免重复加载。
+    RAGAS calls embeddings via the langchain Embeddings protocol; this reuses the
+    already-initialized model instance from backend to avoid loading it twice.
     """
 
     def __init__(self):
@@ -80,11 +83,11 @@ class BGEEmbeddings(Embeddings):
 
 
 def _make_judge() -> LangchainLLMWrapper:
-    """创建 RAGAS 用的 judge LLM。
+    """Create the RAGAS judge LLM.
 
-    RAGAS 内部通过 langchain LLM 协议调用大模型，所以需要用
-    LangchainLLMWrapper 包一层。context_recall / context_precision /
-    faithfulness 三个指标都会多次调用这个 judge 来做逐条判断。
+    RAGAS calls the LLM via the langchain LLM protocol, so a LangchainLLMWrapper
+    is required. context_recall, context_precision, and faithfulness all make
+    multiple judge calls per sample.
     """
     llm = ChatAnthropic(
         model=CLAUDE_MODEL,
@@ -101,15 +104,14 @@ def build(inp: Path, out: Path, limit: int | None) -> None:
     if limit:
         rows = rows[:limit]
 
-    # RAGAS 要求固定的字段名（user_input / response / retrieved_contexts / reference），
-    # 与我们内部命名（question / answer / retrieved_contexts / ground_truth）不完全一致，
-    # 这里做一次映射。
+    # RAGAS requires fixed field names (user_input / response / retrieved_contexts / reference);
+    # map from our internal names (question / answer / retrieved_contexts / ground_truth).
     samples = [
         {
-            "user_input":         r["question"],        # 用户提的问题
-            "response":           r["answer"],           # RAG 系统生成的答案
-            "retrieved_contexts": r["retrieved_contexts"],  # 检索器实际召回的 chunk 列表
-            "reference":          r["ground_truth"],    # gen_eval_dataset 生成的标准答案，作为评分基准
+            "user_input":         r["question"],           # the user's question
+            "response":           r["answer"],             # the RAG system's generated answer
+            "retrieved_contexts": r["retrieved_contexts"], # chunks actually returned by the retriever
+            "reference":          r["ground_truth"],       # ground-truth answer from gen_eval_dataset, used as scoring reference
         }
         for r in rows
     ]
@@ -118,11 +120,11 @@ def build(inp: Path, out: Path, limit: int | None) -> None:
     print(f"Evaluating {len(samples)} samples with Claude judge + bge embeddings…\n")
 
     judge = _make_judge()
-    # answer_relevancy 指标需要 embedding 来计算问题相似度，其余三个指标用 judge LLM
+    # answer_relevancy needs embeddings to compute question similarity; the other three metrics use the judge LLM
     embeddings = LangchainEmbeddingsWrapper(BGEEmbeddings())
 
-    # evaluate() 会并发调用 judge LLM 和 embedding，每条样本会产生多次 LLM 调用，
-    # 样本量大时耗时和 token 消耗不低。
+    # evaluate() runs judge LLM and embeddings concurrently; each sample triggers multiple LLM calls,
+    # so large sample counts take significant time and tokens.
     result = evaluate(
         dataset=dataset,
         metrics=[context_recall, context_precision, faithfulness, answer_relevancy],
@@ -133,11 +135,11 @@ def build(inp: Path, out: Path, limit: int | None) -> None:
     print("\n=== Aggregate scores ===")
     print(result)
 
-    # 逐条得分写入 CSV，方便后续分析哪些问题分低、哪类 deliverable 表现差
+    # Write per-question scores to CSV for post-hoc analysis of low-scoring cases
     df = result.to_pandas()
     df.to_csv(out, index=False)
 
-    # 聚合均值写入 JSON，方便跨次运行对比（每次调参后跑一遍，对比这个文件）
+    # Write aggregate means to JSON for cross-run comparison (run after each tuning step)
     metric_cols = ["context_recall", "context_precision", "faithfulness", "answer_relevancy"]
     summary = {
         "timestamp":       datetime.now().isoformat(timespec="seconds"),
@@ -158,6 +160,6 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="Score RAG eval runs with RAGAS")
     p.add_argument("--input",  type=Path, default=ROOT / "eval_runs.jsonl")
     p.add_argument("--output", type=Path, default=ROOT / "eval_scores.csv")
-    p.add_argument("--limit",  type=int, default=None, help="只评前 N 条")
+    p.add_argument("--limit",  type=int, default=None, help="Score only the first N rows")
     args = p.parse_args()
     build(args.input, args.output, args.limit)

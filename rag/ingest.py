@@ -1,10 +1,11 @@
 """
-向量数据库构建脚本。
+Vector store build script.
 
-扫描 pdfs/ 下所有 PDF 文件，提取纯文本，切块后生成向量并写入 Chroma 本地数据库。
-只需运行一次；重复运行会跳过已存在的 chunk（幂等）。
+Scans all PDF files under pdfs/, extracts plain text, chunks the text, generates
+embeddings, and writes everything to a local Chroma database.
+Run once; re-running skips already-existing chunks (idempotent).
 
-运行方式：
+Usage:
     python -m rag.ingest
 """
 import re
@@ -18,7 +19,7 @@ PDF_DIR    = Path(__file__).parent.parent / "pdfs"
 CHROMA_DIR = Path(__file__).parent.parent / "chroma_db"
 
 MODEL_NAME    = "BAAI/bge-base-en-v1.5"
-CHUNK_CHARS   = 1500   # ~375 token，留足 bge-base 512 token 上限余量（3200≈800 token 会被尾部截断）
+CHUNK_CHARS   = 1500   # ~375 tokens; keeps chunks well within bge-base's 512-token limit (3200 chars ≈ 800 tokens causes tail truncation)
 OVERLAP_CHARS = 200
 
 
@@ -36,7 +37,7 @@ def _load_model() -> SentenceTransformer:
 def _extract_text_from_pdf(pdf_path: Path) -> tuple[str, str]:
     doc = fitz.open(pdf_path)
 
-    # 优先 PDF 内嵌 metadata title，没有则从第一页正文提取
+    # Prefer the title embedded in PDF metadata; fall back to extracting from the first page body
     title = (doc.metadata.get("title") or "").strip()
     if not title:
         first_page = doc[0].get_text() if len(doc) > 0 else ""

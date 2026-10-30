@@ -1,127 +1,123 @@
-# 评估记录
+# Evaluation Log
 
-本文件记录 AskDatasphere 历次 RAGAS 评估的参数、结果、优缺点分析与改进方案。
+This file records all RAGAS evaluation runs for AskDatasphere: parameters, results, analysis, and improvement plans.
 
-四个指标（Context Recall、Context Precision、Faithfulness、Answer Relevancy）的**计算方式**见 [README.md](README.md#评估-rag-质量)「评估 RAG 质量」章节，本文件只记录每次评估的**结果解读**。四个指标都是越接近 1 越好。
+For how each metric is computed (Context Recall, Context Precision, Faithfulness, Answer Relevancy), see the "Evaluating RAG Quality" section in [README.md](README.md). This file only records results and interpretation. All four metrics are better closer to 1.
 
-优化方向的技术方案见 [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md)。
+For technical details on optimization directions, see [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md).
 
 ---
 
-## 第一次基线（2026-10-26，50 样本）
+## Run #1 — Baseline (2026-10-26, 50 samples)
 
-| 项目 | 值 |
+| Parameter | Value |
 |---|---|
-| 样本量 | 50（从 400 条评估集取前 50） |
+| Sample count | 50 (first 50 of the 400-row eval set) |
 | Top K | 3 |
-| 生成 / judge 模型 | claude-sonnet-4-5 |
+| Generation / judge model | claude-sonnet-4-5 |
 | Embedding | BAAI/bge-base-en-v1.5 |
-| Chunk 大小 | 3200 字符 / 400 重叠 |
+| Chunk size | 3200 chars / 400 overlap |
 
-| 指标 | 分数 | 低于 0.5 的条数 |
+| Metric | Score | Count < 0.5 |
 |---|---|---|
 | Context Recall | 0.710 | 14 / 50 |
 | Context Precision | 0.625 | 23 / 50 |
 | Faithfulness | 0.916 | 1 / 50 |
 | Answer Relevancy | 0.797 | 9 / 50 |
 
-**结论：** 首次跑通评估流程，确认瓶颈在检索侧（Recall/Precision 偏低，Faithfulness 已很高）。Top K=3 偏小，决定后续调到 5。样本量小，仅作基线参考。
+**Conclusion:** First successful eval run. Confirmed the bottleneck is on the retrieval side (Recall/Precision low; Faithfulness already strong). Top K=3 is too small; decided to raise to 5. Small sample — baseline reference only.
 
 ---
 
-## 第二次全量评估（2026-10-28，400 样本）
+## Run #2 — Full Evaluation (2026-10-28, 400 samples)
 
-| 项目 | 值 |
+| Parameter | Value |
 |---|---|
-| 样本量 | 400（全量，200 个 chunk × 2 问答对） |
+| Sample count | 400 (full set, 200 chunks × 2 Q&A pairs each) |
 | Top K | 5 |
-| 生成 / judge 模型 | claude-sonnet-4-5 |
+| Generation / judge model | claude-sonnet-4-5 |
 | Embedding | BAAI/bge-base-en-v1.5 |
-| Chunk 大小 | 3200 字符 / 400 重叠 |
+| Chunk size | 3200 chars / 400 overlap |
 
-| 指标 | 均值 | 低于 0.5 的条数 | 等于 0 的条数 |
+| Metric | Mean | Count < 0.5 | Count = 0 |
 |---|---|---|---|
-| Context Recall | **0.793** | 77 / 400（19%） | 77 / 400 |
-| Context Precision | **0.631** | 165 / 400（41%） | 73 / 400 |
-| Faithfulness | **0.909** | 13 / 400（3%） | 2 / 400 |
-| Answer Relevancy | **0.796** | 74 / 400（18.5%） | 74 / 400 |
+| Context Recall | **0.793** | 77 / 400 (19%) | 77 / 400 |
+| Context Precision | **0.631** | 165 / 400 (41%) | 73 / 400 |
+| Faithfulness | **0.909** | 13 / 400 (3%) | 2 / 400 |
+| Answer Relevancy | **0.796** | 74 / 400 (18.5%) | 74 / 400 |
 
-### 结果解读
+### Interpretation
 
-**Context Recall（0.793）：** 约八成问题检索器找到了必要信息。但 77 条（19%）得分为 0——正确切片完全没被召回，Claude 无从作答，只能输出"信息不足"。
+**Context Recall (0.793):** About 80% of questions had the necessary information retrieved. But 77 cases (19%) scored exactly 0 — the correct chunk was never retrieved and Claude had no basis to answer, outputting "insufficient information."
 
-**Context Precision（0.631）：** 四个指标里最弱，165 条（41%）低于 0.5，说明近一半问题的召回结果充斥噪音 chunk，或有用的 chunk 排在靠后。这是当前系统最主要的瓶颈。
+**Context Precision (0.631):** The weakest of the four. 165 cases (41%) scored below 0.5, meaning nearly half of all questions returned noisy chunks or had useful chunks ranked too low. This is the primary bottleneck.
 
-**Faithfulness（0.909）：** 四个指标里最高，仅 13 条低于 0.5。系统提示词的约束（"只基于文档片段回答，不足则说信息不足"）效果显著，Claude 基本没有凭空编造。2 条得分为 0 的 case 可能是 Claude 混入了训练数据里的 SAP 知识，值得单独排查。
+**Faithfulness (0.909):** The strongest metric; only 13 cases below 0.5. The system prompt constraints ("answer only from the provided excerpts, say so if insufficient") are working well — Claude rarely fabricates. The 2 cases scoring 0 may involve Claude drawing on training-time SAP knowledge; worth investigating.
 
-**Answer Relevancy（0.796）：** 74 条得分恰好为 0（18.5%），与 Context Recall 为 0 的 77 条高度重合——根因是检索失败：检索没找回正确内容时，Claude 输出"信息不足"，这类回答反向生成的问题与原始问题毫无语义关联，导致得分为 0。不是生成模型的问题。
+**Answer Relevancy (0.796):** 74 cases scored exactly 0 (18.5%), closely matching the 77 recall=0 cases. Root cause is retrieval failure: when retrieval finds nothing useful, Claude outputs "insufficient information" — a non-answer that generates candidate questions with no semantic relation to the original query, scoring 0. Not a generation problem.
 
-### 低分 case 分析（针对 77 条 recall=0）
+### Low-Score Case Analysis (77 recall=0 cases)
 
-逐条排查 recall=0 的问题，导致检索失效的术语/问题类型集中在三类：
+Reviewing all recall=0 cases, three failure patterns account for most:
 
-1. **精确数值 / 规格事实（约 19 条）**：问具体数字（版本号 Pandas `2.2.2`、范围 `1-366`、线程数 `10`、预览 `20` 行），答案是埋在大段正文或表格里的一句话。dense embedding 不编码精确数字，且事实只占大 chunk 的一句话，chunk 向量被周围无关正文主导，排不进 Top 5。
+1. **Precise numerical / spec facts (~19 cases):** Questions asking for specific numbers (Pandas version `2.2.2`, range `1–366`, thread count `10`, preview `20` rows). The answer is a single sentence buried in a long passage or table. Dense embeddings don't encode exact numbers well, and the fact accounts for only a tiny fraction of the chunk vector, which gets dominated by surrounding context. Not ranked in Top 5.
 
-2. **稀有复合术语**：`auxiliary measure`、`Calendar - Day of Year`、`Semantic Enrichment` 等全库低频术语，语义信号被整块宽泛主题冲淡。例：问"什么是 auxiliary measure"，召回的全是通用 measure 内容，偏偏没有那条定义句。
+2. **Rare compound terms:** Terms like `auxiliary measure`, `Calendar - Day of Year`, `Semantic Enrichment` — low-frequency in the corpus — are diluted by the broad topic of the surrounding chunk. For example, asking "what is an auxiliary measure" retrieves general measure content, never the definition sentence.
 
-3. **旧产品名 / 变更日志元问题（4 条，评估集噪音）**：`SAP Data Warehouse Cloud`（SAP Datasphere 旧名）相关问题，如"文档档案里提到的最早版本""2021.7 把 Administration 改名成了什么"，依赖跨多个 changelog 条目检索，不适合 Top-5 向量召回。
+3. **Old product name / changelog meta-questions (4 cases — eval set noise):** Questions referencing `SAP Data Warehouse Cloud` (old name for SAP Datasphere), e.g. "earliest version mentioned in the docs" or "what was Administration renamed to in 2021.7". These require cross-document changelog retrieval that Top-5 vector search cannot handle.
 
-**另发现的硬问题——chunk 超出 embedding 模型上限：** `BAAI/bge-base-en-v1.5` 的 `max_seq_length` 是 512 token，而 3200 字符英文 ≈ 800 token，超出部分被 SentenceTransformer 直接截断——每个 chunk 尾部约 1/3 内容（~1200 字符）根本没进入向量。若事实恰好落在 chunk 后半段，它压根没被编码，这不是排序问题而是信息根本没进索引。
+**Hard bug discovered — chunks exceeding the embedding model's input limit:** `BAAI/bge-base-en-v1.5` has `max_seq_length` = 512 tokens. At 3200 characters (~800 tokens for English), SentenceTransformer silently truncates anything past the limit — roughly the last third of every chunk (~1200 characters) was never encoded. If the relevant fact happened to fall in the second half of a chunk, it was never in the index at all. This is not a ranking problem; it's missing data.
 
-### 改进方案（优先级排序）
+### Improvement Plan (priority order)
 
-1. **缩小 chunk（优先做，修硬 bug）**：chunk 降到 ~1200 字符（约 300 token，留足 512 余量），overlap 降到 ~150-200。同时解决"尾部截断丢失"和"语义稀释"。需重建 `chroma_db/`。
-2. **混合检索（BM25 + 向量）**：BM25 字面匹配，对精确 token（版本号、`1-366`、低频术语）命中率高，直接补 dense 检索盲区，改善上述第 1、2 类失败。
-3. **Reranker（cross-encoder）**：召回阶段用 Top K=10 拉回更多候选，再精选 Top 3-5，直接改善 Context Precision。
-4. **语义切块**：按段落 / 标题边界切，而非固定字符数，进一步减少碎片化。
-
----
+1. **Reduce chunk size (fix hard bug first):** Drop to ~1200 chars (~300 tokens, well within 512 limit), overlap ~150–200. Fixes both the truncation bug and semantic dilution. Requires rebuilding `chroma_db/`.
+2. **Hybrid retrieval (BM25 + dense):** BM25 literal matching handles exact tokens (version numbers, `1–366`, rare terms) that dense search misses — directly addresses failure categories 1 and 2.
+3. **CrossEncoder reranker:** Use Top K=10 as the recall pool, then rerank to Top 3–5. Directly improves Context Precision.
+4. **Semantic chunking:** Cut at paragraph/heading boundaries rather than fixed character counts to further reduce fragmentation.
 
 ---
 
-## 第三次评估（2026-10-29，400 样本，chunk 1500 + BM25 + Reranker）
+## Run #3 — Full Evaluation (2026-10-29, 400 samples, chunk 1500 + BM25 + Reranker)
 
-| 项目 | 值 |
+| Parameter | Value |
 |---|---|
-| 样本量 | 400（全量，与第二次相同的 eval_dataset） |
+| Sample count | 400 (full set, same eval_dataset as Run #2) |
 | Top K | 5 |
-| 生成 / judge 模型 | claude-sonnet-4-5 |
+| Generation / judge model | claude-sonnet-4-5 |
 | Embedding | BAAI/bge-base-en-v1.5 |
-| Chunk 大小 | **1500 字符 / 200 重叠**（约 375 token，修复第二次的 512 token 截断 bug） |
-| 检索策略 | **Dense（Chroma）+ BM25（rank_bm25）各召回 20 → RRF 融合取 Top 10 → CrossEncoder 精排取 Top 5** |
-| Reranker | BAAI/bge-reranker-base（via ModelScope） |
+| Chunk size | **1500 chars / 200 overlap** (~375 tokens — fixes the 512-token truncation bug from Run #2) |
+| Retrieval strategy | **Dense (Chroma) + BM25 (rank_bm25) each retrieve 20 → RRF fusion Top 10 → CrossEncoder reranking Top 5** |
+| Reranker | BAAI/bge-reranker-base (via ModelScope) |
 
-| 指标 | 均值 | 较上次变化 | 低于 0.5 的条数 | 等于 0 的条数 |
+| Metric | Mean | Change vs. Run #2 | Count < 0.5 | Count = 0 |
 |---|---|---|---|---|
-| Context Recall | **0.858** | +0.065（↑8.2%） | 51 / 400（13%） | 51 / 400 |
-| Context Precision | **0.793** | +0.162（↑25.7%） | 78 / 400（20%） | — |
-| Faithfulness | **0.919** | +0.010（稳定） | — | — |
-| Answer Relevancy | **0.878** | +0.082（↑10.3%） | — | — |
+| Context Recall | **0.858** | +0.065 (↑8.2%) | 51 / 400 (13%) | 51 / 400 |
+| Context Precision | **0.793** | +0.162 (↑25.7%) | 78 / 400 (20%) | — |
+| Faithfulness | **0.919** | +0.010 (stable) | — | — |
+| Answer Relevancy | **0.878** | +0.082 (↑10.3%) | — | — |
 
-### 结果解读
+### Interpretation
 
-**Context Recall（0.793 → 0.858）：** recall=0 条数从 77 降到 51（减少 34%）。小 chunk 修复了"尾部截断"硬 bug，BM25 补充了精确 token 匹配，合计召回改善明显。仍有 51 条（13%）完全失败，详见低分 case 分析。
+**Context Recall (0.793 → 0.858):** recall=0 cases dropped from 77 to 51 (−34%). Smaller chunks fixed the silent truncation bug, and BM25 covered exact-token matches that dense search missed.
 
-**Context Precision（0.631 → 0.793）：** 本次改善最大，提升 0.162（+25.7%）。precision<0.5 从 165 条降到 78 条（减少 53%）。CrossEncoder reranker 效果显著——把 RRF 粗排 Top 10 重新评分，噪音 chunk 被有效过滤，有用 chunk 排序前移。
+**Context Precision (0.631 → 0.793):** The largest gain — +0.162 (+25.7%). precision<0.5 cases dropped from 165 to 78 (−53%). The CrossEncoder reranker had the most impact here: rescoring the RRF Top 10 effectively filtered noisy chunks and pushed relevant ones higher.
 
-**Faithfulness（0.909 → 0.919）：** 基本不变，仍然稳健。检索质量提升后，更多问题有足够上下文支撑，Claude 无需"编造"内容。
+**Faithfulness (0.909 → 0.919):** Essentially unchanged. Better retrieval means more questions have sufficient context, leaving Claude less need to improvise.
 
-**Answer Relevancy（0.796 → 0.878）：** 提升 0.082。根因和 Recall 联动：之前 77 条 recall=0 时 Claude 输出"信息不足"，反向生成的问题与原题毫无语义关联，答案相关性得 0；现在 51 条 recall=0，答案相关性同步改善。
+**Answer Relevancy (0.796 → 0.878):** Improved by 0.082, driven by the recall improvement. With 26 fewer recall=0 cases, fewer questions produce "insufficient information" non-answers, which previously scored 0 on answer relevancy by construction.
 
-### 低分 case 分析（针对 51 条 recall=0）
+### Low-Score Case Analysis (51 remaining recall=0 cases)
 
-较第二次的 77 条下降了 34%，剩余失败模式已明显不同：第二次以"稀有复合术语被向量稀释"和"chunk 尾部截断丢失内容"为主，这两类在本次基本被解决。剩余 51 条集中在三类：
+The 34% reduction from Run #2's 77 cases reflects that the main failure modes then — rare term dilution and truncation — are now largely resolved. The remaining 51 cases show a different pattern:
 
-1. **特定约束 / 否定事实（约 8 条）**：问题类型为"Can I ...?"，正确答案是一个限制性说明（"No, you cannot..."）。文档里这类约束往往只有一句话，没有显眼的关键词触发 BM25，dense 检索也因为答案简短而竞争力弱。例：`Can I use views with input parameters as sources in a data flow?` → 答案是"No"加一句说明。
+1. **Constraint / negative-answer questions (~8 cases):** Questions of the form "Can I do X?" where the correct answer is a single prohibition ("No, you cannot…"). These constraints appear as a single sentence in the docs with no distinctive keywords to trigger BM25, and dense search doesn't surface short prohibitions reliably. Example: `Can I use views with input parameters as sources in a data flow?` → answer is "No" plus one explanatory sentence.
 
-2. **枚举列表 / 完整值域（约 10 条）**：问题要求列举所有可能值（deployment status 的全部状态、Calendar-Date 的合法格式、filter variable 的四种类型等）。ground_truth 是一个完整枚举，但这些枚举分散在文档不同段落，单次 Top-5 召回很难覆盖全部。
+2. **Enumeration / exhaustive value lists (~10 cases):** Questions asking for all possible values (all deployment status states, all valid Calendar-Date formats, all four filter variable types). Ground truth is a complete enumeration, but these are scattered across multiple document sections, making single-pass Top-5 retrieval unlikely to cover all of them.
 
-3. **细粒度 UI 行为 / 边缘特性（约 33 条）**：问具体操作后发生什么（点 Auto-Map 后会覆盖什么、Cancel Validation 按钮的行为、保护数据导出后按钮状态）。这类事实在大量操作说明的文档里属于低密度碎片，既没有强烈语义信号，又太短以致 chunk 里被淹没。
+3. **Fine-grained UI behavior / edge-case features (~33 cases):** Questions about specific post-action behavior (what happens after clicking Auto-Map, what the Cancel Validation button does, the state of the export button after protection is enabled). These facts sit at very low density in large volumes of procedural documentation, with neither strong semantic signal nor enough keyword distinctiveness for BM25.
 
-### 改进方案
+### Improvement Plan
 
-1. **语义切块（按段落/标题边界）**：固定字符切块仍会把"某个行为的说明"切到 chunk 中间甚至跨 chunk。按自然边界切可减少第 3 类失败。
-2. **小型 Agentic loop / 迭代检索**：对 recall=0 的问题，让模型自评估"检索是否充分"，不足时重写 query 再检索一次，可解决第 1、3 类失败（一次检索不足以定位到那一句限制性说明）。
-3. **评估集清洗**：第 2 类枚举问题部分属于"单次检索天然不合适"的 case（正确答案需汇总多个 chunk），从评估集剔除可让指标更真实反映检索能力。
-
-<!-- 新评估记录追加在此之上，倒序或顺序自行选择；每条包含：参数表 + 结果解读 + 低分 case 分析 + 改进方案 -->
+1. **Semantic chunking (cut at paragraph / heading boundaries):** Fixed-character chunking still splits procedural descriptions mid-sentence or across chunk boundaries. Natural boundaries should reduce category-3 failures.
+2. **Agentic loop / iterative retrieval:** For questions where one retrieval pass isn't enough, let the model self-assess whether retrieved context is sufficient and re-query with a rewritten query. Most useful for category-1 (constraint answers) and category-3 (procedural detail) failures.
+3. **Eval set cleanup:** Some category-2 enumeration questions are inherently multi-chunk — the correct answer requires aggregating across multiple document sections. Removing these from the eval set would give a more accurate picture of single-pass retrieval quality.

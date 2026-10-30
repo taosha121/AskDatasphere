@@ -61,7 +61,7 @@ sap.ui.define([
           oBusy.close();
           this.byId("askBtn").setEnabled(true);
 
-          // 右栏：chunks
+          // Right column: chunks
           var items = data.chunks.map(function (c, i) {
             var score = c.score != null ? c.score : null;
             var scoreLabel = score != null ? score.toFixed(4) : "—";
@@ -83,11 +83,11 @@ sap.ui.define([
           });
           this._oModel.setProperty("/items", items);
 
-          // 右栏：prompt
+          // Right column: prompt
           this.byId("promptText").setValue(data.prompt);
           this.byId("promptPanel").setVisible(true);
 
-          // 左栏：answer
+          // Left column: answer
           this.byId("answerText").setText(data.answer);
           this.byId("answerPanel").setVisible(true);
         }.bind(this))
