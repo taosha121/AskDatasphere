@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 580 340" font-family="sans-serif">
+
+  <!-- surface -->
+  <rect width="580" height="340" fill="#fcfcfb"/>
+
+  <!-- title -->
+  <text x="290" y="22" text-anchor="middle" font-size="13" font-weight="600" fill="#0b0b0b">RAG Evaluation — Before vs. After Optimization</text>
+  <!-- subtitle -->
+  <text x="290" y="36" text-anchor="middle" font-size="10" fill="#898781">Chunk 3200 → 1500 chars  ·  +BM25 hybrid retrieval  ·  +CrossEncoder reranker</text>
+
+  <!-- legend -->
+  <rect x="148" y="46" width="12" height="12" fill="#2a78d6" rx="2"/>
+  <text x="164" y="57" font-size="11" fill="#52514e">Before (baseline)</text>
+  <rect x="310" y="46" width="12" height="12" fill="#eb6834" rx="2"/>
+  <text x="326" y="57" font-size="11" fill="#52514e">After (optimized)</text>
+
+  <!-- chart area: x0=52, y0=68, x1=544, y1=288; w=492, h=220 -->
+  <!-- y(v) = 288 - v*220 -->
+
+  <!-- gridlines & y-axis labels -->
+  <line x1="52" y1="68"  x2="544" y2="68"  stroke="#e1e0d9" stroke-width="1"/>
+  <text x="46" y="72"  text-anchor="end" font-size="10" fill="#898781">1.0</text>
+
+  <line x1="52" y1="123" x2="544" y2="123" stroke="#e1e0d9" stroke-width="1"/>
+  <text x="46" y="127" text-anchor="end" font-size="10" fill="#898781">0.75</text>
+
+  <line x1="52" y1="178" x2="544" y2="178" stroke="#e1e0d9" stroke-width="1"/>
+  <text x="46" y="182" text-anchor="end" font-size="10" fill="#898781">0.50</text>
+
+  <line x1="52" y1="233" x2="544" y2="233" stroke="#e1e0d9" stroke-width="1"/>
+  <text x="46" y="237" text-anchor="end" font-size="10" fill="#898781">0.25</text>
+
+  <!-- baseline -->
+  <line x1="52" y1="288" x2="544" y2="288" stroke="#c3c2b7" stroke-width="1"/>
+  <text x="46" y="292" text-anchor="end" font-size="10" fill="#898781">0</text>
+
+  <!-- ── GROUP 1: Context Recall (group center x=113) ──────────────── -->
+  <!-- before: x=90, y=113, h=175  (0.793 * 220 = 174.5) -->
+  <path d="M 94,113 L 106,113 Q 110,113 110,117 L 110,288 L 90,288 L 90,117 Q 90,113 94,113 Z" fill="#2a78d6"/>
+  <text x="100" y="109" text-anchor="middle" font-size="9" fill="#52514e">0.793</text>
+  <!-- after: x=116, y=99, h=189  (0.858 * 220 = 188.8) -->
+  <path d="M 120,99 L 132,99 Q 136,99 136,103 L 136,288 L 116,288 L 116,103 Q 116,99 120,99 Z" fill="#eb6834"/>
+  <text x="126" y="95" text-anchor="middle" font-size="9" fill="#52514e">0.858</text>
+  <!-- x label -->
+  <text x="113" y="305" text-anchor="middle" font-size="10" fill="#52514e">Context</text>
+  <text x="113" y="318" text-anchor="middle" font-size="10" fill="#52514e">Recall</text>
+
+  <!-- ── GROUP 2: Context Precision (group center x=237) ───────────── -->
+  <!-- before: x=214, y=149, h=139  (0.631 * 220 = 138.8) -->
+  <path d="M 218,149 L 230,149 Q 234,149 234,153 L 234,288 L 214,288 L 214,153 Q 214,149 218,149 Z" fill="#2a78d6"/>
+  <text x="224" y="145" text-anchor="middle" font-size="9" fill="#52514e">0.631</text>
+  <!-- after: x=240, y=113, h=175  (0.793 * 220 = 174.5) -->
+  <path d="M 244,113 L 256,113 Q 260,113 260,117 L 260,288 L 240,288 L 240,117 Q 240,113 244,113 Z" fill="#eb6834"/>
+  <text x="250" y="109" text-anchor="middle" font-size="9" fill="#52514e">0.793</text>
+  <!-- delta label — biggest gain -->
+  <text x="250" y="100" text-anchor="middle" font-size="9" font-weight="600" fill="#006300">+25.7%</text>
+  <!-- x label -->
+  <text x="237" y="305" text-anchor="middle" font-size="10" fill="#52514e">Context</text>
+  <text x="237" y="318" text-anchor="middle" font-size="10" fill="#52514e">Precision</text>
+
+  <!-- ── GROUP 3: Faithfulness (group center x=360) ────────────────── -->
+  <!-- before: x=337, y=88, h=200  (0.909 * 220 = 199.8) -->
+  <path d="M 341,88 L 353,88 Q 357,88 357,92 L 357,288 L 337,288 L 337,92 Q 337,88 341,88 Z" fill="#2a78d6"/>
+  <text x="347" y="84" text-anchor="middle" font-size="9" fill="#52514e">0.909</text>
+  <!-- after: x=363, y=86, h=202  (0.919 * 220 = 202.2) -->
+  <path d="M 367,86 L 379,86 Q 383,86 383,90 L 383,288 L 363,288 L 363,90 Q 363,86 367,86 Z" fill="#eb6834"/>
+  <text x="373" y="80" text-anchor="middle" font-size="9" fill="#52514e">0.919</text>
+  <!-- x label -->
+  <text x="360" y="311" text-anchor="middle" font-size="10" fill="#52514e">Faithfulness</text>
+
+  <!-- ── GROUP 4: Answer Relevancy (group center x=483) ────────────── -->
+  <!-- before: x=460, y=113, h=175  (0.796 * 220 = 175.1) -->
+  <path d="M 464,113 L 476,113 Q 480,113 480,117 L 480,288 L 460,288 L 460,117 Q 460,113 464,113 Z" fill="#2a78d6"/>
+  <text x="470" y="109" text-anchor="middle" font-size="9" fill="#52514e">0.796</text>
+  <!-- after: x=486, y=95, h=193  (0.878 * 220 = 193.2) -->
+  <path d="M 490,95 L 502,95 Q 506,95 506,99 L 506,288 L 486,288 L 486,99 Q 486,95 490,95 Z" fill="#eb6834"/>
+  <text x="496" y="91" text-anchor="middle" font-size="9" fill="#52514e">0.878</text>
+  <!-- x label -->
+  <text x="483" y="305" text-anchor="middle" font-size="10" fill="#52514e">Answer</text>
+  <text x="483" y="318" text-anchor="middle" font-size="10" fill="#52514e">Relevancy</text>
+
+</svg>

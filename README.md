@@ -167,4 +167,6 @@ SAP Datasphere documentation is updated continuously. Re-downloading the PDFs wi
 
 ## Evaluation Log
 
+![RAG evaluation before vs. after optimization](eval_comparison.svg)
+
 All evaluation runs — parameters, results, analysis, and improvement plans — are recorded in [EVAL_LOG.md](EVAL_LOG.md). Metric computation details are in the "Evaluating RAG Quality" section above; optimization directions are in [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md).
