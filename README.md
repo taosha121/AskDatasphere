@@ -119,7 +119,7 @@ python -m rag.evaluate --limit 50          # --limit must match the previous ste
 
 Output: `eval_scores.csv` has one row per question with retrieved contexts, system answer, ground truth, and four individual scores — useful for identifying low-scoring cases. `eval_summary.json` contains the run parameters (sample count, judge/embedding models, timestamp) and the four aggregate means.
 
-The four metrics split into two groups: Context Recall and Context Precision measure retrieval quality; Faithfulness and Answer Relevancy measure generation quality. All four are better closer to 1. How each is computed (see [EVAL_LOG.md](EVAL_LOG.md) for historical results and [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md) for optimization directions):
+The four metrics split into two groups: Context Recall and Context Precision measure retrieval quality; Faithfulness and Answer Relevancy measure generation quality. All four are better closer to 1. How each is computed (historical results in [EVAL_LOG.md](EVAL_LOG.md)):
 
 | Metric | Measures | How it's computed |
 |---|---|---|
@@ -129,6 +129,8 @@ The four metrics split into two groups: Context Recall and Context Precision mea
 | **Answer Relevancy** | Whether the answer is on-topic | Embedding model reverse-generates candidate questions from `answer`, computes cosine similarity to the original `question`; does not require `ground_truth` |
 
 > Evaluation has heavy dependencies (RAGAS + langchain). Run `pip install -e ".[eval]"` first. langchain 1.x is incompatible with RAGAS 0.2.x; pinned versions are in the `eval` extra in pyproject.toml.
+
+---
 
 ## RAG Optimization
 
@@ -169,4 +171,4 @@ SAP Datasphere documentation is updated continuously. Re-downloading the PDFs wi
 
 ![RAG evaluation before vs. after optimization](eval_comparison.svg)
 
-All evaluation runs — parameters, results, analysis, and improvement plans — are recorded in [EVAL_LOG.md](EVAL_LOG.md). Metric computation details are in the "Evaluating RAG Quality" section above; optimization directions are in [RAG_OPTIMIZATION.md](RAG_OPTIMIZATION.md).
+All evaluation runs — parameters, results, analysis, and improvement plans — are recorded in [EVAL_LOG.md](EVAL_LOG.md). Metric computation details are in the "Evaluating RAG Quality" section above.
